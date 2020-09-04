@@ -19,3 +19,18 @@ services:
     depends_on:
       - mysql
     tty: true
+  front:
+    build:
+      context: ./front_end/webpack
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front_end/app/src:/app/src
+      - ./front_end/app/public:/app/public
+  json_server:
+    build:
+      context: ./front_end/webpack
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./front_end/app/json_server/data.json:/app/json_server/data.json
