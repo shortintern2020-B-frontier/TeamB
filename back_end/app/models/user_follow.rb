@@ -1,0 +1,2 @@
+class UserFollow < ApplicationRecord
+end
