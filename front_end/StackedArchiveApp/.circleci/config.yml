@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/project/app
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+            name: copy files
+            command: |
+              cp ~/project/app/webpack/webpack.config.js .
+              cp ~/project/app/webpack/package.json .
+              cp ~/project/app/webpack/.babelrc .
+              cp ~/project/app/webpack/.eslintrc.js .
+      - restore_cache:
+              key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+            name: install packages
+            command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+            name: run test
+            command: yarn test
+      - run: ls
+      - run:
+            name: run lint
+            command: |
+              mkdir -p /tmp/test-reports/eslint
+              yarn circleci_lint
+      - store_test_results:
+              path: /tmp/test-reports
