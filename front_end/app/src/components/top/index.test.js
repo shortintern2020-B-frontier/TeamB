@@ -3,7 +3,7 @@ import {
   screen, describe, test, expect, render,
 } from '../../test/test-utils';
 
-import { Toppage } from './toppage';
+import { Toppage } from './index';
 
 describe('Toppage', () => {
   test('check Toppage behavior', () => {
