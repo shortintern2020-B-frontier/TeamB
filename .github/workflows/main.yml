@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '10.x'
 
-          - name: copy files
+      - name: copy files
         run: |
           cp /front_end/webpack/webpack.config.js /front_end/app/webpack.config.js
           cp /front_end/webpack/package.json /front_end/app/package.json
