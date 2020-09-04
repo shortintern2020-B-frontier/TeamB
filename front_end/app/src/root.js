@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Main } from './components/main/index';
-import { Toppage } from './components/main/toppage';
+import { Toppage } from './components/top/index';
 
 const Root = () => (
   <Router>
