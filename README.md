@@ -20,11 +20,11 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-起動
+*起動
 docker-compose up -d
 5000ポートにてrailsが起動
 
-終了
+*終了
 docker-compose down
 
 * ...
