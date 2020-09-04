@@ -54,7 +54,7 @@ describe('postAction', () => {
   test('check getPosts action', () => {
     const mock = new MockAdapter(axios);
     const data = { isFetching: false, items: 'data' };
-    mock.onGet('http://localhost:3000/posts').reply(200, data);
+    mock.onGet('http://localhost:8000/posts').reply(200, data);
 
     const expectedAction = [
       { type: GET_POSTS_REQUEST },
