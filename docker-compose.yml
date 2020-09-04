@@ -29,7 +29,7 @@ services:
       - ./front_end/app/public:/app/public
   json_server:
     build:
-      context: ./front_end/webpack
+      context: ./front_end/json_server
     ports:
       - "8000:8000"
     volumes:

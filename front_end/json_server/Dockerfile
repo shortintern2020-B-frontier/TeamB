@@ -1,6 +1,6 @@
 FROM node:latest
 
-ENV JSON_SERVER_PORT=3000
+ENV JSON_SERVER_PORT=8000
 
 RUN yarn add -D json-server
 
