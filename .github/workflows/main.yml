@@ -28,20 +28,21 @@ jobs:
           node-version: '10.x'
 
       - name: copy files
+        working-directory: ./front_end
         run: |
-          cp /front_end/webpack/webpack.config.js /front_end/app/webpack.config.js
-          cp /front_end/webpack/package.json /front_end/app/package.json
-          cp /front_end/webpack/.babelrc /front_end/app/.babelrc
-          cp /front_end/webpack/.eslintrc.js /front_end/app/.eslintrc.js
-
-      - name : change current directory
-        run: cd /front_end/app/
+          cp ./webpack/webpack.config.js ./app/webpack.config.js
+          cp ./webpack/package.json ./app/package.json
+          cp ./webpack/.babelrc ./app/.babelrc
+          cp ./webpack/.eslintrc.js ./app/.eslintrc.js
 
       - name: Install packages
+        working-directory: ./front_end/app
         run: yarn install
 
       - name: run test
+        working-directory: ./front_end/app
         run: yarn test
 
       - name: run lint
+        working-directory: ./front_end/app
         run: yarn lint
