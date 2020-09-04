@@ -1,7 +1,9 @@
 import React from 'react';
 
-export const Toppage = () => (
+const Toppage = () => (
   <div>
     <p>this is top page</p>
   </div>
 );
+
+export default Toppage;
