@@ -20,7 +20,7 @@ export const getPostsFailure = (error) => ({
 
 export const getPosts = () => (dispatch) => {
   dispatch(getPostsRequest());
-  return axios.get('http://localhost:3000/posts')
+  return axios.get('http://localhost:8000/posts')
     .then((res) => dispatch(getPostsSuccess(res.data)))
     .catch((err) => dispatch(getPostsFailure(err)));
 };
