@@ -9,10 +9,10 @@ jobs:
       - run:
             name: copy files
             command: |
-              cp ~/project/app/webpack/webpack.config.js .
-              cp ~/project/app/webpack/package.json .
-              cp ~/project/app/webpack/.babelrc .
-              cp ~/project/app/webpack/.eslintrc.js .
+              cp ~/project/front_end/app/webpack/webpack.config.js .
+              cp ~/project/front_end/app/webpack/package.json .
+              cp ~/project/front_end/app/webpack/.babelrc .
+              cp ~/project/front_end/app/webpack/.eslintrc.js .
       - restore_cache:
               key: dependency-cache-{{ checksum "package.json" }}
       - run:
