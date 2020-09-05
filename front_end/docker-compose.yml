@@ -1,0 +1,17 @@
+version: '3'
+services:
+  front:
+    build:
+      context: ./webpack
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app/src:/app/src
+      - ./app/public:/app/public
+  json_server:
+    build:
+      context: ./json_server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/json_server/data.json:/app/json_server/data.json
