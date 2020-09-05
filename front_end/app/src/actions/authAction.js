@@ -6,13 +6,16 @@ export const loginRequest = () => ({
 });
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const loginSuccess = () => ({
+export const loginSuccess = (token) => ({
   type: LOGIN_SUCCESS,
+  token: token,
+  receivedAt: Date.now(),
 });
 
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const loginFailure = () => ({
+export const loginFailure = (error) => ({
   type: LOGIN_FAILURE,
+  error,
 });
 
 // TODO: 実際のapiを叩く箇所を実装する
