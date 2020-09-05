@@ -6,3 +6,9 @@ import {
 import Auth from './auth';
 
 // TODO: testを書く
+describe("Auth component", () => {
+  test('sample', () => {
+    const test = "test";
+    expect(test).toEqual(test);
+  });
+});
