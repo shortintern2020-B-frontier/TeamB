@@ -1,8 +1,8 @@
 #rikuiwasaki
 FactoryBot.define do
   factory :users_show,class: User do
-    name {"riku"}
-    password {"hoge"}
+    name {|n|"hoge#{n}"}
+    password {|n|"fuga#{n}"}
   end
 end
 #rikuiwasaki
