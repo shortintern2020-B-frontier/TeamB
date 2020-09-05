@@ -28,6 +28,6 @@ export const loginFailure = (error) => ({
 export const login = (user) => (dispatch) => {
   dispatch(loginRequest());
   return axios.post('http://localhost:8000/users', { user })
-    .then((res) => dispatch(loginSuccess(user)))
+    .then((res) => dispatch(loginSuccess(res.data)))
     .catch((err) => dispatch(loginFailure(err)));
 };
