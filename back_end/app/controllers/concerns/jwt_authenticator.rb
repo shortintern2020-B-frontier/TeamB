@@ -1,11 +1,10 @@
 '''
   author: Hiranuma Tomoyuki
-  Date: 0904
+  Date: 20200904
 '''
-require "jwt"
 
 module JwtAuthenticator
-  
+  require "jwt"
 
   SECRET_KEY = Rails.application.secrets.secret_key_base
 

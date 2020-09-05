@@ -1,3 +1,8 @@
+'''
+  author: Hiranuma Tomoyuki
+  Date: 20200904
+'''
+
 module Api
   module V1
     class SessionsController < ApplicationController
@@ -6,12 +11,13 @@ module Api
       def create
         @current_user = User.find_by(name: params[:name])
 
-        if @current_user && @current_user.authenticate(params[:password])
+        if @current_user #&& @current_user.authenticate(params[:password])
           jwt_token = encode(@current_user.id)
           response.headers['X-Authentication-Token'] = jwt_token
-          render json: @current_user
+          render json: { status: "Success", data: @current_user, token: jwt_token }
         else
-          raise UnableAuthorizationError.new("ログインIDまたはパスワードが間違っています")
+          render json: { status: 'Failed' }
+          # raise UnableAuthorizationError.new("ログインIDまたはパスワードが間違っています。")
         end
       end
     end
