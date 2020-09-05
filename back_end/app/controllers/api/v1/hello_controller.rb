@@ -1,3 +1,4 @@
+#rikuiwasaki
 module Api
   module V1
     class HelloController < ApplicationController
@@ -12,3 +13,4 @@ module Api
   end
 end
 
+#rikuiwasaki
