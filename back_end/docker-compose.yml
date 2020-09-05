@@ -20,3 +20,9 @@ services:
     depends_on:
       - mysql
     tty: true
+    networks: 
+      - default
+      - shared-network
+networks:
+  shared-network:
+    external: true

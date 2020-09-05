@@ -8,6 +8,9 @@ services:
     volumes:
       - ./app/src:/app/src
       - ./app/public:/app/public
+    networks:
+      - default
+      - shared-network
   json_server:
     build:
       context: ./json_server
@@ -15,3 +18,6 @@ services:
       - "8000:8000"
     volumes:
       - ./app/json_server/data.json:/app/json_server/data.json
+networks:
+  shared-network:
+    external: true
