@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :room_tags
       resources :room_users
       resources :tags
+      resources :hello
       post "login" => "session#create"
       delete "logout" => "session#destroy"
       
