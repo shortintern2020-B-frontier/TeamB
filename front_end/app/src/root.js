@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Main } from './components/main/index';
 import Toppage from './components/top/index';
-import Signin from './components/signin/index';
+import Signin from './components/auth/signin';
 
 const Root = () => (
   <Router>
