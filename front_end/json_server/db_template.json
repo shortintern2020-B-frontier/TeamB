@@ -3,8 +3,8 @@
     { "id": 1, "title": "json-server", "author": "typicode" },
     { "id": 2, "title": "cat", "author": "god" }
   ],
-  "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 }
-  ],
-  "profile": { "name": "typicode" }
+  "users": [
+    { "id": 1, "name": "One", "password": "test" },
+    { "id": 2, "name": "Two", "password": "test" }
+  ]
 }
