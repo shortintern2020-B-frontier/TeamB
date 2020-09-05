@@ -18,6 +18,7 @@ const auth = (state = [initialState], action) => {
       return {
         token: action.token,
         isLoggedIn: true,
+        lastUpdated: action.receivedAt,
       };
     case LOGIN_FAILURE:
       return {
