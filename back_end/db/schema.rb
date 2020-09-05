@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20200904100708) do
     t.integer "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password_digest"
   end
 
 end
