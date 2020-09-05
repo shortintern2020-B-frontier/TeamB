@@ -1,0 +1,2 @@
+class UserTagsController < ApplicationController
+end

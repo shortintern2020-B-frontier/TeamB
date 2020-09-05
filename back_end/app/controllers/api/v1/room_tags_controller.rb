@@ -1,0 +1,2 @@
+class RoomTagsController < ApplicationController
+end
