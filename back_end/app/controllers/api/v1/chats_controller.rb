@@ -29,7 +29,7 @@ module Api
                         render json: { status: 'ERROR', data: { errors: updated_chat.errors}}
                     end
                 else
-                    render json: {}
+                    render json: {status: 'ERROR', data:{erros: "invalid user"}}
                 end
             
             end
