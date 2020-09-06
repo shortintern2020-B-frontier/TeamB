@@ -3,7 +3,7 @@ import {
   screen, describe, test, expect, render,
 } from '../../test/test-utils';
 
-import Signup from './index';
+import Signup from './signup';
 
 describe('Signup', () => {
   test('check Signup behavior', () => {

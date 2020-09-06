@@ -10,7 +10,6 @@ const initialState = {
 };
 
 // TODO: 実際のapiを組み込むときに変更する
-// TODO: RELOAD_SUCCESSとRELOQAD_FAILUREに対応させる
 // json_serverだと、tokenの値はaccess_tokenでアクセス出来る
 const auth = (state = initialState, action) => {
   switch (action.type) {
