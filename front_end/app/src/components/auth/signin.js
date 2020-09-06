@@ -19,7 +19,8 @@ const Signin = () => {
    * @param {string} data.password - パスワード
    */
   const Submit = (data) => {
-    dispatch(login(data))
+    // jsonデータに変形してから投げる
+    dispatch(login(JSON.stringify(data)))
   }
 
 

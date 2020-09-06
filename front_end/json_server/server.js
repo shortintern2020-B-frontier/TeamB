@@ -44,7 +44,7 @@ server.post('/auth/login', (req, res) => {
   // ログイン認証
   if (isAuth({name, password}) === false) {
     const status = 401;
-    const message = 'Incorrect name or password';
+    const message = 'Incorrect name or password and name is ' + name + ' and password is ' + password;
     res.status(status).json({status, message});
     return
   }
