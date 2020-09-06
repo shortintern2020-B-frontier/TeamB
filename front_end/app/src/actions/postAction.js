@@ -23,7 +23,7 @@ export const getPosts = (token) => (dispatch) => {
   return axios.get('http://localhost:8000/posts', {
     headers: {
       Authorization: `Bearer ${token}`,
-    }
+    },
   })
     .then((res) => dispatch(getPostsSuccess(res.data)))
     .catch((err) => dispatch(getPostsFailure(err)));

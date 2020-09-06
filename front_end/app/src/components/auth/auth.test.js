@@ -1,14 +1,13 @@
-import React from 'react';
 import {
-  screen, describe, test, expect, render,
+  describe, test, expect,
 } from '../../test/test-utils';
 
-import Auth from './auth';
+// import Auth from './auth';
 
 // TODO: testを書く
-describe("Auth component", () => {
+describe('Auth component', () => {
   test('sample', () => {
-    const test = "test";
-    expect(test).toEqual(test);
+    const msg = 'test';
+    expect(msg).toEqual(msg);
   });
 });

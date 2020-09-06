@@ -8,9 +8,7 @@ export const mainSelector = (state) => {
   return state.posts[length - 1];
 };
 
-export const tokenSelector = (state) => {
-  return state.auth.token
-}
+export const tokenSelector = (state) => state.auth.token;
 
 export const check = () => {
   axios.get('http://localhost:5000/api/v1/hello#show')

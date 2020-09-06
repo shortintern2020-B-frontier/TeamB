@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { login } from '../../actions/authAction';
-
-
 
 const Signin = () => {
   const { register, handleSubmit } = useForm();
@@ -20,9 +18,8 @@ const Signin = () => {
    */
   const Submit = (data) => {
     // jsonデータに変形してから投げる
-    dispatch(login(JSON.stringify(data)))
-  }
-
+    dispatch(login(JSON.stringify(data)));
+  };
 
   return (
     <div>

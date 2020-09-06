@@ -12,9 +12,7 @@ import { reload } from '../../actions/authAction';
  * @param {*} state - reduxのstate
  * @returns {boolean} - ログインしているかどうか
  */
-export const AuthSelector = (state) => {
-  return state.auth;
-};
+export const AuthSelector = (state) => state.auth;
 
 /**
  * ログイン状態を管理する
@@ -33,23 +31,22 @@ const Auth = (props) => {
 
   useEffect(() => {
     dispatch(reload(jwt));
-  },[])
+  }, []);
 
-  if( !auth.isLoading && !auth.isLoggedIn ) {
+  if (!auth.isLoading && !auth.isLoggedIn) {
     // TODO: useHistoryを用いて、ブラウザバックなどに対応できるか調査
     // TODO: toppageに飛ばした後、ログインしてと通知を表示させる
-    history.push("/signin");
+    history.push('/signin');
   }
 
-  if( auth.isLoading ) {
+  if (auth.isLoading) {
     return (
       <p> loading... </p>
-    )
-  } else {
-    return (
-        <div>{props.children}</div>
-    )
+    );
   }
-}
+  return (
+    <div>{props.children}</div> // eslint-disable-line react/prop-types
+  );
+};
 
 export default Auth;

@@ -8,7 +8,7 @@ export const reloadRequest = () => ({
 export const RELOAD_SUCCESS = 'RELOAD_SUCCESS';
 export const reloadSuccess = (token) => ({
   type: RELOAD_SUCCESS,
-  token: token,
+  token,
   receivedAt: Date.now(),
 });
 
@@ -26,7 +26,7 @@ export const loginRequest = () => ({
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const loginSuccess = (token) => ({
   type: LOGIN_SUCCESS,
-  token: token,
+  token,
   receivedAt: Date.now(),
 });
 
@@ -49,7 +49,7 @@ export const login = (user) => (dispatch) => {
   return axios.post('http://localhost:8000/auth/login', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
-      dispatch(loginSuccess(res.data))
+      dispatch(loginSuccess(res.data));
     })
     .catch((err) => dispatch(loginFailure(err)));
 };
@@ -61,6 +61,6 @@ export const login = (user) => (dispatch) => {
 export const reload = (jwt) => (dispatch) => {
   dispatch(reloadRequest());
 
-  if( jwt !== null ) dispatch(reloadSuccess(jwt));
+  if (jwt !== null) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));
-}
+};

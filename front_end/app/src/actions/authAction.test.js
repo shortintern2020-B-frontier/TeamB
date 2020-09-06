@@ -1,15 +1,12 @@
-import axios from '../settings/axios';
-import MockAdapter from 'axios-mock-adapter';
-import { mockStore } from '../test/redux-test-utlis';
+import fetchMock from 'fetch-mock';
 import {
   jest, cleanup, beforeAll, afterEach, describe, test, expect,
 } from '../test/test-utils';
 
 import {
-  loginRequest, loginSuccess, loginFailure, login,
+  loginRequest, loginSuccess, loginFailure,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
 } from './authAction';
-import fetchMock from 'fetch-mock';
 
 afterEach(() => {
   cleanup;
@@ -34,17 +31,17 @@ describe('loginAction', () => {
   // TODO: 実際のapiを叩くように変更した場合ここも修正する
   // loginSuccessに渡すものはtokenではなくユーザーデータ
   test('check login action success', () => {
-    const token = "token";
+    const token = 'token';
     const expectedAction = {
       type: LOGIN_SUCCESS,
-      token: token,
+      token,
       receivedAt: Date.now(),
     };
     expect(loginSuccess(token)).toEqual(expectedAction);
   });
 
   test('check login action failed', () => {
-    const error = "err";
+    const error = 'err';
     const expectedAction = {
       type: LOGIN_FAILURE,
       error,
@@ -53,4 +50,4 @@ describe('loginAction', () => {
   });
 
   // TODO: loginのtestを書く
-})
+});

@@ -39,14 +39,14 @@ const auth = (state = initialState, action) => {
         token: null,
         isLoggedIn: false,
         isLoading: true,
-      }
+      };
     case RELOAD_SUCCESS:
       return {
         token: action.token,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,
-      }
+      };
     case RELOAD_FAILURE:
       return {
         token: null,
