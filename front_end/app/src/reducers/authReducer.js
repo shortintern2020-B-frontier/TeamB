@@ -6,13 +6,13 @@ import {
 const initialState = {
   token: null,
   isLoggedIn: false,
-  isLoading: false,
+  isLoading: true,
 };
 
 // TODO: 実際のapiを組み込むときに変更する
 // TODO: RELOAD_SUCCESSとRELOQAD_FAILUREに対応させる
 // json_serverだと、tokenの値はaccess_tokenでアクセス出来る
-const auth = (state = [initialState], action) => {
+const auth = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
@@ -42,7 +42,7 @@ const auth = (state = [initialState], action) => {
       }
     case RELOAD_SUCCESS:
       return {
-        token: action.jwt,
+        token: action.token,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,

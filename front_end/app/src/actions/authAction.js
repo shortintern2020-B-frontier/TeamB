@@ -58,9 +58,8 @@ export const login = (user) => (dispatch) => {
  * 画面がリロードされた際に、localstrageからログイン情報を取得する
  * jwtの取得の可否に応じてstateを更新する
  */
-export const reload = () => (dispatch) => {
+export const reload = (jwt) => (dispatch) => {
   dispatch(reloadRequest());
-  const jwt = localStorage.getItem('jwt');
 
   if( jwt !== null ) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));

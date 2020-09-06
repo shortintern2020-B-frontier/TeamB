@@ -29,24 +29,29 @@ const Auth = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const jwt = localStorage.getItem('jwt');
+
   useEffect(() => {
-    dispatch(reload());
+    dispatch(reload(jwt));
   },[])
 
-  console.log("test");
-  console.log(auth);
-  if( true ) {
-  //if( auth.isLoggedIn ) {
-    return (
-      <div>{props.children}</div>
-    )
-  } else {
+  if( !auth.isLoading && !auth.isLoggedIn ) {
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$")
+    console.log(auth);
     // TODO: useHistoryを用いて、ブラウザバックなどに対応できるか調査
-    history.push("/signin");
-
     // TODO: toppageに飛ばした後、ログインしてと通知を表示させる
+    history.push("/signin");
   }
 
+  if( auth.isLoading ) {
+    return (
+      <p> loading... </p>
+    )
+  } else {
+    return (
+        <div>{props.children}</div>
+    )
+  }
 }
 
 export default Auth;
