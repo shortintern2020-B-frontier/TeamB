@@ -1,8 +1,6 @@
 module Api
     module V1
-        class ChatsController < ApplicationController
-            include JwtAuthenticator
-            #rikuiwasaki
+        class ChatsController < ApplicationController            #rikuiwasaki
             jwt_authenticate except: :index
 
             def index

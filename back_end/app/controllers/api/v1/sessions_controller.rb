@@ -5,7 +5,7 @@
 
 module Api
   module V1
-    class SessionController < ApplicationController
+    class SessionsController < ApplicationController
       include JwtAuthenticator
 
       def create
