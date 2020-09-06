@@ -1,6 +1,7 @@
 module Api
     module V1
         class RoomsController < ApplicationController
+            #rikuiwasaki
             before_action :set_room,only: [:update]
             def index
                 rooms = Room.all.order(updated_at: :desc)
@@ -33,6 +34,7 @@ module Api
                 def room_params
                     params.require(:room).permit(:name,:youtube_id,:admin_id,:is_private,:start_time,:password)
                 end
+        #rikuiwasaki
         end
     end
 end

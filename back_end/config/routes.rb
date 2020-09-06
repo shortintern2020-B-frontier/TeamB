@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :users
-      resources :rooms
-      resources :chats
+      resources :rooms do
+        resources :chats
+      end
       resources :user_tags
       resources :user_follows
       resources :room_tags
