@@ -5,6 +5,15 @@
 
 module JwtAuthenticator
   require "jwt"
+  extend ActiveSupport::Concern
+
+  module ClassMethods
+    def jwt_authenticate(**options)
+      class_eval do
+        prepend_before_action :jwt_authenticate!, options
+      end
+    end
+  end
 
   SECRET_KEY = Rails.application.secrets.secret_key_base
 
