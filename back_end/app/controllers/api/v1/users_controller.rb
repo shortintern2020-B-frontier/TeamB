@@ -7,6 +7,8 @@
 module Api
     module V1
         class UsersController < ApplicationController
+          jwt_authenticate except: :create
+          
             # ルームに入室しているユーザ一覧を取得(入室した順番に取得)
             def index 
                 users = User.where(room_id: params[:room_id]).order(updated_at: :desc)
@@ -24,7 +26,7 @@ module Api
 
             def user_params
                 params.require(:user).permit(:name, :password, :room_id)
-              end
+            end
         end
     end
 end
