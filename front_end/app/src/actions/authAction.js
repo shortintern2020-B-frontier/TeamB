@@ -19,6 +19,7 @@ export const loginFailure = (error) => ({
 });
 
 // TODO: 実際のapiを叩く箇所を実装する
+// TODO: json_server-authを導入してなるべくapiと近い環境で認証を行う
 /**
  * ログインアクションをdispatchする
  * @param {Object} user - ログインに必要なデータが格納されている
