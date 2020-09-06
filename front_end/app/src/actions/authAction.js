@@ -82,7 +82,7 @@ export const login = (user) => (dispatch) => {
  */
 export const signup = (user) => (dispatch) => {
   dispatch(signupRequest());
-  return axios.post('http://localhost:8000/auth/login', user)
+  return axios.post('http://localhost:8000/auth/signup', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
       dispatch(signupSuccess(res.data));
