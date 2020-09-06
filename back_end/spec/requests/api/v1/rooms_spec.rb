@@ -34,27 +34,6 @@ describe 'RoomAPI' do
     expect(edited_room['data'].room.name).to eq('edited_room')
     expect(edited_room['data'].room.start_time).to eq(time)
   end
-  it '不正なユーザがルームを編集' do
-  end
-  it 'ルーム内でチャット' do
-  end
-  it 'ユーザのタグに関するルームを表示' do
-  end
-  it 'ルームを終了' do
-  end  
-  it 'ルームをタグで検索' do
-  end  
-  it 'ルームに入室' do
-  end
-  it 'ルームを退室' do
-  end
-  it 'ルーム内のユーザーの生存確認' do
-  end
-  it '同じルーム内のユーザ情報を表示' do
-  end
-  it 'ルームに動画を追加' do
-  end
-  
 
 end
 #rikuiwasaki
