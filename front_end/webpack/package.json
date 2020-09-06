@@ -41,6 +41,7 @@
     "fetch-mock": "^9.10.7",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.4.2",
+    "json-server-auth": "^2.0.2",
     "react-hook-form": "^6.7.2",
     "redux-persist": "^6.0.0",
     "webpack": "^4.44.1",
