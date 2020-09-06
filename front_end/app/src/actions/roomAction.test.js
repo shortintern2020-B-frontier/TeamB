@@ -33,7 +33,9 @@ describe('postAction', () => {
   });
 
   test('check room action success', () => {
-    const data = [{ "id": 1, "title": "youtube a", "youtube_id": 1, "is_private": true, "start_time": "2015-11-1200:00:00+0100" }];
+    const data = [{
+      id: 1, title: 'youtube a', youtube_id: 1, is_private: true, start_time: '2015-11-1200:00:00+0100',
+    }];
     const expectedAction = {
       type: GET_ROOMS_SUCCESS,
       rooms: data,
@@ -53,8 +55,10 @@ describe('postAction', () => {
 
   test('check getRooms action', () => {
     const mock = new MockAdapter(axios);
-    const rooms = [{ "id": 1, "title": "youtube a", "youtube_id": 1, "is_private": true, "start_time": "2015-11-1200:00:00+0100" }];
-    const data = { isFetching: false, rooms: rooms };
+    const rooms = [{
+      id: 1, title: 'youtube a', youtube_id: 1, is_private: true, start_time: '2015-11-1200:00:00+0100',
+    }];
+    const data = { isFetching: false, rooms };
     mock.onGet('http://localhost:8000/rooms').reply(200, data);
 
     const expectedAction = [

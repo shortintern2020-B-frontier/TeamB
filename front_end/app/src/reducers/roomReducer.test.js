@@ -18,9 +18,9 @@ describe('rooms reducer', () => {
 
   test('should return the initial state', () => {
     expect(rooms(undefined, {})).toEqual({
-        isFetching: false,
-        rooms: [],
-      });
+      isFetching: false,
+      rooms: [],
+    });
   });
 
   test('should handle GET_ROOMS_REQUEST', () => {
@@ -29,13 +29,15 @@ describe('rooms reducer', () => {
         type: GET_ROOMS_REQUEST,
       }),
     ).toEqual({
-        isFetching: true,
-        rooms: [],
-      });
+      isFetching: true,
+      rooms: [],
+    });
   });
 
   test('should handle GET_ROOMS_SUCCESS', () => {
-    const data = { "id": 1, "title": "youtube a", "youtube_id": 1, "is_private": true, "start_time": "2015-11-1200:00:00+0100" };
+    const data = {
+      id: 1, title: 'youtube a', youtube_id: 1, is_private: true, start_time: '2015-11-1200:00:00+0100',
+    };
     const expectedObject = {
       isFetching: false,
       rooms: [data],
@@ -60,8 +62,8 @@ describe('rooms reducer', () => {
         error,
       }),
     ).toEqual({
-        isFetching: false,
-        error,
-      });
+      isFetching: false,
+      error,
+    });
   });
 });
