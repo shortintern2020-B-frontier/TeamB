@@ -1,0 +1,2 @@
+class RoomTag < ApplicationRecord
+end
