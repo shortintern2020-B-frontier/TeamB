@@ -1,6 +1,8 @@
 module Api
     module V1
         class RoomsController < ApplicationController
+            include JwtAuthenticator 
+            jwt_authenticate except: :index
             #rikuiwasaki
             before_action :set_room,only: [:update]
             def index
@@ -9,7 +11,9 @@ module Api
                     rooms: rooms } }
             end
             def create
-                room=Room.new(room_params)
+                room_info=room_params
+                room_info[:admin_id]= @current_user.id
+                room=Room.new(room_info)
                 if room.save
                     render json: { status: 'SUCCESS', data: { room: room } }
                 else 
@@ -17,14 +21,14 @@ module Api
                 end
             end
             def update
-                if @room.password.eql?(room_params[:password])
+                if @current_user.id == @room.admin_id
                     if @room.update(room_params)
                         render json: { status: 'SUCCESS', data: { room: @room } }
                     else
                         render json: { status: 'ERROR', data: { error: @room.erros}}
                     end
                 else
-                    render json: { status: 'ERROR', data: { error: "password is wrong"}}
+                    render json: { status: 'ERROR', data: { error: "invalid user"}}
                 end
             end
             private
@@ -32,7 +36,7 @@ module Api
                     @room=Room.find(params[:id])
                 end
                 def room_params
-                    params.require(:room).permit(:name,:youtube_id,:admin_id,:is_private,:start_time,:password)
+                    params.require(:room).permit(:name,:youtube_id:is_private,:start_time,:password)
                 end
         #rikuiwasaki
         end
