@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import axios from '../../settings/axios';
 import { getPosts } from '../../actions/postAction';
-
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const mainSelector = (state) => {
   const { length } = state.posts;

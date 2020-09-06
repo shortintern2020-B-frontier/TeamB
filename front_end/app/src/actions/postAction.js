@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../settings/axios';
 
 export const GET_POSTS_REQUEST = 'GET_POSTS_REQUEST';
 export const getPostsRequest = () => ({
