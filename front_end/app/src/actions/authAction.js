@@ -1,5 +1,23 @@
 import axios from '../settings/axios';
 
+export const RELOAD_REQUEST = 'RELOAD_REQUEST';
+export const reloadRequest = () => ({
+  type: RELOAD_REQUEST,
+});
+
+export const RELOAD_SUCCESS = 'RELOAD_SUCCESS';
+export const reloadSuccess = (token) => ({
+  type: RELOAD_SUCCESS,
+  token: token,
+  receivedAt: Date.now(),
+});
+
+export const RELOAD_FAILURE = 'RELOAD_FAILURE';
+export const reloadFailure = (error) => ({
+  type: RELOAD_FAILURE,
+  error,
+});
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const loginRequest = () => ({
   type: LOGIN_REQUEST,
@@ -19,7 +37,7 @@ export const loginFailure = (error) => ({
 });
 
 // TODO: 実際のapiを叩く箇所を実装する
-// TODO: json_server-authを導入してなるべくapiと近い環境で認証を行う
+// TODO: redux-thunkに置き換える
 /**
  * ログインアクションをdispatchする
  * @param {Object} user - ログインに必要なデータが格納されている
@@ -28,8 +46,22 @@ export const loginFailure = (error) => ({
  */
 export const login = (user) => (dispatch) => {
   dispatch(loginRequest());
-  console.log(user);
   return axios.post('http://localhost:8000/auth/login', user)
-    .then((res) => dispatch(loginSuccess(res.data)))
+    .then((res) => {
+      localStorage.setItem('jwt', res.data.access_token);
+      dispatch(loginSuccess(res.data))
+    })
     .catch((err) => dispatch(loginFailure(err)));
 };
+
+/**
+ * 画面がリロードされた際に、localstrageからログイン情報を取得する
+ * jwtの取得の可否に応じてstateを更新する
+ */
+export const reload = () => (dispatch) => {
+  dispatch(reloadRequest());
+  const jwt = localStorage.getItem('jwt');
+
+  if( jwt !== null ) dispatch(reloadSuccess(jwt));
+  else dispatch(reloadFailure('cannot load jwt token'));
+}

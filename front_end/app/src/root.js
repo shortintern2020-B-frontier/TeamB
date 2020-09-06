@@ -9,12 +9,13 @@ import Signin from './components/auth/signin';
 const Root = () => (
   <Router>
     <Switch>
-      <Route exact path="/" render={() => <Main />} />
       <Route exact path="/signin" render={() => <Signin />} />
       <Route exact path="/toppage" render={() => <Toppage />} />
-      <Route component={Auth}>
-
-      </Route>
+      <Auth>
+        <Switch>
+          <Route exact path="/" render={() => <Main />} />
+        </Switch>
+      </Auth>
     </Switch>
   </Router>
 );

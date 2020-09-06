@@ -2,8 +2,10 @@
  * @author るりと
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { reload } from '../../actions/authAction';
 
 /**
  * stateからログインしているかどうかを抽出している
@@ -11,7 +13,7 @@ import { useHistory } from 'react-router-dom';
  * @returns {boolean} - ログインしているかどうか
  */
 export const AuthSelector = (state) => {
-  return state.auth.isLoggedIn;
+  return state.auth;
 };
 
 /**
@@ -21,17 +23,26 @@ export const AuthSelector = (state) => {
  * ログインしていない場合はトップページに遷移させる
  * @param {*} props - 表示したいcomponent
  */
-const Auth = (props) => {
-  const isLoggedIn = useSelector(AuthSelector);
-  const history = useHistory();
 
-  if( isLoggedIn ) {
+const Auth = (props) => {
+  const auth = useSelector(AuthSelector);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(reload());
+  },[])
+
+  console.log("test");
+  console.log(auth);
+  if( true ) {
+  //if( auth.isLoggedIn ) {
     return (
       <div>{props.children}</div>
     )
   } else {
     // TODO: useHistoryを用いて、ブラウザバックなどに対応できるか調査
-    history.push("/toppage");
+    history.push("/signin");
 
     // TODO: toppageに飛ばした後、ログインしてと通知を表示させる
   }
