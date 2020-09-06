@@ -10,4 +10,5 @@ describe('Toppage', () => {
     render(<Toppage />);
     expect(screen.getByText('top page', { exact: false })).toBeInTheDocument;
   });
+  // TODO: ログインページや登録ページに遷移するボタンのtestを書く
 });
