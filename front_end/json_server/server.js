@@ -54,6 +54,14 @@ server.post('/auth/login', (req, res) => {
   res.status(200).json({access_token})
 })
 
+// 登録Router
+server.post('/auth/signup', (req, res) => {
+  const {name, password} = req.body;
+  userdb.users.push({id: userdb.users.length+1, name: name, password: password});
+  // 認証トークンを発行する
+  const access_token = createToken({name, password})
+  res.status(200).json({access_token})
+})
 // 認証が必要なRouter
 server.use(/^(?!\/auth).*$/, async (req, res, next) => {
 
