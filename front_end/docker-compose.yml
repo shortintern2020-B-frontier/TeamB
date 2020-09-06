@@ -1,0 +1,23 @@
+version: '3'
+services:
+  front:
+    build:
+      context: ./webpack
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app/src:/app/src
+      - ./app/public:/app/public
+    networks:
+      - default
+      - shared-network
+  json_server:
+    build:
+      context: ./json_server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/json_server:/app/json_server
+networks:
+  shared-network:
+    external: true
