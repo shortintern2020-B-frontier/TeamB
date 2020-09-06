@@ -36,8 +36,6 @@ const Auth = (props) => {
   },[])
 
   if( !auth.isLoading && !auth.isLoggedIn ) {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$")
-    console.log(auth);
     // TODO: useHistoryを用いて、ブラウザバックなどに対応できるか調査
     // TODO: toppageに飛ばした後、ログインしてと通知を表示させる
     history.push("/signin");

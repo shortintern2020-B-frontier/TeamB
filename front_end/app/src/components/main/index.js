@@ -8,6 +8,10 @@ export const mainSelector = (state) => {
   return state.posts[length - 1];
 };
 
+export const tokenSelector = (state) => {
+  return state.auth.token
+}
+
 export const check = () => {
   axios.get('http://localhost:5000/api/v1/hello#show')
     .then((res) => console.log(res.data))
@@ -43,10 +47,11 @@ export const PostList = (posts) => {
 
 export const Main = () => {
   const posts = useSelector(mainSelector);
+  const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getPosts(token));
   }, []);
 
   return (
