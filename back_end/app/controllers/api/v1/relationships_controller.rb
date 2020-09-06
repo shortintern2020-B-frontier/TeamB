@@ -6,6 +6,7 @@
 module Api
   module V1
     class RelationshipsController < ApplicationController
+      include JwtAuthenticator
       before_action :set_user
 
       def create
@@ -29,7 +30,7 @@ module Api
       private
 
       def set_user
-        @user = User.find(params[:follow_id])
+        @user = User.find_by(id: params[:follow_id])
       end
     end
   end

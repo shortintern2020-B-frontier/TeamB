@@ -1,6 +1,6 @@
 '''
   Author: Hiranuma Tomoyuki
-  Date: 202000907
+  Date: 20200907
 '''
 
 class Relationship < ApplicationRecord
