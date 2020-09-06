@@ -36,7 +36,7 @@ module Api
                     @room=Room.find(params[:id])
                 end
                 def room_params
-                    params.require(:room).permit(:name,:youtube_id:is_private,:start_time,:password)
+                    params.require(:room).permit(:name,:youtube_id,:is_private,:start_time,:password)
                 end
         #rikuiwasaki
         end
