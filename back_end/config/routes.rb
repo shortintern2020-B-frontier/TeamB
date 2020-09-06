@@ -3,16 +3,17 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :users
-      resources :rooms
-      resources :chats
+      resources :rooms do
+        resources :chats
+      end
       resources :user_tags
       resources :user_follows
       resources :room_tags
       resources :room_users
       resources :tags
       resources :hello
-      post "login" => "session#create"
-      delete "logout" => "session#destroy"
+      post "login" => "sessions#create"
+      delete "logout" => "sessions#destroy"
       
     end
   end
