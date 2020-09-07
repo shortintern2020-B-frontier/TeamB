@@ -4,7 +4,7 @@ module Api
             include JwtAuthenticator 
             jwt_authenticate except: :index
             #rikuiwasaki
-            before_action :set_room,only: [:update]
+            before_action :set_room,only: [:update,:show]
             def index
                 rooms = Room.all.order(updated_at: :desc)
                 render json: { status: 'SUCCESS',data: {
@@ -31,6 +31,13 @@ module Api
                     render json: { status: 'ERROR', data: { error: "invalid user"}}
                 end
             end
+            
+            #karakwa
+            def show
+                render json: {status: 'SUCCESS', data: {room: @room}}
+            end
+            #karakawa
+
             private
                 def set_room
                     @room=Room.find(params[:id])
