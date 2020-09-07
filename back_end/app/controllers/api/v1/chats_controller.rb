@@ -1,7 +1,7 @@
 module Api
     module V1
         class ChatsController < ApplicationController            #rikuiwasaki
-            #jwt_authenticate except: :index
+            jwt_authenticate except: :index
 
             def index
                 chats = Chat.where(room_id: params[:room_id]).order(updated_at: :desc)
@@ -13,6 +13,8 @@ module Api
                 chat_info[:user_id] = 1#@current_user.id
                 @new_chat=Chat.new(chat_info)
                 if @new_chat.save
+                    @room=Room.find(1)
+                    RoomChannel.broadcast_to("room_#{chat_info[:room_id]}",@new_chat)
                     render json: { status: 'SUCCESS', data: { chat: @new_chat } }
                 else 
                     render json: { status: 'ERROR', data: { error: errors }}
