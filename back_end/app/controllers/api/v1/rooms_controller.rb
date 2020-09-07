@@ -15,7 +15,8 @@ module Api
                 room_info[:admin_id]= @current_user.id
                 room=Room.new(room_info)
                 if room.save
-                    render json: { status: 'SUCCESS', data: { room: room } }
+                    @current_user.update(room_id: room.id)
+                    render json: { status: 'SUCCESS', data: { room: room} }
                 else 
                     render json: { status: 'ERROR', data: { error: errors }}
                 end
@@ -36,7 +37,7 @@ module Api
                     @room=Room.find(params[:id])
                 end
                 def room_params
-                    params.require(:room).permit(:name,:youtube_id:is_private,:start_time,:password)
+                    params.require(:room).permit(:name,:youtube_id,:is_private,:start_time,:password)
                 end
         #rikuiwasaki
         end
