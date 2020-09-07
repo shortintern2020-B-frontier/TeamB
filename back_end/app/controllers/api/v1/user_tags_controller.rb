@@ -14,7 +14,7 @@ module Api
                 user_tag_info[:user_id] = @current_user.id
                 user_tag = UserTag.new(user_tag_info)
                 if user_tag.save
-                  render json: { status: 'SUCCESS', data: { user: user_tag } }
+                  render json: { status: 'SUCCESS', data: { user_tag: user_tag } }
                 else
                   render json: { status: 'ERROR', data: { error: user_tag.errors } }
                 end
