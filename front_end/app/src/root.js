@@ -6,6 +6,7 @@ import Auth from './components/auth/auth';
 import Toppage from './components/top/index';
 import Signin from './components/auth/signin';
 import Signup from './components/auth/signup';
+import Room from './components/room/room';
 
 const Root = () => (
   <Router>
@@ -16,6 +17,7 @@ const Root = () => (
       <Auth>
         <Switch>
           <Route exact path="/" render={() => <Main />} />
+          <Route path="/rooms/:id" render={() => <Room />} />
         </Switch>
       </Auth>
     </Switch>
