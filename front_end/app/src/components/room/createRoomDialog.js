@@ -12,23 +12,22 @@ import Switch from '@material-ui/core/Switch';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
-import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
-import { getRooms } from '../../actions/roomAction';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import { getRooms } from '../../actions/roomAction';
+import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 
-
-const useStyles = makeStyles((theme) => ({
-  tagCard:{
+const useStyles = makeStyles(() => ({
+  tagCard: {
     margin: 10,
     width: 150,
   },
 
-  switchPosition:{
-    "text-align":"center"
-  }
-}))
+  switchPosition: {
+    'text-align': 'center',
+  },
+}));
 
 const createRoomSelector = (state) => state.createRoom;
 const tokenSelector = (state) => state.auth.token;
@@ -113,18 +112,18 @@ const CreateRoomDialog = () => {
             </div>
             <div>
               <Grid container>
-                <Grid item xs={1} >
+                <Grid item xs={1}>
                   <p>Key</p>
                 </Grid>
                 <Grid item xs={1}>
-                <p>
-                  <Switch
-                    value="key"
-                    checked={isPrivate}
-                    onChange={handleIsPrivateChange}
-                    name="isPrivate"
-                    className={classes.switchPosition}
-                  />
+                  <p>
+                    <Switch
+                      value="key"
+                      checked={isPrivate}
+                      onChange={handleIsPrivateChange}
+                      name="isPrivate"
+                      className={classes.switchPosition}
+                    />
                   </p>
                 </Grid>
               </Grid>
@@ -138,13 +137,13 @@ const CreateRoomDialog = () => {
                 />
               </MuiPickersUtilsProvider>
             </div>
-            
-              <Paper variant="outlined" elevation={3} className={classes.tagCard}>
-                <li>Tag1</li>
-                <li>Tag2</li>
-                <li>Tag3</li>
-              </Paper>
-          
+
+            <Paper variant="outlined" elevation={3} className={classes.tagCard}>
+              <li>Tag1</li>
+              <li>Tag2</li>
+              <li>Tag3</li>
+            </Paper>
+
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant="contained">Cancel</Button>
