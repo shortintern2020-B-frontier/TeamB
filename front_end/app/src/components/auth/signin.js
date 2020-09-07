@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { login } from '../../actions/authAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -49,34 +50,33 @@ const Signin = () => {
   return (
     <div>
       <Paper className={classes.formSpace} elevation={5}>
-        <AccountCircle fontSize="large" />
-        <h2>ログイン</h2>
-
-        <form onSubmit={handleSubmit(Submit)}>
-          <div>
-            <TextField
-              className={classes.textBox}
-              name="name"
-              label="ユーザー名"
-              inputRef={register}
-              variant="filled"
-            />
-          </div>
-          <div>
-            <TextField
-              className={classes.textBox}
-              name="password"
-              label="パスワード"
-              inputRef={register}
-              variant="filled"
-            />
-          </div>
-          <div>
-            <Button className={classes.button} type="submit">
-              ログイン
-            </Button>
-          </div>
-        </form>
+          <AccountCircle fontSize = "large"/>
+          <h2>ログイン</h2>
+      <form onSubmit={handleSubmit(Submit)}>
+        <div>
+          <TextField
+            className={classes.textBox}
+            name="name"
+            label="ユーザー名"
+            inputRef={register}
+            variant="filled"
+          />
+        </div>
+        <div>
+          <TextField
+            className={classes.textBox}
+            name="password"
+            label="パスワード"
+            inputRef={register}
+            variant="filled"
+          />
+        </div>
+        <div>
+          <Button className={classes.button}type="submit">
+            ログイン
+          </Button>
+        </div>
+      </form>
       </Paper>
     </div>
   );
