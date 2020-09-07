@@ -30,11 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const history = useHistory();
 
+
   const classes = useStyles();
 
   const moveSignup = () => {
     history.push('/signup');
   };
+
 
   const moveLogin = () => {
     history.push('/signin');

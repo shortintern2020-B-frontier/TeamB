@@ -30,7 +30,6 @@ const Auth = (props) => {
   const jwt = localStorage.getItem('jwt');
 
   useEffect(() => {
-    console.log('test');
     dispatch(reload(jwt));
   }, []);
 
