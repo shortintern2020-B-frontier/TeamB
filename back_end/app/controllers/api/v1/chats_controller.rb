@@ -11,9 +11,10 @@ module Api
             def create
                 chat_info=chat_params
                 chat_info[:user_id] = @current_user.id
-                chat=Chat.new(chat_info)
-                if chat.save
-                    render json: { status: 'SUCCESS', data: { chat: chat } }
+                @new_chat=Chat.new(chat_info)
+                if @new_chat.save
+                    ActionCable.server.broadcast 'room_channel', content: @new_chat
+                    render json: { status: 'SUCCESS', data: { chat: @new_chat } }
                 else 
                     render json: { status: 'ERROR', data: { error: errors }}
                 end
