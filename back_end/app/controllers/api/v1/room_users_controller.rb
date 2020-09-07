@@ -17,8 +17,7 @@ module Api
 			end
 
 			def destroy
-				@current_user.room_id = nil
-				if @current_user.save
+				if @current_user.update_attribute(:room_id, nil)
 					render json: { status: "SUCCESS", data: { user: @current_user } }
 				else
 					render json: { status: "ERROR", data: { user: @current_user } }
