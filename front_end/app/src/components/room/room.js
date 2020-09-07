@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRoom } from '../../actions/roomAction';
 import Button from '@material-ui/core/Button';
+import { getRoom } from '../../actions/roomAction';
 
 const roomSelector = (state) => state.room;
 const tokenSelector = (state) => state.auth.token;
@@ -14,9 +14,9 @@ const Room = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const handleOut = () =>{
-    history.push("/");
-  }
+  const handleOut = () => {
+    history.push('/');
+  };
 
   useEffect(() => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
