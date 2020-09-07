@@ -21,6 +21,22 @@ module Api
             def room_tag_params
                 params.require(:room_tag).permit(:tag_id, :room_id)
             end
+
+            #karakawa
+            before_action :set_room,only: [:show]
+
+            def show
+                tag_id = @tag.id
+                rooms = Room.joins(:room_tags).where("tag_id = #{tag_id}")
+                render json: { status: 'SUCCESS',data: {rooms: rooms } }
+            end
+            
+            private
+                def set_room
+                    @tag=Tag.find(params[:id])
+                end
+            #karakawa
+
         end
     end
 end
