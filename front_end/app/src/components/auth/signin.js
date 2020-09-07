@@ -11,7 +11,7 @@ import Header from '../header';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import {AccountCircle} from '@material-ui/icons';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   textBox:{
