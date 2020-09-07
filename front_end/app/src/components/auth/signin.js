@@ -6,31 +6,31 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { login } from '../../actions/authAction';
 
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { login } from '../../actions/authAction';
 
-const useStyles = makeStyles((theme) => ({
-  textBox:{
+const useStyles = makeStyles(() => ({
+  textBox: {
     margin: 20,
   },
-  formSpace:{
+  formSpace: {
     margin: 'auto',
     width: 300,
     padding: 20,
     justify: 'center',
     textAlign: 'center',
   },
-  button:{
-    color:'white',
+  button: {
+    color: 'white',
     backgroundColor: '#F03636',
-  }
-}))
+  },
+}));
 
 const Signin = () => {
-  const classes = useStyles()
+  const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
@@ -49,34 +49,34 @@ const Signin = () => {
   return (
     <div>
       <Paper className={classes.formSpace} elevation={5}>
-          <AccountCircle fontSize = "large"/>
-          <h2>ログイン</h2>
+        <AccountCircle fontSize="large" />
+        <h2>ログイン</h2>
 
-      <form onSubmit={handleSubmit(Submit)}>
-        <div>
-          <TextField
-            className={classes.textBox}
-            name="name"
-            label="ユーザー名"
-            inputRef={register}
-            variant="filled"
-          />
-        </div>
-        <div>
-          <TextField
-            className={classes.textBox}
-            name="password"
-            label="パスワード"
-            inputRef={register}
-            variant="filled"
-          />
-        </div>
-        <div>
-          <Button className={classes.button}type="submit">
-            ログイン
-          </Button>
-        </div>  
-      </form>
+        <form onSubmit={handleSubmit(Submit)}>
+          <div>
+            <TextField
+              className={classes.textBox}
+              name="name"
+              label="ユーザー名"
+              inputRef={register}
+              variant="filled"
+            />
+          </div>
+          <div>
+            <TextField
+              className={classes.textBox}
+              name="password"
+              label="パスワード"
+              inputRef={register}
+              variant="filled"
+            />
+          </div>
+          <div>
+            <Button className={classes.button} type="submit">
+              ログイン
+            </Button>
+          </div>
+        </form>
       </Paper>
     </div>
   );

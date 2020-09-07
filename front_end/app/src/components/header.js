@@ -1,6 +1,6 @@
 /**
  * author: hiranuma
- * 
+ *
  */
 
 import React from 'react';
@@ -10,13 +10,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    "margin-bottom":50
+    'margin-bottom': 50,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -25,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appBar: {
-    "background-color" : "#F03636",
-  }
+    'background-color': '#F03636',
+  },
 }));
-
 
 const Header = () => {
   const history = useHistory();
@@ -36,16 +33,16 @@ const Header = () => {
   const classes = useStyles();
 
   const moveSignup = () => {
-    history.push("/signup");
-  }
+    history.push('/signup');
+  };
 
   const moveLogin = () => {
-    history.push("/signin");
-  }
+    history.push('/signin');
+  };
 
   const moveRooms = () => {
-    history.push("/");
-  }
+    history.push('/');
+  };
 
   return (
     <header className={classes.root}>
@@ -60,7 +57,7 @@ const Header = () => {
         </Toolbar>
       </AppBar>
     </header>
-  )
-}
+  );
+};
 
 export default Header;
