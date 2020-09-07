@@ -1,7 +1,12 @@
+'''
+  author: Kyosuke Yokota
+  Date: 20200904
+'''
+
 module Api
     module V1
         class TagsController < ApplicationController
-            before_action :set_post, only: [:destroy]
+            before_action :set_tag, only: [:destroy]
             def index 
                 tags = Tag.order(created_at: :desc)
                 render json: { status: 'SUCCESS', message: 'Loaded Tags', data: { tags: tags } }
@@ -25,7 +30,7 @@ module Api
                 params.require(:tag).permit(:name)
               end
         
-              def set_post
+              def set_tag
                 @tag = Tag.find(params[:id])
               end
         end
