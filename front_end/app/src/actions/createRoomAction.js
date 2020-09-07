@@ -33,6 +33,7 @@ const getHeaders = (token) => {
 }
 
 // TODO: 実際のapiを叩く箇所を実装する
+// TODO: idの部分は削除
 // TODO: redux-thunkに置き換える
 /**
  * ルーム作成を行うAction
@@ -42,7 +43,7 @@ const getHeaders = (token) => {
 export const createRoom = (token, data) => (dispatch) => {
   dispatch(createRoomRequest());
   return axios.post('http://localhost:8000/rooms', {
-    id: 10,
+    id: data.id,
     name: data.name,
     youtube_id: data.youtube_id,
     is_private: data.is_private,

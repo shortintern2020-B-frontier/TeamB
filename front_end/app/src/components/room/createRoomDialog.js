@@ -17,10 +17,16 @@ import { getRooms } from '../../actions/roomAction';
 
 const createRoomSelector = (state) => state.create_room;
 const tokenSelector = (state) => state.auth.token;
+// TODO: 実際のAPIを叩く時にidの情報は不要なので削除
+const roomSelector = (state) => state.rooms;
 
 export const CreateRoomDialog = () => {
   const create_room = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
+
+  // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
+  const rooms = useSelector(roomSelector);
+
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
@@ -50,6 +56,10 @@ export const CreateRoomDialog = () => {
     console.log(data);
     data["is_private"] = isPrivate
     data["start_time"] = selectedDate
+
+    // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
+    data["id"] = rooms.length + 1
+
     dispatch(createRoom(token, data));
     dispatch(getRooms(token));
     handleClose();
