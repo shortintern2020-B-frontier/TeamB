@@ -1,26 +1,26 @@
 import {
-  GET_ROOM_REQUEST, GET_ROOM_SUCCESS, GET_ROOM_FAILURE,
+  GET_ROOMS_REQUEST, GET_ROOMS_SUCCESS, GET_ROOMS_FAILURE,
 } from '../actions/roomAction';
 
 const initalState = {
   isFetching: false,
-  room: {},
+  rooms: [],
 };
 
-const room = (state = initalState, action) => {
+const rooms = (state = initalState, action) => {
   switch (action.type) {
-    case GET_ROOM_REQUEST:
+    case GET_ROOMS_REQUEST:
       return {
         isFetching: true,
-        room: {},
+        rooms: [],
       };
-    case GET_ROOM_SUCCESS:
+    case GET_ROOMS_SUCCESS:
       return {
         isFetching: false,
-        room: action.room,
+        rooms: action.rooms,
         lastUpdated: action.receivedAt,
       };
-    case GET_ROOM_FAILURE:
+    case GET_ROOMS_FAILURE:
       return {
         isFetching: false,
         error: action.error,
@@ -30,4 +30,4 @@ const room = (state = initalState, action) => {
   }
 };
 
-export default room;
+export default rooms;
