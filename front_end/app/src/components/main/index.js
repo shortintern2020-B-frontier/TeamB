@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from '../../settings/axios';
 import { getRooms } from '../../actions/roomAction';
+import { CreateRoomDialog } from '../room/createRoomDialog';
 
 const mainSelector = (state) => state.rooms;
 
@@ -51,6 +52,7 @@ export const Main = () => {
 
   return (
     <div>
+      <CreateRoomDialog />
       <RoomList {...rooms} />
     </div>
   );
