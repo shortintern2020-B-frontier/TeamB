@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
+import DateFnsUtils from "@date-io/date-fns";
 
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 
@@ -22,6 +23,9 @@ export const CreateRoomDialog = () => {
   // 動画ルームを非公開にするかどうか
   const [isPrivate, setIsPrivate] = useState(true);
 
+  // 開始時間
+  const [selectedDate, setSelectedDate ] = useState(new Date());
+
   const handleOpen = () => {
     dispatch(openRoomDialog());
   };
@@ -33,6 +37,10 @@ export const CreateRoomDialog = () => {
   const handleIsPrivateChange = (event) => {
     setIsPrivate(!isPrivate);
   };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  }
 
   const Submit = (data) => {
     console.log(data);
@@ -69,6 +77,21 @@ export const CreateRoomDialog = () => {
               onChange={handleIsPrivateChange}
               name="isPrivate"
             />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="開始時間"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>中止</Button>
