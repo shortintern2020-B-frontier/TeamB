@@ -1,15 +1,12 @@
 import fetchMock from 'fetch-mock';
 
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import { mockStore } from '../test/redux-test-utlis';
 import {
   jest, cleanup, beforeAll, afterEach, describe, test, expect,
 } from '../test/test-utils';
 
 import {
-  createRoomRequest, createRoomSuccess, createRoomFailure, createRoom,
-  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE,
+  createRoomRequest, createRoomSuccess, createRoomFailure, openRoomDialog, closeRoomDialog,
+  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
 } from './createRoomAction';
 
 afterEach(() => {
@@ -52,6 +49,20 @@ describe('create Action', () => {
       error,
     };
     expect(createRoomFailure(error)).toEqual(expectedAction);
+  });
+
+  test('check open room dialog', () => {
+    const expectedAction = {
+      type: OPEN_ROOM_DIALOG,
+    };
+    expect(openRoomDialog()).toEqual(expectedAction);
+  });
+
+  test('check close room dialog', () => {
+    const expectedAction = {
+      type: CLOSE_ROOM_DIALOG,
+    };
+    expect(closeRoomDialog()).toEqual(expectedAction);
   });
   // TODO: createRoomのtestを書く
 });

@@ -18,6 +18,16 @@ export const createRoomFailure = (error) => ({
   error,
 });
 
+export const OPEN_ROOM_DIALOG = 'OPEN_ROOM_DIALOG';
+export const openRoomDialog = () => ({
+  type: OPEN_ROOM_DIALOG,
+});
+
+export const CLOSE_ROOM_DIALOG = 'CLOSE_ROOM_DIALOG';
+export const closeRoomDialog = () => ({
+  type: CLOSE_ROOM_DIALOG,
+});
+
 // TODO: 実際のapiを叩く箇所を実装する
 // TODO: redux-thunkに置き換える
 /**
@@ -35,4 +45,18 @@ export const createRoom = (token, data) => (dispatch) => {
   })
     .then((res) => dispatch(createRoomSuccess(res.data)))
     .catch((err) => dispatch(createRoomFailure(err)));
+};
+
+/**
+ * ダイアログをopenするAction
+ */
+export const openDialog = () => (dispatch) => {
+  dispatch(openRoomDialog());
+};
+
+/**
+ * ダイアログをcloseするAction
+ */
+export const closeDialog = () => (dispatch) => {
+  dispatch(closeRoomDialog());
 };
