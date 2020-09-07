@@ -1,12 +1,36 @@
+/*
+* Designed by Yuya Miyata 
+*/
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { signup } from '../../actions/authAction';
-import Header from '../header';
+
+import {makeStyles} from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+const useStyles = makeStyles((theme) => ({
+  textBox:{
+    margin: 20,
+  },
+  formLayout:{
+    margin: 'auto',
+    width: 300,
+    padding: 20,
+    justify: 'center',
+    textAlign: 'center',
+  },
+  button:{
+    color:'white',
+    backgroundColor: '#F03636',
+  }
+}))
 
 const Signup = () => {
+  const classes = useStyles()
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
@@ -24,23 +48,29 @@ const Signup = () => {
 
   return (
     <div>
-      <Header />
-      <p>this is sign up page</p>
+      <Paper className={classes.formLayout}>
+      <AccountCircle fontSize = "large"/>
+      <h2>登録</h2>
       <form onSubmit={handleSubmit(Submit)}>
         <TextField
+          className={classes.textBox}
           name="name"
           label="ユーザー名"
           inputRef={register}
+          variant="filled"
         />
         <TextField
+          className={classes.textBox}
           name="password"
           label="パスワード"
           inputRef={register}
+          variant="filled"
         />
-        <Button type="submit">
+        <Button className={classes.button} type="submit">
           登録
         </Button>
       </form>
+      </Paper>
     </div>
   );
 };
