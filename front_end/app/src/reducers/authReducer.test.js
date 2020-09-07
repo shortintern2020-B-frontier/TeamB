@@ -2,6 +2,7 @@ import auth from './authReducer';
 
 import {
   RELOAD_REQUEST, RELOAD_SUCCESS, RELOAD_FAILURE,
+  SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
 } from '../actions/authAction';
 
@@ -25,6 +26,55 @@ describe('auth reducer', () => {
         isLoading: true,
       },
     );
+  });
+
+  test('should handle SIGNUP_REQUEST', () => {
+    expect(
+      auth([], {
+        type: SIGNUP_REQUEST,
+      }),
+    ).toEqual(
+      {
+        token: null,
+        isLoggedIn: false,
+        isLoading: true,
+      },
+    );
+  });
+
+  test('should handle SIGNUP_SUCCESS', () => {
+    const accessToken = 'token';
+    const token = { access_token: 'token' };
+    const expectedObject = {
+      token: accessToken,
+      isLoggedIn: true,
+      isLoading: false,
+      lastUpdated: Date.now(),
+    };
+
+    expect(
+      auth([], {
+        type: SIGNUP_SUCCESS,
+        token,
+        receivedAt: Date.now(),
+      }),
+    ).toEqual(expectedObject);
+  });
+
+  test('should handle SIGNUP_FAILURE', () => {
+    const error = 'error';
+
+    expect(
+      auth([], {
+        type: SIGNUP_FAILURE,
+        error,
+      }),
+    ).toEqual({
+      token: null,
+      isLoggedIn: false,
+      isLoading: false,
+      error,
+    });
   });
 
   test('should handle LOGIN_REQUEST', () => {

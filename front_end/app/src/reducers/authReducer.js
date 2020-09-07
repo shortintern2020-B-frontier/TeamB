@@ -1,5 +1,6 @@
 import {
   RELOAD_REQUEST, RELOAD_SUCCESS, RELOAD_FAILURE,
+  SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
 } from '../actions/authAction';
 
@@ -10,10 +11,29 @@ const initialState = {
 };
 
 // TODO: 実際のapiを組み込むときに変更する
-// TODO: RELOAD_SUCCESSとRELOQAD_FAILUREに対応させる
 // json_serverだと、tokenの値はaccess_tokenでアクセス出来る
 const auth = (state = initialState, action) => {
   switch (action.type) {
+    case SIGNUP_REQUEST:
+      return {
+        token: null,
+        isLoggedIn: false,
+        isLoading: true,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        token: action.token.access_token,
+        isLoggedIn: true,
+        isLoading: false,
+        lastUpdated: action.receivedAt,
+      };
+    case SIGNUP_FAILURE:
+      return {
+        token: null,
+        isLoggedIn: false,
+        isLoading: false,
+        error: action.error,
+      };
     case LOGIN_REQUEST:
       return {
         token: null,

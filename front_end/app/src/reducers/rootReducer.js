@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import posts from './postReducer';
+import rooms from './roomReducer';
 import auth from './authReducer';
+import createRoom from './createRoomReducer';
 
 const rootReducer = combineReducers({
-  posts,
+  rooms,
   auth,
+  createRoom,
 });
 
 export default rootReducer;
