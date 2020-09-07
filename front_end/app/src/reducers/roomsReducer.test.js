@@ -1,14 +1,14 @@
-import room from './roomReducer';
+import rooms from './roomsReducer';
 
 import {
-  GET_ROOM_REQUEST, GET_ROOM_SUCCESS, GET_ROOM_FAILURE,
+  GET_ROOMS_REQUEST, GET_ROOMS_SUCCESS, GET_ROOMS_FAILURE,
 } from '../actions/roomAction';
 
 import {
   jest, describe, test, expect, beforeAll,
 } from '../test/test-utils';
 
-describe('room reducer', () => {
+describe('rooms reducer', () => {
   beforeAll(() => {
     // 時間を固定する
     const OriginalDate = Date;
@@ -17,48 +17,48 @@ describe('room reducer', () => {
   });
 
   test('should return the initial state', () => {
-    expect(room(undefined, {})).toEqual({
+    expect(rooms(undefined, {})).toEqual({
       isFetching: false,
-      room: {},
+      rooms: [],
     });
   });
 
-  test('should handle GET_ROOM_REQUEST', () => {
+  test('should handle GET_ROOMS_REQUEST', () => {
     expect(
-      room([], {
-        type: GET_ROOM_REQUEST,
+      rooms([], {
+        type: GET_ROOMS_REQUEST,
       }),
     ).toEqual({
       isFetching: true,
-      room: {},
+      rooms: [],
     });
   });
 
-  test('should handle GET_ROOM_SUCCESS', () => {
+  test('should handle GET_ROOMS_SUCCESS', () => {
     const data = {
       id: 1, title: 'youtube a', youtube_id: 1, is_private: true, start_time: '2015-11-1200:00:00+0100',
     };
     const expectedObject = {
       isFetching: false,
-      room: data,
+      rooms: [data],
       lastUpdated: Date.now(),
     };
 
     expect(
-      room([], {
-        type: GET_ROOM_SUCCESS,
-        room: data,
+      rooms([], {
+        type: GET_ROOMS_SUCCESS,
+        rooms: [data],
         receivedAt: Date.now(),
       }),
     ).toEqual(expectedObject);
   });
 
-  test('should handle GET_ROOM_FAILURE', () => {
+  test('should handle GET_ROOMS_FAILURE', () => {
     const error = 'error';
 
     expect(
-      room([], {
-        type: GET_ROOM_FAILURE,
+      rooms([], {
+        type: GET_ROOMS_FAILURE,
         error,
       }),
     ).toEqual({

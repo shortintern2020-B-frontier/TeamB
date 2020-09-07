@@ -9,29 +9,31 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { login } from '../../actions/authAction';
 
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import {AccountCircle} from '@material-ui/icons';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Header from '../header';
+import { login } from '../../actions/authAction';
 
-const useStyles = makeStyles((theme) => ({
-  textBox:{
+const useStyles = makeStyles(() => ({
+  textBox: {
     margin: 20,
   },
-  formSpace:{
+  formSpace: {
     margin: 'auto',
     width: 300,
     padding: 20,
     justify: 'center',
     textAlign: 'center',
   },
-  button:{
-    color:'white',
+  button: {
+    color: 'white',
     backgroundColor: '#F03636',
-  }
-}))
+  },
+}));
 
 const Signin = () => {
-  const classes = useStyles()
+  const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
@@ -52,7 +54,6 @@ const Signin = () => {
       <Paper className={classes.formSpace} elevation={5}>
           <AccountCircle fontSize = "large"/>
           <h2>ログイン</h2>
-      
       <form onSubmit={handleSubmit(Submit)}>
         <div>
           <TextField
@@ -76,7 +77,7 @@ const Signin = () => {
           <Button className={classes.button}type="submit">
             ログイン
           </Button>
-        </div>  
+        </div>
       </form>
       </Paper>
     </div>
