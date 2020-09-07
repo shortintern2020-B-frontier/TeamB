@@ -9,7 +9,7 @@ module Api
 			jwt_authenticate
 
 			def create
-				if @current_user.update(room_id_params)
+				if @current_user.update_attribute(:room_id, room_id_params[:room_id])
 					render json: { status: "SUCCESS", data: { user: @current_user } }
 				else
 					render json: { status: "ERROR", data: { user: @current_user } }
