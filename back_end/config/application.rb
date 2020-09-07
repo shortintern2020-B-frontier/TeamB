@@ -30,6 +30,7 @@ module Myapp
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     #rikuiwasaki
+    config.action_cable.mount_path='/cable'
     config.generators do |g|
       g.test_framework :rspec,
       view_specs:false,

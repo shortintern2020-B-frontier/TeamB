@@ -1,6 +1,6 @@
 class RoomChannel < ApplicationCable::Channel
   def subscribed
-    stream from "chat:message"
+    stream from "chat_channel"
     # stream_from "some_channel"
   end
 
