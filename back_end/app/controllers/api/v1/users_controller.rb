@@ -22,11 +22,15 @@ module Api
             end
             # ユーザ登録
             def create
-                user = User.new(user_params)
-                if user.save
-                  render json: { status: 'SUCCESS', data: { user: user } }
+                @user = User.new(user_params)
+                if @user.save
+                  ## Hiranuma
+                  jwt_token = encode(@user.id)
+                  response.headers['X-Authentication-Token'] = jwt_token
+                  ## Hiranuma
+                  render json: { status: 'SUCCESS', data: { user: @user }, token: jwt_token }
                 else
-                  render json: { status: 'ERROR', data: { error:user.errors } }
+                  render json: { status: 'ERROR', data: { error:@user.errors } }
                 end
             end
 
