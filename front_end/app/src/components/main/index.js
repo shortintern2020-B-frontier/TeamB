@@ -1,26 +1,24 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from '../../settings/axios';
-import { getPosts } from '../../actions/postAction';
+import { getRooms } from '../../actions/roomAction';
+import CreateRoomDialog from '../room/createRoomDialog';
 
-export const mainSelector = (state) => {
-  const { length } = state.posts;
-  return state.posts[length - 1];
-};
+const mainSelector = (state) => state.rooms;
 
-export const tokenSelector = (state) => state.auth.token;
+const tokenSelector = (state) => state.auth.token;
 
-export const check = () => {
+const check = () => {
   axios.get('http://localhost:5000/api/v1/hello#show')
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
 };
 
-export const PostList = (posts) => {
+export const RoomList = (rooms) => {
   useEffect(() => {
     check();
   }, []);
-  if (posts.isFetching) {
+  if (rooms.isFetching) {
     return (
       <p>loading</p>
     );
@@ -28,13 +26,13 @@ export const PostList = (posts) => {
   return (
     <ul>
       {
-        posts.items.map((post, index) => (
+        rooms.rooms.map((room, index) => (
           <li key={index.toString()}>
             <p>
               { index }
               番目:
               {' '}
-              { post.title }
+              { room.name }
             </p>
           </li>
         ))
@@ -44,17 +42,18 @@ export const PostList = (posts) => {
 };
 
 export const Main = () => {
-  const posts = useSelector(mainSelector);
+  const rooms = useSelector(mainSelector);
   const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts(token));
+    dispatch(getRooms(token));
   }, []);
 
   return (
     <div>
-      <PostList {...posts} />
+      <CreateRoomDialog />
+      <RoomList {...rooms} />
     </div>
   );
 };

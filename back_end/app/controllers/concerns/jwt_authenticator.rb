@@ -32,7 +32,7 @@ module JwtAuthenticator
   end
 
   def encode(user_id)
-    expire_in = 1.hour.from_now.to_i
+    expire_in = 1.week.from_now.to_i
     preload = { user_id: user_id, exp: expire_in }
     JWT.encode(preload, SECRET_KEY, 'HS256')
   end
