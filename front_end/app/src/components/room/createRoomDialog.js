@@ -16,6 +16,19 @@ import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/creat
 import { getRooms } from '../../actions/roomAction';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import {makeStyles} from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+  tagCard:{
+    margin: 10,
+    width: 150,
+  },
+
+  switchPosition:{
+    "text-align":"center"
+  }
+}))
 
 const createRoomSelector = (state) => state.createRoom;
 const tokenSelector = (state) => state.auth.token;
@@ -23,6 +36,7 @@ const tokenSelector = (state) => state.auth.token;
 const roomSelector = (state) => state.rooms;
 
 const CreateRoomDialog = () => {
+  const classes = useStyles();
   const createRoomProps = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
 
@@ -100,15 +114,18 @@ const CreateRoomDialog = () => {
             <div>
               <Grid container>
                 <Grid item xs={1} >
-                  Key
+                  <p>Key</p>
                 </Grid>
-                <Grid item xs={1} >
+                <Grid item xs={1}>
+                <p>
                   <Switch
                     value="key"
                     checked={isPrivate}
                     onChange={handleIsPrivateChange}
                     name="isPrivate"
+                    className={classes.switchPosition}
                   />
+                  </p>
                 </Grid>
               </Grid>
             </div>
@@ -122,7 +139,7 @@ const CreateRoomDialog = () => {
               </MuiPickersUtilsProvider>
             </div>
             
-              <Paper variant="outlined" elevation={3}>
+              <Paper variant="outlined" elevation={3} className={classes.tagCard}>
                 <li>Tag1</li>
                 <li>Tag2</li>
                 <li>Tag3</li>
