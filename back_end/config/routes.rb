@@ -7,11 +7,11 @@ Rails.application.routes.draw do
         resources :chats
       end
       resources :user_tags
-      resources :user_follows
       resources :room_tags
       resources :room_users
       resources :tags
       resources :hello
+      resources :relationships, only: [:create, :destroy]
       post "login" => "sessions#create"
       delete "logout" => "sessions#destroy"
       

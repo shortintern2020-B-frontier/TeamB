@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from '../../settings/axios';
 import { getPosts } from '../../actions/postAction';
-import axios from 'axios';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const mainSelector = (state) => {
   const { length } = state.posts;
   return state.posts[length - 1];
 };
 
+export const tokenSelector = (state) => state.auth.token;
+
 export const check = () => {
   axios.get('http://localhost:5000/api/v1/hello#show')
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err));
-}
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err));
+};
 
 export const PostList = (posts) => {
   useEffect(() => {
     check();
-  },[])
+  }, []);
   if (posts.isFetching) {
     return (
       <p>loading</p>
@@ -44,10 +45,11 @@ export const PostList = (posts) => {
 
 export const Main = () => {
   const posts = useSelector(mainSelector);
+  const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getPosts(token));
   }, []);
 
   return (
