@@ -31,6 +31,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.10.5",
+    "@material-ui/icons": "^4.9.1",
     "axios-mock-adapter": "^1.18.2",
     "babel-loader": "^8.1.0",
     "dotenv-webpack": "^2.0.0",
