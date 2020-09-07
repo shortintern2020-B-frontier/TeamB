@@ -65,6 +65,11 @@ server.post('/auth/signup', (req, res) => {
 // 認証が必要なRouter
 server.use(/^(?!\/auth).*$/, async (req, res, next) => {
 
+  /*
+  console.log("#######################");
+  console.log(req.headers.authorization)
+  */
+
   // 認証ヘッダー形式検証
   if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
     const status = 401

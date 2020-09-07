@@ -6,11 +6,9 @@ import CreateRoomDialog from '../room/createRoomDialog';
 import Button from '@material-ui/core/Button';
 
 const mainSelector = (state) => state.rooms;
-
 const tokenSelector = (state) => state.auth.token;
 
 export const RoomList = (rooms) => {
-
   const history = useHistory();
 
   const handleClick = (id) => {
