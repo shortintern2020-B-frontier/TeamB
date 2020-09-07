@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { signup } from '../../actions/authAction';
+import Header from '../header';
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -23,6 +24,7 @@ const Signup = () => {
 
   return (
     <div>
+      <Header />
       <p>this is sign up page</p>
       <form onSubmit={handleSubmit(Submit)}>
         <TextField

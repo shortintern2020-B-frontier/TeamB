@@ -10,6 +10,11 @@ module Api
       jwt_authenticate
       before_action :set_user
 
+      def index
+        @followings = @current_user.followings
+        render json: { status: "SUCCESS", data: { users: @followings }}
+      end
+
       def create
         @following = @current_user.follow(@user)
         if @following.save
