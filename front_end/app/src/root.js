@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Main } from './components/main/index';
 import Auth from './components/auth/auth';
@@ -7,6 +7,12 @@ import Toppage from './components/top/index';
 import Signin from './components/auth/signin';
 import Signup from './components/auth/signup';
 import Room from './components/room/room';
+
+const Notfound = () => {
+  return (
+    <div> 404 not found</div>
+  )
+}
 
 const Root = () => (
   <Router>
@@ -17,9 +23,10 @@ const Root = () => (
       <Auth>
         <Switch>
           <Route exact path="/" render={() => <Main />} />
-          <Route path="/rooms/:id" render={() => <Room />} />
+          <Route exact path="/rooms/:id" render={() => <Room />} />
         </Switch>
       </Auth>
+      <Route component={Notfound} />
     </Switch>
   </Router>
 );

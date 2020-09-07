@@ -14,6 +14,7 @@ const Room = () => {
 
   useEffect(() => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
+    // TODO: 存在しないroomの場合、メインページに飛ばす
     dispatch(getRoom(token, id));
   }, [])
 
