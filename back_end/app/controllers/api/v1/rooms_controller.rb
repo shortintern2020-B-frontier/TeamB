@@ -1,8 +1,8 @@
 module Api
     module V1
         class RoomsController < ApplicationController
-            #include JwtAuthenticator 
-            #jwt_authenticate except: :index
+            include JwtAuthenticator 
+            jwt_authenticate except: :index
             #rikuiwasaki
             before_action :set_room,only: [:update,:show]
             def index
@@ -12,12 +12,12 @@ module Api
             end
             def create
                 room_info=room_params
-                room_info[:admin_id]= 3#@current_user.id
+                room_info[:admin_id]= @current_user.id
                 room=Room.new(room_info)
-                if room.save #&& @current_user.update_attribute(:room_id, room.id)
-                    render json: { status: 'SUCCESS', data: { room: room}}#, user: @current_user} }
+                if room.save  && @current_user.update_attribute(:room_id, room.id)
+                    render json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
                 else 
-                    render json: { status: 'ERROR', data: { error: "error" }}
+                    render json: { status: 'ERROR', data: { error: "error" } }
                 end
             end
             def update

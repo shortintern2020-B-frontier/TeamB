@@ -10,7 +10,7 @@ module Api
             end
             def create
                 chat_info=chat_params
-                chat_info[:user_id] = 1#@current_user.id
+                chat_info[:user_id] = @current_user.id
                 @new_chat=Chat.new(chat_info)
                 if @new_chat.save
                     @room=Room.find(1)
