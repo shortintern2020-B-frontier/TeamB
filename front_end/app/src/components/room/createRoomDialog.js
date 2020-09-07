@@ -20,7 +20,7 @@ export const CreateRoomDialog = () => {
   const { register, handleSubmit } = useForm();
 
   // 動画ルームを非公開にするかどうか
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(true);
 
   const handleOpen = () => {
     dispatch(openRoomDialog());
@@ -31,7 +31,7 @@ export const CreateRoomDialog = () => {
   };
 
   const handleIsPrivateChange = (event) => {
-    setIsPrivate(event.target.isPrivate);
+    setIsPrivate(!isPrivate);
   };
 
   const Submit = (data) => {
