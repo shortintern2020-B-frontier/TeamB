@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import { getRooms } from '../../actions/roomAction';
 import CreateRoomDialog from '../room/createRoomDialog';
-import Button from '@material-ui/core/Button';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
@@ -13,7 +13,7 @@ export const RoomList = (rooms) => {
 
   const handleClick = (id) => {
     history.push(`/rooms/${id}`);
-  }
+  };
 
   if (rooms.isFetching) {
     return (

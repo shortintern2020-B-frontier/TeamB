@@ -16,14 +16,17 @@ const Room = () => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
     // TODO: 存在しないroomの場合、メインページに飛ばす
     dispatch(getRoom(token, id));
-  }, [])
+  }, []);
 
   return (
     <div>
       <p>room page</p>
-      <p>room name is {room.room.name}</p>
+      <p>
+        room name is
+        {room.room.name}
+      </p>
     </div>
-  )
-}
+  );
+};
 
 export default Room;

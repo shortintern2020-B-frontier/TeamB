@@ -8,11 +8,9 @@ import Signin from './components/auth/signin';
 import Signup from './components/auth/signup';
 import Room from './components/room/room';
 
-const Notfound = () => {
-  return (
-    <div> 404 not found</div>
-  )
-}
+const Notfound = () => (
+  <div> 404 not found</div>
+);
 
 const Root = () => (
   <Router>

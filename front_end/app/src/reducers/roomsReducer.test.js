@@ -2,7 +2,7 @@ import rooms from './roomsReducer';
 
 import {
   GET_ROOMS_REQUEST, GET_ROOMS_SUCCESS, GET_ROOMS_FAILURE,
-} from '../actions/roomsAction';
+} from '../actions/roomAction';
 
 import {
   jest, describe, test, expect, beforeAll,

@@ -47,9 +47,9 @@ export const getRooms = (token) => (dispatch) => {
     .catch((err) => dispatch(getRoomsFailure(err)));
 };
 
-export const getRoom = (token, room_id) => (dispatch) => {
+export const getRoom = (token, roomId) => (dispatch) => {
   dispatch(getRoomRequest());
-  return axios.get(`http://localhost:8000/rooms/${room_id}`, {
+  return axios.get(`http://localhost:8000/rooms/${roomId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -6,19 +6,19 @@ const Header = () => {
   const history = useHistory();
 
   const moveSingup = () => {
-    history.push("/signup");
-  }
+    history.push('/signup');
+  };
 
   const moveLogin = () => {
-    history.push("/signin");
-  }
+    history.push('/signin');
+  };
 
   return (
     <div>
       <Button onClick={moveSingup}>登録</Button>
       <Button onClick={moveLogin}>ログイン</Button>
     </div>
-  )
-}
+  );
+};
 
 export default Header;
