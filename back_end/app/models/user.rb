@@ -9,7 +9,8 @@ class User < ApplicationRecord
 	has_many :followings, through: :relationships, source: :follow
 	has_many :reverse_of_relationships, class_name: 'UserFollow', foreign_key: 'follow_id'
 	has_many :followers, through: :reverse_of_relationships, source: :user
-	validates :name, :password, presence: true
+	validates :password, presence: true
+	validates :name, presence: true, uniqueness: true
 
 	def follow(other_user)
 		unless self == other_user
@@ -25,6 +26,6 @@ class User < ApplicationRecord
 	end
 
 	def following?(other_user)
-		self.followings.include?(other)
+		self.followings.include?(other_user)
 	end
 end
