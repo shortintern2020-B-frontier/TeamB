@@ -9,6 +9,11 @@ docker-compose build --no-cache
 docker-compose up -d
 ##  railsコンテナに入る場合
 docker-compose exec web /bin/bash
+
+##  binding.pryを使用する場合
+docker attach back_end_web_1
+back_end_web_1はコンテナ名
+Macならcontinueと入力した後Ctrl+p+qで抜けられます。
 ##  終了時
 docker-compose down
 #  frontend
