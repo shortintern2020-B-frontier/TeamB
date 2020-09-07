@@ -14,10 +14,10 @@ module Api
                 room_info=room_params
                 room_info[:admin_id]= @current_user.id
                 room=Room.new(room_info)
-                if room.save
-                    render json: { status: 'SUCCESS', data: { room: room } }
+                if room.save && @current_user.update_attribute(:room_id, room.id)
+                    render json: { status: 'SUCCESS', data: { room: room, user: @current_user} }
                 else 
-                    render json: { status: 'ERROR', data: { error: errors }}
+                    render json: { status: 'ERROR', data: { error: "error" }}
                 end
             end
             def update
@@ -43,7 +43,7 @@ module Api
                     @room=Room.find(params[:id])
                 end
                 def room_params
-                    params.require(:room).permit(:name,:youtube_id:is_private,:start_time,:password)
+                    params.require(:room).permit(:name,:youtube_id,:is_private,:start_time,:password)
                 end
         #rikuiwasaki
         end
