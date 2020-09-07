@@ -10,7 +10,7 @@ class RoomChannel < ApplicationCable::Channel
 
   def chat(data)
 
-    RoomChannel.broadcast_to('message',data['message'])
+    RoomChannel.broadcast_to('message','hello')
   end
 
 end

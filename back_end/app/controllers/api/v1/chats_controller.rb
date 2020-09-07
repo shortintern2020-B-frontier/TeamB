@@ -13,7 +13,6 @@ module Api
                 chat_info[:user_id] = 1#@current_user.id
                 @new_chat=Chat.new(chat_info)
                 if @new_chat.save
-                    ActionCable.server.broadcast 'chat_channel', content: @new_chat
                     render json: { status: 'SUCCESS', data: { chat: @new_chat } }
                 else 
                     render json: { status: 'ERROR', data: { error: errors }}
