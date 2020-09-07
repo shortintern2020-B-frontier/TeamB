@@ -1,5 +1,4 @@
 /*
-* 
 * designed by Yuya Miyata
 */
 import React from 'react';
@@ -13,7 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Header from '../header';
-import { login } from '../../actions/authAction';
 
 const useStyles = makeStyles(() => ({
   textBox: {
