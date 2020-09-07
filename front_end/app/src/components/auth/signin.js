@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { login } from '../../actions/authAction';
-import Header from '../header';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -49,7 +48,6 @@ const Signin = () => {
 
   return (
     <div>
-      <Header />
       <Paper className={classes.formSpace} elevation={5}>
           <AccountCircle fontSize = "large"/>
           <h2>ログイン</h2>
