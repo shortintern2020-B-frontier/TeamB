@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getRooms } from '../../actions/roomAction';
 import CreateRoomDialog from '../room/createRoomDialog';
+import Button from '@material-ui/core/Button';
 
 const mainSelector = (state) => state.rooms;
 
 const tokenSelector = (state) => state.auth.token;
 
 export const RoomList = (rooms) => {
+
+  const history = useHistory();
+
+  const handleClick = (id) => {
+    history.push(`/rooms/${id}`);
+  }
+
   if (rooms.isFetching) {
     return (
       <p>loading</p>
@@ -24,6 +33,7 @@ export const RoomList = (rooms) => {
               {' '}
               { room.name }
             </p>
+            <Button onClick={() => handleClick(room.id)}>入室</Button>
           </li>
         ))
       }
