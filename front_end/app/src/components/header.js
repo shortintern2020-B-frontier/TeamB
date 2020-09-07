@@ -33,15 +33,17 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const history = useHistory();
 
+
   const classes = useStyles();
 
   const moveSignup = () => {
     history.push("/signup");
   }
 
+
   const moveLogin = () => {
-    history.push("/signin");
-  }
+    history.push('/signin');
+  };
 
   const moveRooms = () => {
     history.push("/");
@@ -62,5 +64,6 @@ const Header = () => {
     </header>
   )
 }
+
 
 export default Header;
