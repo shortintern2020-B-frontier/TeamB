@@ -28,6 +28,10 @@ export const closeRoomDialog = () => ({
   type: CLOSE_ROOM_DIALOG,
 });
 
+const getHeaders = (token) => {
+  return { Authorization: `Bearer ${token}` };
+}
+
 // TODO: 実際のapiを叩く箇所を実装する
 // TODO: redux-thunkに置き換える
 /**
@@ -38,10 +42,13 @@ export const closeRoomDialog = () => ({
 export const createRoom = (token, data) => (dispatch) => {
   dispatch(createRoomRequest());
   return axios.post('http://localhost:8000/rooms', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    data,
+    id: 10,
+    name: data.name,
+    youtube_id: data.youtube_id,
+    is_private: data.is_private,
+    start_time: data.start_time,
+  } , {
+    headers: getHeaders(token)
   })
     .then((res) => dispatch(createRoomSuccess(res.data)))
     .catch((err) => dispatch(createRoomFailure(err)));

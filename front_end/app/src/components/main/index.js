@@ -32,7 +32,7 @@ export const RoomList = (rooms) => {
               { index }
               番目:
               {' '}
-              { room.title }
+              { room.name }
             </p>
           </li>
         ))

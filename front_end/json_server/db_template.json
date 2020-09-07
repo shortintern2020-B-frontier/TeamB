@@ -1,8 +1,8 @@
 {
   "rooms": [
-    { "id": 1, "title": "youtube a", "youtube_id": 1, "is_private": true, "start_time": "2015-11-1200:00:00+0100" },
-    { "id": 2, "title": "youtube b", "youtube_id": 2, "is_private": true, "start_time": "2015-11-1200:00:00+0100" },
-    { "id": 3, "title": "youtube c", "youtube_id": 3, "is_private": false, "start_time": "2015-11-1200:00:00+0100" }
+    { "id": 1, "name": "youtube a", "youtube_id": 1, "is_private": true, "start_time": "2015-11-1200:00:00+0100" },
+    { "id": 2, "name": "youtube b", "youtube_id": 2, "is_private": true, "start_time": "2015-11-1200:00:00+0100" },
+    { "id": 3, "name": "youtube c", "youtube_id": 3, "is_private": false, "start_time": "2015-11-1200:00:00+0100" }
   ],
   "users": [
     { "id": 1, "name": "One", "password": "test" },

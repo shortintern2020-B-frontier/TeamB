@@ -10,13 +10,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
+import { getRooms } from '../../actions/roomAction';
 
 const createRoomSelector = (state) => state.create_room;
+const tokenSelector = (state) => state.auth.token;
 
 export const CreateRoomDialog = () => {
   const create_room = useSelector(createRoomSelector);
+  const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
@@ -44,8 +48,11 @@ export const CreateRoomDialog = () => {
 
   const Submit = (data) => {
     console.log(data);
+    data["is_private"] = isPrivate
+    data["start_time"] = selectedDate
+    dispatch(createRoom(token, data));
+    dispatch(getRooms(token));
     handleClose();
-    // dispatch(createRoom(JSON.stringify(data)));
   };
 
   return (
@@ -78,18 +85,10 @@ export const CreateRoomDialog = () => {
               name="isPrivate"
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-inline"
+              <DateTimePicker
                 label="開始時間"
                 value={selectedDate}
                 onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>
