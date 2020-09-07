@@ -8,7 +8,7 @@ import { RoomList } from './index';
 afterEach(cleanup);
 describe('Main', () => {
   test('check RoomList behavior', () => {
-    const rooms = { isFetching: false, rooms: [{ title: 'test2' }, { title: 'test3' }] };
+    const rooms = { isFetching: false, rooms: [{ name: 'test2' }, { name: 'test3' }] };
     render(<RoomList {...rooms} />);
     expect(screen.getByText('test2', { exact: false })).toBeInTheDocument;
     expect(screen.getByText('test3', { exact: false })).toBeInTheDocument;

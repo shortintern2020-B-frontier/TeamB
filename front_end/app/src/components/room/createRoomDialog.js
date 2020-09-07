@@ -9,19 +9,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
-import DateFnsUtils from "@date-io/date-fns";
+import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 import { getRooms } from '../../actions/roomAction';
 
-const createRoomSelector = (state) => state.create_room;
+const createRoomSelector = (state) => state.createRoom;
 const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
-export const CreateRoomDialog = () => {
-  const create_room = useSelector(createRoomSelector);
+const CreateRoomDialog = () => {
+  const createRoomProps = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
 
   // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
@@ -34,7 +34,7 @@ export const CreateRoomDialog = () => {
   const [isPrivate, setIsPrivate] = useState(true);
 
   // 開始時間
-  const [selectedDate, setSelectedDate ] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleOpen = () => {
     dispatch(openRoomDialog());
@@ -44,23 +44,25 @@ export const CreateRoomDialog = () => {
     dispatch(closeRoomDialog());
   };
 
-  const handleIsPrivateChange = (event) => {
+  const handleIsPrivateChange = () => {
     setIsPrivate(!isPrivate);
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  }
+  };
 
   const Submit = (data) => {
-    console.log(data);
-    data["is_private"] = isPrivate
-    data["start_time"] = selectedDate
-
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
-    data["id"] = rooms.length + 1
+    const roomData = {
+      id: rooms.length + 1,
+      name: data.name,
+      youtube_id: data.youtube_id,
+      is_private: isPrivate,
+      start_time: selectedDate,
+    };
 
-    dispatch(createRoom(token, data));
+    dispatch(createRoom(token, roomData));
     dispatch(getRooms(token));
     handleClose();
   };
@@ -71,7 +73,7 @@ export const CreateRoomDialog = () => {
         ルーム作成
       </Button>
       <Dialog
-        open={create_room.is_opened}
+        open={createRoomProps.is_opened}
         fullWidth
         maxWidth="xs"
         onClose={handleClose}
@@ -114,4 +116,4 @@ export const CreateRoomDialog = () => {
   );
 };
 
-//export default CreateRoomDialog;
+export default CreateRoomDialog;

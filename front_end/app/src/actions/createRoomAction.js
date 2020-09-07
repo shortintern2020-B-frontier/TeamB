@@ -28,9 +28,7 @@ export const closeRoomDialog = () => ({
   type: CLOSE_ROOM_DIALOG,
 });
 
-const getHeaders = (token) => {
-  return { Authorization: `Bearer ${token}` };
-}
+const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 
 // TODO: 実際のapiを叩く箇所を実装する
 // TODO: idの部分は削除
@@ -48,8 +46,8 @@ export const createRoom = (token, data) => (dispatch) => {
     youtube_id: data.youtube_id,
     is_private: data.is_private,
     start_time: data.start_time,
-  } , {
-    headers: getHeaders(token)
+  }, {
+    headers: getHeaders(token),
   })
     .then((res) => dispatch(createRoomSuccess(res.data)))
     .catch((err) => dispatch(createRoomFailure(err)));

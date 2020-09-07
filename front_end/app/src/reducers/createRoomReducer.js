@@ -1,5 +1,6 @@
 import {
-  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
+  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE,
+  OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
 } from '../actions/createRoomAction';
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
 
 // TODO: 実際のapiを組み込むときに変更する
 // json_serverだと、tokenの値はaccess_tokenでアクセス出来る
-const create_room = (state = initialState, action) => {
+const createRoom = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_ROOM_REQUEST:
       return {
@@ -43,4 +44,4 @@ const create_room = (state = initialState, action) => {
   }
 };
 
-export default create_room;
+export default createRoom;

@@ -6,7 +6,8 @@ import {
 
 import {
   createRoomRequest, createRoomSuccess, createRoomFailure, openRoomDialog, closeRoomDialog,
-  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
+  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE,
+  OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
 } from './createRoomAction';
 
 afterEach(() => {

@@ -1,7 +1,8 @@
-import create_room from './createRoomReducer';
+import createRoom from './createRoomReducer';
 
 import {
-  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
+  CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE,
+  OPEN_ROOM_DIALOG, CLOSE_ROOM_DIALOG,
 } from '../actions/createRoomAction';
 
 import {
@@ -17,7 +18,7 @@ describe('create room reducer', () => {
   });
 
   test('should return the initial state', () => {
-    expect(create_room(undefined, {})).toEqual({
+    expect(createRoom(undefined, {})).toEqual({
       isLoading: false,
       is_opened: false,
     });
@@ -25,7 +26,7 @@ describe('create room reducer', () => {
 
   test('should handle CREATE_ROOM_REQUEST', () => {
     expect(
-      create_room([], {
+      createRoom([], {
         type: CREATE_ROOM_REQUEST,
       }),
     ).toEqual({
@@ -35,11 +36,6 @@ describe('create room reducer', () => {
   });
 
   test('should handle CREATE_ROOM_SUCCESS', () => {
-    const data = {
-      name: 'room1',
-      youtube_id: 1,
-      is_private: true,
-    };
     const expectedObject = {
       isLoading: false,
       is_opened: false,
@@ -47,7 +43,7 @@ describe('create room reducer', () => {
     };
 
     expect(
-      create_room([], {
+      createRoom([], {
         type: CREATE_ROOM_SUCCESS,
         isLoading: false,
         is_opened: false,
@@ -60,7 +56,7 @@ describe('create room reducer', () => {
     const error = 'error';
 
     expect(
-      create_room([], {
+      createRoom([], {
         type: CREATE_ROOM_FAILURE,
         error,
       }),
@@ -73,7 +69,7 @@ describe('create room reducer', () => {
 
   test('should handle OPEN_ROOM_DIALOG', () => {
     expect(
-      create_room([], {
+      createRoom([], {
         type: OPEN_ROOM_DIALOG,
       }),
     ).toEqual({
@@ -84,7 +80,7 @@ describe('create room reducer', () => {
 
   test('should handle CLOSE_ROOM_DIALOG', () => {
     expect(
-      create_room([], {
+      createRoom([], {
         type: CLOSE_ROOM_DIALOG,
       }),
     ).toEqual({
