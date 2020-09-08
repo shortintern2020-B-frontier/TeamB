@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTags, postTag } from '../../actions/tagAction';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { getTags, postTag } from '../../actions/tagAction';
 
 const tokenSelector = (state) => state.auth.token;
 const tagsSelector = (state) => state.tags;
@@ -40,13 +40,13 @@ const Tags = () => {
 
   useEffect(() => {
     dispatch(getTags(token));
-  }, [])
+  }, []);
 
   const Submit = (data) => {
-    data["id"] = tags.tags.length + 1
+    data.id = tags.tags.length + 1; // eslint-disable-line no-param-reassign
     dispatch(postTag(token, data));
     dispatch(getTags(token));
-  }
+  };
 
   return (
     <div>
@@ -68,7 +68,7 @@ const Tags = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Tags;

@@ -63,4 +63,4 @@ export const postTag = (token, tag) => (dispatch) => {
   })
     .then((res) => dispatch(postTagSuccess(res.data)))
     .catch((err) => dispatch(postTagFailure(err)));
-}
+};
