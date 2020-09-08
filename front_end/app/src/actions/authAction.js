@@ -74,7 +74,7 @@ export const login = (user, history) => (dispatch) => {
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem('id', res.data.data.id);
       dispatch(loginSuccess(res.data.token, res.data.data.id));
-      history.push('/');
+      history.push('/tags');
     })
     .catch((err) => dispatch(loginFailure(err)));
 };
@@ -93,11 +93,13 @@ export const signup = (user, history) => (dispatch) => {
   return axios.post('http://localhost:5000/api/v1/users', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.token);
-      localStorage.setItem('id', res.data.data.id);
-      dispatch(signupSuccess(res.data.token, res.data.data.id));
-      history.push('/');
+      localStorage.setItem('id', res.data.data.user.id);
+      console.log(res.data);
+      dispatch(signupSuccess(res.data.token, res.data.data.user.id));
     })
-    .catch((err) => dispatch(signupFailure(err)));
+    .catch((err) => dispatch(signupFailure(err)))
+    .then(() => history.push('/'))
+    .catch((err) => dispatch(signupFailure(err)))
 };
 
 /**
