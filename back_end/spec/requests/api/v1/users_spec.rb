@@ -23,7 +23,7 @@ describe 'UserAPI' do
   end
   it '他のユーザ情報閲覧' do
     created_user=FactoryBot.build(:user_create)
-    get "/api/v1/users/2"
+    get "/api/v1/users/#{created_user.id}"
     user=JSON.parse(response.body)
     expect(response.status).to eq(200)
     expect(user['data']['user'].name).to eq(created_user.name)

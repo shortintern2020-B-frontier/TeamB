@@ -7,7 +7,7 @@ describe 'RoomAPI' do
     get '/api/v1/rooms'
     rooms=JSON.parse(response.body)
     expect(response.status).to eq(200)
-    expect(users['data']['rooms'].length).to eq(10)
+    expect(rooms['data']['rooms'].length).to eq(10)
   end
   it '新しいROOMを作成' do
     valid_params={name:'room1',
@@ -27,6 +27,7 @@ describe 'RoomAPI' do
                 is_private:false,
                 start_time:time
     }
+    post '/api/v1/rooms'
     edited_room=JSON.parse(response.body)
     expect(response.status).to eq(200)
     expect(edited_room['data'].room.youtube_id).to eq(2)
