@@ -74,7 +74,7 @@ const CreateRoomDialog = () => {
     const roomData = JSON.stringify({
       room: {
         name: data.name,
-        youtube_id: data.youtube_id,
+        youtube_id: data.youtube_id.substr(32),//YuyaMiyata
         is_private: isPrivate,
         start_time: selectedDate,
       },
