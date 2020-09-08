@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Header from './components/header';
 import { Main } from './components/main/index';
 import Auth from './components/auth/auth';
 import Toppage from './components/top/index';
