@@ -32,7 +32,7 @@ module Api
                   ## Hiranuma
                   render json: { status: 'SUCCESS', data: { user: @user }, token: jwt_token }
                 else
-                  render json: { status: 'ERROR', data: { error:@user.errors } }
+                  render status:409, json:{status:'ERROR',error:"can't make account"}
                 end
             end
 
