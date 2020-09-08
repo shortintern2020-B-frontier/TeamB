@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
+const BASE_URL ='https://www.youtube.com/embed/'
 
 const Room = () => {
   const room = useSelector(roomSelector);
@@ -12,6 +13,7 @@ const Room = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const [video,videoId] = useState(`${BASE_URL}${room.room.youtube_id}`)//yuyamiyata
 
   const handleOut = () => {
     history.push('/');
@@ -27,6 +29,10 @@ const Room = () => {
   return (
     <div>
       <p>room page</p>
+      <iframe src={video}
+        width = '480'
+        height = '270'
+        frameborder="10"/>
       <p>
         room name is
         {room.name}
