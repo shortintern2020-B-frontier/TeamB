@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     'background-color': '#F03636',
   },
+  button: {
+    color: 'white',
+    backgroundColor: '',
+  }
 }));
 
 export const AuthSelector = (state) => state.auth;
@@ -61,8 +65,8 @@ const Header = () => {
               TheaTalk
             </Typography>
             <CreateRoomDialog />
-            <Button onClick={moveTags}>Tags</Button>
-            <Button onClick={moveRooms}>Rooms</Button>
+            <Button onClick={moveTags} className={classes.button}>Tags</Button>
+            <Button onClick={moveRooms} className={classes.button}>Rooms</Button>
           </Toolbar>
         </AppBar>
       </header>
@@ -75,8 +79,8 @@ const Header = () => {
           <Typography variant="h6" className={classes.title}>
             TheaTalk
           </Typography>
-          <Button onClick={moveSignup}>Sign Up</Button>
-          <Button onClick={moveLogin}>Login</Button>
+          <Button onClick={moveSignup} className={classes.button}>Sign Up</Button>
+          <Button onClick={moveLogin} className={classes.button}>Login</Button>
         </Toolbar>
       </AppBar>
     </header>
