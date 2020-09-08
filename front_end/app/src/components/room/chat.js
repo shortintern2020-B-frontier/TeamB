@@ -13,7 +13,7 @@ const websocketSelector = (state) => state.chat.ws;
 const Chat = () => {
   const token = useSelector(tokenSelector);
   const ws = useSelector(websocketSelector);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   let connection;
 
@@ -22,25 +22,11 @@ const Chat = () => {
       text: data.msg,
     });
     dispatch(sendMessage(ws, msg));
+    reset();
   }
 
   useEffect(() => {
     dispatch(connectToWebsocket(token));
-    /*
-    connection = new WebSocket('ws://localhost:5000/cable?token='+token)
-    connection.onopen = function(){
-      connection.send('Ping');
-    }
-      // Log errors
-    connection.onerror = function (error) {
-      console.log('WebSocket Error ' + error);
-    };
-
-    // Log messages from the server
-    connection.onmessage = function (e) {
-      console.log('Server: ' + e.data);
-    };
-    */
   }, []);
 
   return (
