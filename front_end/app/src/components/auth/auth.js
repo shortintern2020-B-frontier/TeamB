@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { reload } from '../../actions/authAction';
 
 /**
@@ -26,12 +26,13 @@ const Auth = (props) => {
   const auth = useSelector(AuthSelector);
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const jwt = localStorage.getItem('jwt');
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(reload(jwt));
-  }, []);
+    console.log("test");
+    dispatch(reload());
+    console.log(auth);
+  }, [location.pathname || auth.isLoading]);
 
   if (!auth.isLoading && !auth.isLoggedIn) {
     // TODO: useHistoryを用いて、ブラウザバックなどに対応できるか調査
@@ -41,7 +42,7 @@ const Auth = (props) => {
 
   if (auth.isLoading) {
     return (
-      <p> loading... </p>
+      <p> loading...... </p>
     );
   }
   return (

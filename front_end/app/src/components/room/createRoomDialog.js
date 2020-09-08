@@ -12,8 +12,22 @@ import Switch from '@material-ui/core/Switch';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
-import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { getRooms } from '../../actions/roomAction';
+import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
+
+const useStyles = makeStyles(() => ({
+  tagCard: {
+    margin: 10,
+    width: 150,
+  },
+
+  switchPosition: {
+    'text-align': 'center',
+  },
+}));
 
 const createRoomSelector = (state) => state.createRoom;
 const tokenSelector = (state) => state.auth.token;
@@ -21,6 +35,7 @@ const tokenSelector = (state) => state.auth.token;
 const roomSelector = (state) => state.rooms;
 
 const CreateRoomDialog = () => {
+  const classes = useStyles();
   const createRoomProps = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
 
@@ -78,36 +93,64 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        <DialogTitle>ルームを作成する</DialogTitle>
+        {/* hiranuma */}
+        <DialogTitle>Create Room</DialogTitle>
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
-            <TextField
-              name="name"
-              label="ルーム名"
-              inputRef={register}
-            />
-            <TextField
-              name="youtube_id"
-              label="youtube url"
-              inputRef={register}
-            />
-            <Switch
-              checked={isPrivate}
-              onChange={handleIsPrivateChange}
-              name="isPrivate"
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker
-                label="開始時間"
-                value={selectedDate}
-                onChange={handleDateChange}
+            <div>
+              <TextField
+                name="name"
+                label="ルーム名"
+                inputRef={register}
               />
-            </MuiPickersUtilsProvider>
+            </div>
+            <div>
+              <TextField
+                name="youtube_id"
+                label="youtube url"
+                inputRef={register}
+              />
+            </div>
+            <div>
+              <Grid container>
+                <Grid item xs={1}>
+                  <p>Key</p>
+                </Grid>
+                <Grid item xs={1}>
+                  <p>
+                    <Switch
+                      value="key"
+                      checked={isPrivate}
+                      onChange={handleIsPrivateChange}
+                      name="isPrivate"
+                      className={classes.switchPosition}
+                    />
+                  </p>
+                </Grid>
+              </Grid>
+            </div>
+            <div>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DateTimePicker
+                  label="開始時間"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+
+            <Paper variant="outlined" elevation={3} className={classes.tagCard}>
+              <li>Tag1</li>
+              <li>Tag2</li>
+              <li>Tag3</li>
+            </Paper>
+
           </DialogContent>
+          {/* hiranuma */}
           <DialogActions>
-            <Button onClick={handleClose}>中止</Button>
-            <Button type="submit">
-              作成
+            <Button onClick={handleClose} variant="contained">Cancel</Button>
+            <Button type="submit" variant="contained" color="secondary">
+              Done
             </Button>
           </DialogActions>
         </form>
