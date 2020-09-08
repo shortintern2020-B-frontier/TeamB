@@ -8,13 +8,14 @@ const tokenSelector = (state) => state.auth.token;
 
 const ChatTest = () => {
   let connection;
-  const token ='eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2MDAxNDAxMzd9.2DDXNKp-yH0e74m9Jtg-GAFzL786WDjucHdArIWLnnU';// useSelector(tokenSelector);
+  const token ='eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2MDAxNDU1ODJ9.KMfylG8g-uZgcSul0_MohibVve3mEyiroQxiI8E3Z8M';// useSelector(tokenSelector);
   console.log(token)
   useEffect(() => {
     connection = new WebSocket('ws://localhost:5000/cable?token='+token)
     console.log(connection)
     connection.onopen = function(){
-      connection.send('Ping');
+      var msg={"command":"subscribe","identifier":"{\"channel\":\"RoomChannel\"}"}
+      connection.send(JSON.stringify(msg));
     }
       // Log errors
     connection.onerror = function (error) {

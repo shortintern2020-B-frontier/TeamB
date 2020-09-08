@@ -1,4 +1,5 @@
 class RoomChannel < ApplicationCable::Channel
+  #rikuiwasaki
   def subscribed
 
      stream_for "room_#{current_user.room_id}"
@@ -13,5 +14,6 @@ class RoomChannel < ApplicationCable::Channel
   def chat(data)
     RoomChannel.broadcast_to('message','hello')
   end
+  #rikuiwasaki
 
 end

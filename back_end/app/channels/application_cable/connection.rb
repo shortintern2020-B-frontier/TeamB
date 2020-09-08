@@ -1,6 +1,7 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     require "jwt"
+    #rikuiwasaki
     identified_by :current_user
     def connect
       self.current_user= find_verified_user
@@ -16,5 +17,6 @@ module ApplicationCable
         current_user
       end
     end
+    #rikuiwasaki
   end
 end
