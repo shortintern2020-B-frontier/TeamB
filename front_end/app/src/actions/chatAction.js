@@ -46,7 +46,8 @@ export const connectToWebsocket = (token) => (dispatch) => {
   dispatch(initChat(ws));
 }
 
-export const closeWebsocket = () => (dispatch) => {
+export const closeWebsocket = (ws) => (dispatch) => {
+  ws.close();
   dispatch(closeChat());
 }
 
