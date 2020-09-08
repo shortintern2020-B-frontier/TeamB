@@ -6,9 +6,10 @@ export const reloadRequest = () => ({
 });
 
 export const RELOAD_SUCCESS = 'RELOAD_SUCCESS';
-export const reloadSuccess = (token) => ({
+export const reloadSuccess = (token, id) => ({
   type: RELOAD_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
