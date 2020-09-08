@@ -43,8 +43,8 @@ const Tags = () => {
   }, []);
 
   const Submit = (data) => {
-    data.id = tags.tags.length + 1; // eslint-disable-line no-param-reassign
-    dispatch(postTag(token, data));
+    dispatch(postTag(token, JSON.stringify({ tag: data })));
+    data.name = "";
     dispatch(getTags(token));
   };
 

@@ -41,12 +41,15 @@ export const postTagFailure = (error) => ({
 
 export const getTags = (token) => (dispatch) => {
   dispatch(getTagsRequest());
-  return axios.get('http://localhost:8000/tags', {
+  return axios.get('http://localhost:5000/api/v1/tags', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => dispatch(getTagsSuccess(res.data)))
+    .then((res) => {
+      console.log(res.data.data);
+      dispatch(getTagsSuccess(res.data.data.tags))
+    })
     .catch((err) => dispatch(getTagsFailure(err)));
 };
 
@@ -55,12 +58,12 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 // TODO: apiと接続する際はidを登録しないように変更
 export const postTag = (token, tag) => (dispatch) => {
   dispatch(postTagRequest());
-  return axios.post('http://localhost:8000/tags', {
-    id: tag.id,
-    name: tag.name,
-  }, {
+  return axios.post('http://localhost:5000/api/v1/tags', tag, {
     headers: getHeaders(token),
   })
-    .then((res) => dispatch(postTagSuccess(res.data)))
+    .then((res) => {
+      dispatch(postTagSuccess(res.data));
+      dispatch(getTags(token));
+    })
     .catch((err) => dispatch(postTagFailure(err)));
 };
