@@ -27,10 +27,10 @@ const Auth = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const jwt = localStorage.getItem('jwt');
 
   useEffect(() => {
-    dispatch(reload(jwt));
+    dispatch(reload());
+    console.log(auth);
   }, []);
 
   if (!auth.isLoading && !auth.isLoggedIn) {
