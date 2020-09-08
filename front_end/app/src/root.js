@@ -7,6 +7,7 @@ import Toppage from './components/top/index';
 import Signin from './components/auth/signin';
 import Signup from './components/auth/signup';
 import Room from './components/room/room';
+import Tags from './components/tag/tags';
 
 const Notfound = () => (
   <div> 404 not found</div>
@@ -22,6 +23,7 @@ const Root = () => (
         <Switch>
           <Route exact path="/" render={() => <Main />} />
           <Route exact path="/rooms/:id" render={() => <Room />} />
+          <Route exact path="/tags" render={() => <Tags />} />
         </Switch>
       </Auth>
       <Route component={Notfound} />
