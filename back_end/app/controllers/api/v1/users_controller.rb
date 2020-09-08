@@ -13,12 +13,13 @@ module Api
             # ユーザ一覧を取得
             #rikuiwasaki
             def index 
-                users = User.all.order(updated_at: :desc)
+                users = User.where(room_id: params[:room_id]).order(updated_at: :desc).select(:id,:name,:profile,:room_id,:created_at,:updated_at)
+
                 render json: { status: 'SUCCESS', message: 'Loaded posts', data: { users: users } }
             end
             #rikuiwasaki
             def show
-                user = User.find(params[:id])
+                user = User.find(params[:id]).select(:id,:name,:profile,:room_id,:created_at,:updated_at)
                 render json: { status: 'SUCCESS', message: 'Loaded posts', data: { user: @user } }
             end
             # ユーザ登録

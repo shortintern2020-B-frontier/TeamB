@@ -8,7 +8,7 @@ module Api
         class TagsController < ApplicationController
             before_action :set_tag, only: [:destroy]
             def index 
-                tags = Tag.order(created_at: :desc)
+                tags = Tag.order(created_at: :desc).select(:id,:name)
                 render json: { status: 'SUCCESS', message: 'Loaded Tags', data: { tags: tags } }
               end
         
