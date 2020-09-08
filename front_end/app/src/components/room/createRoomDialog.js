@@ -49,7 +49,7 @@ const CreateRoomDialog = () => {
 
   // 動画ルームを非公開にするかどうか
   const [isPrivate, setIsPrivate] = useState(true);
-
+  const [ msg, setMsg ] = useState("");
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -79,10 +79,21 @@ const CreateRoomDialog = () => {
         start_time: null,
       },
     });
-
-    dispatch(createRoom(token, roomData, history));
-    dispatch(getRooms(token));
-    handleClose();
+    // Hiranuma Tomoyuki
+    const url = "https://www.youtube.com/watch?v=";
+    if(data.name === ""){
+      setMsg('ルーム名が入力されていません');
+    }else if(data.youtube_id.indexOf(url)){
+      setMsg('動画のURLに従っていません');
+    }else if(data.youtube_id === ""){
+      setMsg('URLが入力されていません')
+    }else{
+      setMsg('');
+      dispatch(createRoom(token, roomData, history));
+      dispatch(getRooms(token));
+      handleClose();
+    }
+    // Hiranuma Tomoyuki
   };
 
   return (
@@ -98,6 +109,21 @@ const CreateRoomDialog = () => {
       >
         {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
+        {(() => {
+          if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
+            return (
+              <div>
+                <p> ルームはすでに存在しています </p>
+                <p>{ msg }</p>
+              </div>
+            );
+          }
+          return (
+            <div>
+              <p>{ msg }</p>
+            </div>
+          );
+        })()}
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
