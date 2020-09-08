@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -27,10 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const AuthSelector = (state) => state.auth;
+
 const Header = () => {
   const history = useHistory();
-
   const classes = useStyles();
+  const auth = useSelector(AuthSelector);
 
   const moveSignup = () => {
     history.push('/signup');
@@ -44,20 +47,34 @@ const Header = () => {
     history.push('/');
   };
 
-  return (
-    <header className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            TheaTalk
-          </Typography>
-          <Button onClick={moveSignup}>Sign Up</Button>
-          <Button onClick={moveLogin}>Login</Button>
-          <Button onClick={moveRooms}>Rooms</Button>
-        </Toolbar>
-      </AppBar>
-    </header>
-  );
+  if( auth.isLoggedIn ) {
+    return (
+      <header className={classes.root}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              TheaTalk
+            </Typography>
+            <Button onClick={moveRooms}>Rooms</Button>
+          </Toolbar>
+        </AppBar>
+      </header>
+    )
+  } else {
+    return (
+      <header className={classes.root}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              TheaTalk
+            </Typography>
+            <Button onClick={moveSignup}>Sign Up</Button>
+            <Button onClick={moveLogin}>Login</Button>
+          </Toolbar>
+        </AppBar>
+      </header>
+    );
+  }
 };
 
 export default Header;
