@@ -5,6 +5,7 @@ import { ActioncableProvider} from 'react-actioncable-provider';
 import { connectToWebsocket, closeWebsocket, sendMessage } from '../../actions/chatAction';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { ChatList } from './chatList';
 
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
@@ -45,6 +46,7 @@ const Chat = () => {
   return (
     <div>
       <p>chat</p>
+      <ChatList />
       <form onSubmit={handleSubmit(sendChat)}>
         <TextField
           name="msg"
