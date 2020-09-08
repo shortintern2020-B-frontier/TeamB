@@ -1,8 +1,9 @@
 /*
 * YuyaMiyata
 */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -81,9 +82,16 @@ const Tags = () => {
   const id = useSelector(userIDSelector);
   const tags = useSelector(tagsSelector);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { register, handleSubmit } = useForm();
 
+  const [isNewUser, setIsNewUser] = useState(false);
+
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if( params.get("new") !== null ) {
+      setIsNewUser(true);
+    };
     dispatch(getTags(token));
     dispatch(getUserTags(token, id));
   }, []);
@@ -95,6 +103,15 @@ const Tags = () => {
   return (
     <div>
       <h2>タグの管理</h2>
+      {(() => {
+        if( isNewUser ) {
+          return (
+            <div>
+              <p>ユーザー登録していただきありがとうございます</p>
+            </div>
+          )
+        }
+      })()}
       <Grid container className={classes.root}>
         <Paper className={classes.paper} elevation={5}>
           <Grid item>

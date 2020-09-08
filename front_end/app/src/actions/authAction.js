@@ -74,7 +74,7 @@ export const login = (user, history) => (dispatch) => {
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem('id', res.data.data.id);
       dispatch(loginSuccess(res.data.token, res.data.data.id));
-      history.push('/tags');
+      history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
 };
@@ -98,7 +98,7 @@ export const signup = (user, history) => (dispatch) => {
       dispatch(signupSuccess(res.data.token, res.data.data.user.id));
     })
     .catch((err) => dispatch(signupFailure(err)))
-    .then(() => history.push('/'))
+    .then(() => history.push('/tags?new=true'))
     .catch((err) => dispatch(signupFailure(err)))
 };
 
