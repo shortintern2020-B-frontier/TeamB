@@ -6,6 +6,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import CreateRoomDialog from './room/createRoomDialog';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -47,6 +48,10 @@ const Header = () => {
     history.push('/');
   };
 
+  const moveTags = () => {
+    history.push('/tags');
+  }
+
   if( auth.isLoggedIn ) {
     return (
       <header className={classes.root}>
@@ -55,6 +60,8 @@ const Header = () => {
             <Typography variant="h6" className={classes.title}>
               TheaTalk
             </Typography>
+            <CreateRoomDialog />
+            <Button onClick={moveTags}>Tags</Button>
             <Button onClick={moveRooms}>Rooms</Button>
           </Toolbar>
         </AppBar>
