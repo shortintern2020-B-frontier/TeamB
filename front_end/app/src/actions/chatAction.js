@@ -50,8 +50,10 @@ export const closeWebsocket = () => (dispatch) => {
   dispatch(closeChat());
 }
 
-export const sendMessage = (msg) => (dispatch) => {
-  dispatch(sendChatSuccess(msg));
+export const sendMessage = (ws, msg) => (dispatch) => {
+  ws.send(msg);
+  const parse_msg = JSON.parse(msg);
+  dispatch(postChat(parse_msg.text));
 }
 
 export const receiveMessage = (msg) => (dispatch) => {
