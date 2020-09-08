@@ -69,13 +69,14 @@ const CreateRoomDialog = () => {
 
   const Submit = (data) => {
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
-    const roomData = {
-      id: rooms.length + 1,
-      name: data.name,
-      youtube_id: data.youtube_id,
-      is_private: isPrivate,
-      start_time: selectedDate,
-    };
+    const roomData = JSON.stringify({
+      room: {
+        name: data.name,
+        youtube_id: data.youtube_id,
+        is_private: isPrivate,
+        start_time: selectedDate,
+      },
+    });
 
     dispatch(createRoom(token, roomData));
     dispatch(getRooms(token));

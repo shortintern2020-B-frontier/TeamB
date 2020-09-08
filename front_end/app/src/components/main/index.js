@@ -44,7 +44,7 @@ export const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getRooms(token));
+    //dispatch(getRooms(token));
   }, []);
 
   return (
