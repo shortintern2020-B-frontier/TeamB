@@ -1,8 +1,8 @@
 /*
 * Designed by Yuya Miyata
 */
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
@@ -30,11 +30,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const errorSelector = (state) => state.auth.signup_error;
+
 const Signup = () => {
   const classes = useStyles();
+  const [msg, setMsg] = useState('');
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+  const err = useSelector(errorSelector);
 
   /**
    * フォームの登録ボタンがクリックされた際に発火する
@@ -45,7 +49,11 @@ const Signup = () => {
    */
   const Submit = (data) => {
     // jsonデータに変形してから投げる
-    dispatch(signup(JSON.stringify(data), history));
+    if (data.name === '') {
+      setMsg('ユーザー名が入力されていません');
+    } else if (data.password === '') {
+      setMsg('パスワードが入力されていません');
+    } else dispatch(signup(JSON.stringify(data), history));
   };
 
   return (
@@ -53,6 +61,22 @@ const Signup = () => {
       <Paper className={classes.formLayout}>
         <AccountCircle fontSize="large" />
         <h2>登録</h2>
+        {(() => {
+          if (err !== null && err !== undefined) {
+            return (
+              <div>
+                <p> そのユーザー名は既に使用されています </p>
+                <p>{ msg }</p>
+              </div>
+            );
+          }
+          return (
+            <div>
+              <p>{ msg }</p>
+            </div>
+          );
+        })()}
+
         <form onSubmit={handleSubmit(Submit)}>
           <TextField
             className={classes.textBox}

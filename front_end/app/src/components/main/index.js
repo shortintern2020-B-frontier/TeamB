@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { getRooms } from '../../actions/roomAction';
-import CreateRoomDialog from '../room/createRoomDialog';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
@@ -50,7 +49,6 @@ export const Main = () => {
 
   return (
     <div>
-      <CreateRoomDialog />
       <RoomList {...rooms} />
     </div>
   );
