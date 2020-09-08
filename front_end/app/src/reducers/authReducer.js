@@ -22,7 +22,7 @@ const auth = (state = initialState, action) => {
       };
     case SIGNUP_SUCCESS:
       return {
-        token: action.token.access_token,
+        token: action.token,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,
@@ -42,7 +42,7 @@ const auth = (state = initialState, action) => {
       };
     case LOGIN_SUCCESS:
       return {
-        token: action.token.access_token,
+        token: action.token,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,

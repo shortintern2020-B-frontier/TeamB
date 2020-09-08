@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { useHistory } from 'react-router-dom';
 import { login } from '../../actions/authAction';
 
 const useStyles = makeStyles(() => ({
@@ -33,6 +34,7 @@ const Signin = () => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /**
    * フォームのログインボタンがクリックされた際に発火する
@@ -43,7 +45,7 @@ const Signin = () => {
    */
   const Submit = (data) => {
     // jsonデータに変形してから投げる
-    dispatch(login(JSON.stringify(data)));
+    dispatch(login(JSON.stringify(data), history));
   };
 
   return (

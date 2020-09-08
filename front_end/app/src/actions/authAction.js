@@ -61,13 +61,15 @@ export const signupFailure = (error) => ({
  * @param {Object} user - ログインに必要なデータが格納されている
  * @param {string} user.name - ユーザー名
  * @param {string} user.password - パスワード
+ * @param {function} history - ログイン後に遷移を管理する関数
  */
-export const login = (user) => (dispatch) => {
+export const login = (user, history) => (dispatch) => {
   dispatch(loginRequest());
   return axios.post('http://localhost:8000/auth/login', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
-      dispatch(loginSuccess(res.data));
+      dispatch(loginSuccess(res.data.access_token));
+      history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
 };
@@ -79,13 +81,15 @@ export const login = (user) => (dispatch) => {
  * @param {Object} user - ログインに必要なデータが格納されている
  * @param {string} user.name - ユーザー名
  * @param {string} user.password - パスワード
+ * @param {function} history - ログイン後に遷移を管理する関数
  */
-export const signup = (user) => (dispatch) => {
+export const signup = (user, history) => (dispatch) => {
   dispatch(signupRequest());
   return axios.post('http://localhost:8000/auth/signup', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
-      dispatch(signupSuccess(res.data));
+      dispatch(signupSuccess(res.data.access_token));
+      history.push('/');
     })
     .catch((err) => dispatch(signupFailure(err)));
 };
@@ -94,9 +98,10 @@ export const signup = (user) => (dispatch) => {
  * 画面がリロードされた際に、localstrageからログイン情報を取得する
  * jwtの取得の可否に応じてstateを更新する
  */
-export const reload = (jwt) => (dispatch) => {
+export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
-
+  const jwt = localStorage.getItem('jwt');
+  console.log(jwt);
   if (jwt !== null) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));
 };

@@ -93,6 +93,7 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
+        {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
@@ -145,6 +146,7 @@ const CreateRoomDialog = () => {
             </Paper>
 
           </DialogContent>
+          {/* hiranuma */}
           <DialogActions>
             <Button onClick={handleClose} variant="contained">Cancel</Button>
             <Button type="submit" variant="contained" color="secondary">
