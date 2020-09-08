@@ -12,7 +12,6 @@ export const RoomList = (rooms) => {
   const dispatch = useDispatch();
 
   const handleClick = (index, id) => {
-    console.log(rooms.rooms[index])
     dispatch(setRoom(rooms.rooms[index]))
     history.push(`/rooms/${id}`);
   };
