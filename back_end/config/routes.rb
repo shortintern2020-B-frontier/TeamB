@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :tags
       resources :hello
       resources :relationships, only: [:create, :destroy, :index]
+      resources :user_room_tags, only:[:show]
       post "login" => "sessions#create"
       delete "logout" => "sessions#destroy"
       
