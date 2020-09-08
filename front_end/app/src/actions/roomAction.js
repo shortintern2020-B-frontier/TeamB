@@ -38,12 +38,15 @@ export const getRoomFailure = (error) => ({
 
 export const getRooms = (token) => (dispatch) => {
   dispatch(getRoomsRequest());
-  return axios.get('http://localhost:8000/rooms', {
+  //return axios.get('http://localhost:8000/rooms', {
+  return axios.get('http://localhost:5000/api/v1/rooms', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => dispatch(getRoomsSuccess(res.data)))
+    .then((res) => {
+      dispatch(getRoomsSuccess(res.data.data))
+    })
     .catch((err) => dispatch(getRoomsFailure(err)));
 };
 

@@ -102,7 +102,6 @@ export const signup = (user, history) => (dispatch) => {
 export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
   const jwt = localStorage.getItem('jwt');
-  console.log(jwt);
   if (jwt !== null) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));
 };

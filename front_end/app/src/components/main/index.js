@@ -18,24 +18,25 @@ export const RoomList = (rooms) => {
     return (
       <p>loading</p>
     );
+  } else {
+    return (
+      <ul>
+        {
+          rooms.rooms.map((room, index) => (
+            <li key={index.toString()}>
+              <p>
+                { index }
+                番目:
+                {' '}
+                { room.name }
+              </p>
+              <Button onClick={() => handleClick(room.id)}>入室</Button>
+            </li>
+          ))
+        }
+      </ul>
+    );
   }
-  return (
-    <ul>
-      {
-        rooms.rooms.map((room, index) => (
-          <li key={index.toString()}>
-            <p>
-              { index }
-              番目:
-              {' '}
-              { room.name }
-            </p>
-            <Button onClick={() => handleClick(room.id)}>入室</Button>
-          </li>
-        ))
-      }
-    </ul>
-  );
 };
 
 export const Main = () => {
@@ -44,7 +45,7 @@ export const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //dispatch(getRooms(token));
+    dispatch(getRooms(token));
   }, []);
 
   return (

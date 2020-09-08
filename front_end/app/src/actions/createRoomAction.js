@@ -40,18 +40,6 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
  */
 export const createRoom = (token, data) => (dispatch) => {
   dispatch(createRoomRequest());
-  console.log(data);
-  /*
-  return axios.post('http://localhost:5000/api/v1/rooms', {
-    id: data.id,
-    name: data.name,
-    youtube_id: data.youtube_id,
-    is_private: data.is_private,
-    start_time: data.start_time,
-  }, {
-    headers: getHeaders(token),
-  })
-  */
   return axios.post('http://localhost:5000/api/v1/rooms', data, {
     headers: getHeaders(token),
   })
