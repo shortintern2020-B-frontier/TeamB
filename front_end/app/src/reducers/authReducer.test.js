@@ -72,7 +72,7 @@ describe('auth reducer', () => {
       token: null,
       isLoggedIn: false,
       isLoading: false,
-      error,
+      signup_error: error,
     });
   });
 
@@ -120,7 +120,7 @@ describe('auth reducer', () => {
       token: null,
       isLoggedIn: false,
       isLoading: false,
-      error,
+      login_error: error,
     });
   });
 

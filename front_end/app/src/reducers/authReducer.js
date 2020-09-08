@@ -32,7 +32,7 @@ const auth = (state = initialState, action) => {
         token: null,
         isLoggedIn: false,
         isLoading: false,
-        error: action.error,
+        signup_error: action.error,
       };
     case LOGIN_REQUEST:
       return {
@@ -52,7 +52,7 @@ const auth = (state = initialState, action) => {
         token: null,
         isLoggedIn: false,
         isLoading: false,
-        error: action.error,
+        login_error: action.error,
       };
     case RELOAD_REQUEST:
       return {

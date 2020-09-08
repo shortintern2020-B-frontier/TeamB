@@ -1,8 +1,8 @@
 /*
 * designed by Yuya Miyata
 */
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -30,11 +30,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const errorSelector = (state) => state.auth.login_error;
+
 const Signin = () => {
   const classes = useStyles();
+  const [msg, setMsg] = useState('');
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+  const err = useSelector(errorSelector);
 
   /**
    * フォームのログインボタンがクリックされた際に発火する
@@ -44,8 +48,15 @@ const Signin = () => {
    * @param {string} data.password - パスワード
    */
   const Submit = (data) => {
-    // jsonデータに変形してから投げる
-    dispatch(login(JSON.stringify(data), history));
+    if (data.name === '') {
+      setMsg('ユーザー名が入力されていません');
+    } else if (data.password === '') {
+      setMsg('パスワードが入力されていません');
+    } else {
+      setMsg('');
+      // jsonデータに変形してから投げる
+      dispatch(login(JSON.stringify(data), history));
+    }
   };
 
   return (
@@ -53,6 +64,22 @@ const Signin = () => {
       <Paper className={classes.formSpace} elevation={5}>
         <AccountCircle fontSize="large" />
         <h2>ログイン</h2>
+        {(() => {
+          if (err !== null && err !== undefined) {
+            return (
+              <div>
+                <p> ユーザー名またはパスワードが違います </p>
+                <p>{ msg }</p>
+              </div>
+            );
+          }
+          return (
+            <div>
+              <p>{ msg }</p>
+            </div>
+          );
+        })()}
+
         <form onSubmit={handleSubmit(Submit)}>
           <div>
             <TextField
