@@ -4,6 +4,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -33,6 +34,7 @@ const Signup = () => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /**
    * フォームの登録ボタンがクリックされた際に発火する
@@ -43,7 +45,7 @@ const Signup = () => {
    */
   const Submit = (data) => {
     // jsonデータに変形してから投げる
-    dispatch(signup(JSON.stringify(data)));
+    dispatch(signup(JSON.stringify(data), history));
   };
 
   return (
