@@ -66,8 +66,9 @@ export const signupFailure = (error) => ({
 export const login = (user, history) => (dispatch) => {
   dispatch(loginRequest());
   // return axios.post('http://localhost:8000/auth/login', user)
-  return axios.post('http://localhost:5000/api/v1/login', user)
+  return axios.post(process.env.REACT_APP_API_URI+'/api/v1/login', user)
     .then((res) => {
+      console.log(process.env)
       localStorage.setItem('jwt', res.data.token);
       dispatch(loginSuccess(res.data.token));
       history.push('/');
