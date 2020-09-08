@@ -102,6 +102,7 @@ const Signin = () => {
               className={classes.textBox}
               name="password"
               label="パスワード"
+              type="password"
               inputRef={register}
               variant="filled"
             />
