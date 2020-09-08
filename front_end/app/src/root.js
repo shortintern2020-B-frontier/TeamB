@@ -14,6 +14,7 @@ const Notfound = () => (
 
 const Root = () => (
   <Router>
+    <Header />
     <Switch>
       <Route exact path="/signin" render={() => <Signin />} />
       <Route exact path="/signup" render={() => <Signup />} />
