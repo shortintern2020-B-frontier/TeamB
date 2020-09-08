@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { getTags, postTag } from '../../actions/tagAction';
+import { getTags, postTag, getUserTags } from '../../actions/tagAction';
 
 const tokenSelector = (state) => state.auth.token;
-const tagsSelector = (state) => state.tags;
+const userIDSelector = (state) => state.auth.id;
+const tagsSelector = (state) => state.userTags;
 
 export const TagList = (tags) => {
   if (tags.isFetching) {
@@ -34,18 +35,18 @@ export const TagList = (tags) => {
 
 const Tags = () => {
   const token = useSelector(tokenSelector);
+  const id = useSelector(userIDSelector);
   const tags = useSelector(tagsSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     dispatch(getTags(token));
+    dispatch(getUserTags(token, id));
   }, []);
 
   const Submit = (data) => {
     dispatch(postTag(token, JSON.stringify({ tag: data })));
-    data.name = "";
-    dispatch(getTags(token));
   };
 
   return (

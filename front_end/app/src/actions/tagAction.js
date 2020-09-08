@@ -18,6 +18,24 @@ export const getTagsFailure = (error) => ({
   error,
 });
 
+export const GET_USER_TAGS_REQUEST = 'GET_USER_TAGS_REQUEST';
+export const getUserTagsRequest = () => ({
+  type: GET_USER_TAGS_REQUEST,
+});
+
+export const GET_USER_TAGS_SUCCESS = 'GET_USER_TAGS_SUCCESS';
+export const getUserTagsSuccess = (json) => ({
+  type: GET_USER_TAGS_SUCCESS,
+  tags: json,
+  receivedAt: Date.now(),
+});
+
+export const GET_USER_TAGS_FAILURE = 'GET_USER_TAGS_FAILURE';
+export const getUserTagsFailure = (error) => ({
+  type: GET_USER_TAGS_FAILURE,
+  error,
+});
+
 export const POST_TAG_REQUEST = 'POST_TAG_REQUEST';
 export const postTagRequest = () => ({
   type: POST_TAG_REQUEST,
@@ -36,7 +54,6 @@ export const postTagFailure = (error) => ({
   error,
 });
 
-// TODO: ログインしているユーザーに紐付いたタグを取得する部分を実装する
 // TODO: 引数に文字列を持った、検索機能を実装する
 
 export const getTags = (token) => (dispatch) => {
@@ -53,9 +70,22 @@ export const getTags = (token) => (dispatch) => {
     .catch((err) => dispatch(getTagsFailure(err)));
 };
 
+// TODO: ログインしているユーザーに紐付いたタグを取得する部分を実装する
+export const getUserTags = (token, id) => (dispatch) => {
+  dispatch(getUserTagsRequest());
+  return axios.get(`http://localhost:5000/api/v1/user_tags/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(getUserTagsSuccess(res.data.data.tags))
+    })
+    .catch((err) => dispatch(getUserTagsFailure(err)));
+};
+
 const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 
-// TODO: apiと接続する際はidを登録しないように変更
 export const postTag = (token, tag) => (dispatch) => {
   dispatch(postTagRequest());
   return axios.post('http://localhost:5000/api/v1/tags', tag, {
@@ -64,6 +94,18 @@ export const postTag = (token, tag) => (dispatch) => {
     .then((res) => {
       dispatch(postTagSuccess(res.data));
       dispatch(getTags(token));
+    })
+    .catch((err) => dispatch(postTagFailure(err)));
+};
+
+export const postUserTag = (token, id, tag) => (dispatch) => {
+  dispatch(postUserTagRequest());
+  return axios.post('http://localhost:5000/api/v1/user_tags', tag, {
+    headers: getHeaders(token),
+  })
+    .then((res) => {
+      dispatch(postUserTagSuccess(res.data));
+      dispatch(getUserTags(token));
     })
     .catch((err) => dispatch(postTagFailure(err)));
 };
