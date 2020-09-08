@@ -6,7 +6,7 @@ module Api
             #rikuiwasaki
             before_action :set_room,only: [:update,:show]
             def index
-                rooms = Room.all.order(updated_at: :desc)
+                rooms = Room.all.order(updated_at: :desc).select(:id,:name,:admin_id,:is_private,:start_time,:created_at,:updated_at)
                 render json: { status: 'SUCCESS',data: {
                     rooms: rooms } }
             end
