@@ -83,7 +83,7 @@ const CreateRoomDialog = () => {
     const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
-    }else if(!data.youtube_id.indexOf(url)){
+    }else if(data.youtube_id.indexOf(url)){
       setMsg('動画のURLに従っていません');
     }else if(data.youtube_id === ""){
       setMsg('URLが入力されていません')
@@ -110,7 +110,7 @@ const CreateRoomDialog = () => {
         {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
         {(() => {
-          if (err !== null && err !== undefined) {
+          if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
             return (
               <div>
                 <p> ルームはすでに存在しています </p>
