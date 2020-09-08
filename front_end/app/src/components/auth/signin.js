@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { useHistory } from 'react-router-dom';
 import { login } from '../../actions/authAction';
+import Alert from '@material-ui/lab/Alert'; 
 
 const useStyles = makeStyles(() => ({
   textBox: {
@@ -74,16 +75,16 @@ const Signin = () => {
           if (err !== null && err !== undefined) {
             return (
               <div>
-                <p> ユーザー名またはパスワードが違います </p>
-                <p>{ msg }</p>
+                <Alert severity="error"> <strong> ユーザー名またはパスワードが違います</strong> </Alert>
+              </div>
+            );
+          }else if(msg !== ""){
+            return (
+              <div>
+                <Alert severity="error"> <strong> { msg } </strong> </Alert>
               </div>
             );
           }
-          return (
-            <div>
-              <p>{ msg }</p>
-            </div>
-          );
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>

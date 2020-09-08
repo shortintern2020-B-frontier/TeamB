@@ -15,8 +15,10 @@ module Api
           response.headers['X-Authentication-Token'] = jwt_token
           render json: { status: "SUCCESS", data: @current_user, token: jwt_token }
         else
-          render status:401, json: { status: 'ERROR' ,error: "Unauthorized " }        end
+          render status:401, json: { status: 'ERROR' ,error: "Unauthorized " }
+        end
       end
+      
       #rikuiwasaki
       def user_params
         params.require(:user).permit(:name,:password)

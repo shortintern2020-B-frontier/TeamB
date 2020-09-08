@@ -2,7 +2,7 @@
  * Author: Hiranuma
  */
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -22,6 +22,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { getRooms } from '../../actions/roomAction';
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
+
+import axios from 'axios';
 
 const useStyles = makeStyles(() => ({
   tagCard: {
@@ -49,6 +51,8 @@ const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
+const API_KEY ='AIzaSyBucvcxbtF6SgdsVqEyqumQ-VM0E7dqCGM'
+
 const CreateRoomDialog = () => {
   const classes = useStyles();
   const createRoomProps = useSelector(createRoomSelector);
@@ -67,6 +71,20 @@ const CreateRoomDialog = () => {
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [apiData,setApiData] = useState([]);
+  const [url,setUrl] = useState('');
+  const [thumnail,setThumnail] = useState('');
+  const [title,setTitle] = useState('');
+
+  {/*yuyamiyata*/}
+  useEffect(() => {
+    axios.get(url)
+    .then(res => res.data.items[0].snippet)
+    .catch(() => console.log('YouTubeAPI Error'))
+    .then(res1 => setTitle(res1.title))
+    .then(res2 => setUrl(res2.thumbnails.default.url))
+  }, [url]);
+
   const handleOpen = () => {
     dispatch(openRoomDialog());
   };
@@ -81,6 +99,13 @@ const CreateRoomDialog = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+
+  {/*yuyamiyata*/}
+  const handleVideoInfo = (e) => {
+    const id = e.target.value.substr(32);
+    setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
+    setThumnail(`http://img.youtube.com/vi/${id}/default.jpg`)
   };
 
   const Submit = (data) => {
@@ -135,6 +160,11 @@ const CreateRoomDialog = () => {
             </div>
           );
         })()}
+        {/*yuyamiyata*/}
+        <div>
+          <img src={thumnail}/>
+          <p>{title}</p>
+        </div>
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
@@ -145,7 +175,7 @@ const CreateRoomDialog = () => {
               />
             </div>
             <div>
-              <TextField
+              <TextField onChange={handleVideoInfo}
                 name="youtube_id"
                 label="youtube url"
                 inputRef={register}
