@@ -10,7 +10,7 @@ module Api
             jwt_authenticate
 
             def create
-                room_tag = RoomTag.new(room_tag_params)
+                room_tag = RoomsTag.new(room_tag_params)
                 if room_tag.save
                     render json: { status: 'SUCCESS', data: { room_tag: room_tag } }
                   else
@@ -27,7 +27,7 @@ module Api
 
             def show
                 tag_id = @tag.id
-                rooms = Room.joins(:room_tags).where("tag_id = #{tag_id}")
+                rooms = Room.joins(:tags).where("tag_id = #{tag_id}")
                 render json: { status: 'SUCCESS',data: {rooms: rooms } }
             end
             
