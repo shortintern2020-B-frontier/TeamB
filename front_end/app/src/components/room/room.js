@@ -5,6 +5,7 @@ import React, { useEffect , useState} from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Chat from './chat';
 
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
@@ -42,6 +43,7 @@ const Room = () => {
         room name is
         {room.name}
       </p>
+      <Chat />
       <Button onClick={handleOut}>退室</Button>
     </div>
   );

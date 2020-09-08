@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { ActioncableProvider} from 'react-actioncable-provider';
-import Room from './room';
-import { useHistory } from 'react-router-dom';
+import { connectToWebsocket, closeWebsocket, sendMessage } from '../../actions/chatAction';
+import Button from '@material-ui/core/Button';
 
 const tokenSelector = (state) => state.auth.token;
 
-const ChatTest = () => {
+const Chat = () => {
+  const token = useSelector(tokenSelector);
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   let connection;
-  const token ='eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2MDAxNDAxMzd9.2DDXNKp-yH0e74m9Jtg-GAFzL786WDjucHdArIWLnnU';// useSelector(tokenSelector);
-  console.log(token)
+
   useEffect(() => {
+    dispatch(connectToWebsocket(token));
+    /*
     connection = new WebSocket('ws://localhost:5000/cable?token='+token)
-    console.log(connection)
     connection.onopen = function(){
       connection.send('Ping');
     }
@@ -20,16 +24,18 @@ const ChatTest = () => {
     connection.onerror = function (error) {
       console.log('WebSocket Error ' + error);
     };
-  
+
     // Log messages from the server
     connection.onmessage = function (e) {
       console.log('Server: ' + e.data);
     };
+    */
   }, []);
 
   return (
     <div>
+      <p>chat</p>
     </div>
   );
 };
-export default ChatTest;
+export default Chat;

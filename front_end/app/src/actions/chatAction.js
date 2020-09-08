@@ -1,39 +1,17 @@
 import axios from '../settings/axios';
 
-export const INIT_CHAT_REQUEST = 'INIT_CHAT_REQUEST';
-export const initChatRequest = () => ({
-  type: INIT_CHAT_REQUEST,
-});
-
-export const INIT_CHAT_SUCCESS = 'INIT_CHAT_SUCCESS';
-export const initChatSuccess = (ws) => ({
-  type: RELOAD_SUCCESS,
+export const INIT_CHAT = 'INIT_CHAT';
+export const initChat = (ws) => ({
+  type: INIT_CHAT,
   ws,
   receivedAt: Date.now(),
 });
 
-export const INIT_CHAT_FAILURE = 'INIT_CHAT_FAILURE';
-export const initChatFailure = (error) => ({
-  type: INIT_CHAT_FAILURE,
-  error,
-});
-
-export const POST_CHAT_REQUEST = 'POST_CHAT_REQUEST';
-export const postChatRequest = () => ({
-  type: POST_CHAT_REQUEST,
-});
-
-export const POST_CHAT_SUCCESS = 'POST_CHAT_SUCCESS';
-export const postChatSuccess = (msg) => ({
-  type: POST_CHAT_SUCCESS,
+export const POST_CHAT = 'POST_CHAT';
+export const postChat = (msg) => ({
+  type: POST_CHAT,
   msg,
   receivedAt: Date.now(),
-});
-
-export const POST_CHAT_FAILURE = 'POST_CHAT_FAILURE';
-export const postChatFailure = (error) => ({
-  type: POST_CHAT_FAILURE,
-  error,
 });
 
 export const CLOSE_CHAT = 'CLOSE_CHAT';
@@ -41,8 +19,15 @@ export const closeChat = () => ({
   type: CLOSE_CHAT,
 });
 
-export const connectToWebsocket = (token) => {
-  ws = new WebSocket('ws://localhost:5000/cable?token='+token);
+export const RECEIVE_CHAT = 'RECEIVE_CHAT';
+export const receiveChat = (msg) => ({
+  type: RECEIVE_CHAT,
+  msg,
+  receivedAt: Date.now(),
+})
+
+export const connectToWebsocket = (token) => (dispatch) => {
+  const ws = new WebSocket('ws://localhost:5000/cable?token='+token);
   ws.onopen = () => {
     ws.send('Ping');
   };
@@ -52,20 +37,23 @@ export const connectToWebsocket = (token) => {
   };
 
   ws.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
     console.log('Server: ' + e.data);
+    if( msg.type !== "welcome") {
+      dispatch(receiveMessage(msg.message));
+    }
   };
-
-  return (dispatch(initChatRequest()))
-    .then(() => dispatch(initChatSuccess(ws)))
-    .catch((err) => dispatch(initChatFailure(err)));
+  dispatch(initChat(ws));
 }
 
-export const closeWebsocket = () => {
+export const closeWebsocket = () => (dispatch) => {
   dispatch(closeChat());
 }
 
-export const sendMessage = (msg) => {
-  return (dispatch(sendChatRequest()))
-    .then(() => dispatch(sendChatSuccess(msg)))
-    .catch((err) => dispatch(sendChatFailure(err)));
+export const sendMessage = (msg) => (dispatch) => {
+  dispatch(sendChatSuccess(msg));
+}
+
+export const receiveMessage = (msg) => (dispatch) => {
+  dispatch(receiveChat(msg));
 }
