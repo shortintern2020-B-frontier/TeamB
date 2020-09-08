@@ -10,7 +10,7 @@ module Api
             jwt_authenticate
 
             def create
-                room_tag = RoomTag.new(room_tag_params)
+                room_tag = RoomsTag.new(room_tag_params)
                 if room_tag.save
                     render json: { status: 'SUCCESS', data: { room_tag: room_tag } }
                   else
