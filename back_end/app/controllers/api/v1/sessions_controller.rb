@@ -15,7 +15,7 @@ module Api
           response.headers['X-Authentication-Token'] = jwt_token
           render json: { status: "SUCCESS", data: @current_user, token: jwt_token }
         else
-          render status:401, json: {status: 'ERROR',error:"Unauthorized"}
+          render status:401, json: { status: 'ERROR' ,error: "Unauthorized " }
         end
       end
       
