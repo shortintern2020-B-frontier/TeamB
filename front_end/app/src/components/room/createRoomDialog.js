@@ -62,6 +62,7 @@ const CreateRoomDialog = () => {
   const [thumnail,setThumnail] = useState('');
   const [title,setTitle] = useState('');
 
+  {/*yuyamiyata*/}
   useEffect(() => {
     axios.get(url)
     .then(res => res.data.items[0].snippet)
@@ -86,6 +87,7 @@ const CreateRoomDialog = () => {
     setSelectedDate(date);
   };
 
+  {/*yuyamiyata*/}
   const handleVideoInfo = (e) => {
     const id = e.target.value.substr(32);
     setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
