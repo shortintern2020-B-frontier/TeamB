@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { getRoom } from '../../actions/roomAction';
 
-const roomSelector = (state) => state.room;
+const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 
 const Room = () => {
@@ -20,8 +19,9 @@ const Room = () => {
 
   useEffect(() => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
-    // TODO: 存在しないroomの場合、メインページに飛ばす
-    dispatch(getRoom(token, id));
+    // TODO: urlから取ったルームidが存在しない場合、メインページに飛ばす
+
+    
   }, []);
 
   return (
@@ -29,7 +29,7 @@ const Room = () => {
       <p>room page</p>
       <p>
         room name is
-        {room.room.name}
+        {room.name}
       </p>
       <Button onClick={handleOut}>退室</Button>
     </div>

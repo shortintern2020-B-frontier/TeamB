@@ -1,5 +1,5 @@
 import {
-  GET_ROOM_REQUEST, GET_ROOM_SUCCESS, GET_ROOM_FAILURE,
+  SET_ROOM,
 } from '../actions/roomAction';
 
 const initalState = {
@@ -9,21 +9,11 @@ const initalState = {
 
 const room = (state = initalState, action) => {
   switch (action.type) {
-    case GET_ROOM_REQUEST:
-      return {
-        isFetching: true,
-        room: {},
-      };
-    case GET_ROOM_SUCCESS:
+    case SET_ROOM:
       return {
         isFetching: false,
         room: action.room,
         lastUpdated: action.receivedAt,
-      };
-    case GET_ROOM_FAILURE:
-      return {
-        isFetching: false,
-        error: action.error,
       };
     default:
       return state;

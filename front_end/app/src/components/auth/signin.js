@@ -48,6 +48,12 @@ const Signin = () => {
    * @param {string} data.password - パスワード
    */
   const Submit = (data) => {
+    const user = JSON.stringify({
+      user: {
+        name: data.name,
+        password: data.password,
+      },
+    });
     if (data.name === '') {
       setMsg('ユーザー名が入力されていません');
     } else if (data.password === '') {
@@ -55,7 +61,7 @@ const Signin = () => {
     } else {
       setMsg('');
       // jsonデータに変形してから投げる
-      dispatch(login(JSON.stringify(data), history));
+      dispatch(login(user, history));
     }
   };
 

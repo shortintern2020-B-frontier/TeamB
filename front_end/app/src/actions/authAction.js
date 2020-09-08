@@ -65,10 +65,11 @@ export const signupFailure = (error) => ({
  */
 export const login = (user, history) => (dispatch) => {
   dispatch(loginRequest());
-  return axios.post('http://localhost:8000/auth/login', user)
+  // return axios.post('http://localhost:8000/auth/login', user)
+  return axios.post('http://localhost:5000/api/v1/login', user)
     .then((res) => {
-      localStorage.setItem('jwt', res.data.access_token);
-      dispatch(loginSuccess(res.data.access_token));
+      localStorage.setItem('jwt', res.data.token);
+      dispatch(loginSuccess(res.data.token));
       history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
@@ -85,10 +86,10 @@ export const login = (user, history) => (dispatch) => {
  */
 export const signup = (user, history) => (dispatch) => {
   dispatch(signupRequest());
-  return axios.post('http://localhost:8000/auth/signup', user)
+  return axios.post('http://localhost:5000/api/v1/users', user)
     .then((res) => {
-      localStorage.setItem('jwt', res.data.access_token);
-      dispatch(signupSuccess(res.data.access_token));
+      localStorage.setItem('jwt', res.data.token);
+      dispatch(signupSuccess(res.data.token));
       history.push('/');
     })
     .catch((err) => dispatch(signupFailure(err)));
@@ -101,7 +102,6 @@ export const signup = (user, history) => (dispatch) => {
 export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
   const jwt = localStorage.getItem('jwt');
-  console.log(jwt);
   if (jwt !== null) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));
 };

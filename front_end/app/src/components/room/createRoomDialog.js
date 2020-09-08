@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -38,6 +39,7 @@ const CreateRoomDialog = () => {
   const classes = useStyles();
   const createRoomProps = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
+  const history = useHistory();
 
   // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
   const rooms = useSelector(roomSelector);
@@ -69,15 +71,16 @@ const CreateRoomDialog = () => {
 
   const Submit = (data) => {
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
-    const roomData = {
-      id: rooms.length + 1,
-      name: data.name,
-      youtube_id: data.youtube_id,
-      is_private: isPrivate,
-      start_time: selectedDate,
-    };
+    const roomData = JSON.stringify({
+      room: {
+        name: data.name,
+        youtube_id: data.youtube_id.substr(32),//YuyaMiyata
+        is_private: isPrivate,
+        start_time: null,
+      },
+    });
 
-    dispatch(createRoom(token, roomData));
+    dispatch(createRoom(token, roomData, history));
     dispatch(getRooms(token));
     handleClose();
   };

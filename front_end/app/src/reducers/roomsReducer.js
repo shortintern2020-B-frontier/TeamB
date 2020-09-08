@@ -17,7 +17,7 @@ const rooms = (state = initalState, action) => {
     case GET_ROOMS_SUCCESS:
       return {
         isFetching: false,
-        rooms: action.rooms,
+        rooms: action.rooms.rooms,
         lastUpdated: action.receivedAt,
       };
     case GET_ROOMS_FAILURE:

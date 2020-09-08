@@ -12,7 +12,6 @@ describe 'RoomAPI' do
   it '新しいROOMを作成' do
     valid_params={name:'room1',
                   youtube_id:'1',
-                  admin_id:'1',
                   is_private:false,
                   start_time:Time.current
                 }
