@@ -29,7 +29,7 @@ module Api
             end
 
             def set_user
-              @user = User.find(parms[:id])
+              @user = User.find(params[:id])
             end
             #karakawa 
             #Kyosuke Yokota 
