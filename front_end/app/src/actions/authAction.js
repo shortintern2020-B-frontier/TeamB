@@ -74,7 +74,6 @@ export const login = (user, history) => (dispatch) => {
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem('id', res.data.data.id);
       dispatch(loginSuccess(res.data.token, res.data.data.id));
-      console.log(res.data)
       history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));

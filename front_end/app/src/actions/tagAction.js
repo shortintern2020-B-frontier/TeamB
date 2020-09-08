@@ -54,6 +54,24 @@ export const postTagFailure = (error) => ({
   error,
 });
 
+export const POST_USER_TAG_REQUEST = 'POST_USER_TAG_REQUEST';
+export const postUserTagRequest = () => ({
+  type: POST_USER_TAG_REQUEST,
+});
+
+export const POST_USER_TAG_SUCCESS = 'POST_USER_TAG_SUCCESS';
+export const postUserTagSuccess = (json) => ({
+  type: POST_USER_TAG_SUCCESS,
+  tag: json,
+  receivedAt: Date.now(),
+});
+
+export const POST_USER_TAG_FAILURE = 'POST_USER_TAG_FAILURE';
+export const postUserTagFailure = (error) => ({
+  type: POST_USER_TAG_FAILURE,
+  error,
+});
+
 // TODO: 引数に文字列を持った、検索機能を実装する
 
 export const getTags = (token) => (dispatch) => {
@@ -64,7 +82,6 @@ export const getTags = (token) => (dispatch) => {
     },
   })
     .then((res) => {
-      console.log(res.data.data);
       dispatch(getTagsSuccess(res.data.data.tags))
     })
     .catch((err) => dispatch(getTagsFailure(err)));
@@ -86,26 +103,37 @@ export const getUserTags = (token, id) => (dispatch) => {
 
 const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 
-export const postTag = (token, tag) => (dispatch) => {
+export const postTag = (token, tag, id) => (dispatch) => {
   dispatch(postTagRequest());
+  let tmp;
   return axios.post('http://localhost:5000/api/v1/tags', tag, {
     headers: getHeaders(token),
   })
     .then((res) => {
+      console.log(res);
       dispatch(postTagSuccess(res.data));
       dispatch(getTags(token));
+      tmp = res.data.data.tag;
     })
-    .catch((err) => dispatch(postTagFailure(err)));
+    .catch((err) => dispatch(postTagFailure(err)))
+    .then(() => dispatch(postUserTag(token, id, tmp)))
+    .catch((err) => dispatch(postUserTagFailure(err)));
 };
 
 export const postUserTag = (token, id, tag) => (dispatch) => {
   dispatch(postUserTagRequest());
-  return axios.post('http://localhost:5000/api/v1/user_tags', tag, {
+  const send_tag = JSON.stringify({
+    tag_user: {
+      tag_id: tag.id
+    }
+  });
+  console.log(send_tag);
+  return axios.post('http://localhost:5000/api/v1/user_tags', send_tag, {
     headers: getHeaders(token),
   })
     .then((res) => {
       dispatch(postUserTagSuccess(res.data));
-      dispatch(getUserTags(token));
+      dispatch(getUserTags(token, id));
     })
-    .catch((err) => dispatch(postTagFailure(err)));
+    .catch((err) => dispatch(postUserTagFailure(err)));
 };

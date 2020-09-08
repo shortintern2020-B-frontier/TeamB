@@ -89,7 +89,7 @@ const Tags = () => {
   }, []);
 
   const Submit = (data) => {
-    dispatch(postTag(token, JSON.stringify({ tag: data })));
+    dispatch(postTag(token, JSON.stringify({ tag: data }), id));
   };
 
   return (
