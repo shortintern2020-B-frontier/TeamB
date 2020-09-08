@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { signup } from '../../actions/authAction';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(() => ({
   textBox: {
@@ -70,8 +71,7 @@ const Signup = () => {
           if (err !== null && err !== undefined) {
             return (
               <div>
-                <p> そのユーザー名は既に使用されています </p>
-                <p>{ msg }</p>
+                <Alert severity="error"> <strong>そのユーザー名は既に使用されています </strong> </Alert>
               </div>
             );
           }
