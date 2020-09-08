@@ -11,7 +11,7 @@ module Api
             before_action :set_tag, only: [:show]
             def show
                 @room = Room.where(id: @room_ids)
-                render json: { status: 'test', data: { data: @room } }
+                render json: { status: 'SUCCESS', data: { data: @room } }
             end
 
             def set_tag 
