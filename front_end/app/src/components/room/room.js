@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,7 @@ const Room = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const [video,videoId] = useState(`${BASE_URL}${room.room.youtube_id}`)//yuyamiyata
+  const [video,setVideo] = useState(`${BASE_URL}`)//yuyamiyata
 
   const handleOut = () => {
     history.push('/');
@@ -22,9 +22,11 @@ const Room = () => {
   useEffect(() => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
     // TODO: urlから取ったルームidが存在しない場合、メインページに飛ばす
-
-    
   }, []);
+
+  useEffect(()=>{
+    setVideo(BASE_URL+'MSUoUUdBWRk')
+  },[])
 
   return (
     <div>
