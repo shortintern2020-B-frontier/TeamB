@@ -24,9 +24,10 @@ export const loginRequest = () => ({
 });
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const loginSuccess = (token) => ({
+export const loginSuccess = (token, id) => ({
   type: LOGIN_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
@@ -42,9 +43,10 @@ export const signupRequest = () => ({
 });
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const signupSuccess = (token) => ({
+export const signupSuccess = (token, id) => ({
   type: SIGNUP_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
@@ -69,7 +71,9 @@ export const login = (user, history) => (dispatch) => {
   return axios.post('http://localhost:5000/api/v1/login', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.token);
-      dispatch(loginSuccess(res.data.token));
+      localStorage.setItem('id', res.data.data.id);
+      dispatch(loginSuccess(res.data.token, res.data.data.id));
+      console.log(res.data)
       history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
@@ -89,7 +93,8 @@ export const signup = (user, history) => (dispatch) => {
   return axios.post('http://localhost:5000/api/v1/users', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.token);
-      dispatch(signupSuccess(res.data.token));
+      localStorage.setItem('id', res.data.data.id);
+      dispatch(signupSuccess(res.data.token, res.data.data.id));
       history.push('/');
     })
     .catch((err) => dispatch(signupFailure(err)));
@@ -102,6 +107,7 @@ export const signup = (user, history) => (dispatch) => {
 export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
   const jwt = localStorage.getItem('jwt');
-  if (jwt !== null) dispatch(reloadSuccess(jwt));
+  const id = localStorage.getItem('id');
+  if (jwt !== null && id !== null) dispatch(reloadSuccess(jwt, id));
   else dispatch(reloadFailure('cannot load jwt token'));
 };
