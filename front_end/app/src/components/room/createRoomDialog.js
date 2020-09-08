@@ -1,3 +1,7 @@
+/**
+ * Author: Hiranuma
+ */
+
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -28,6 +32,16 @@ const useStyles = makeStyles(() => ({
   switchPosition: {
     'text-align': 'center',
   },
+
+  button: {
+    color: 'white',
+    backgroundColor: '',
+  },
+
+  roomButton: {
+    color: 'white',
+    backgroundColor: "gray",
+  }
 }));
 
 const createRoomSelector = (state) => state.createRoom;
@@ -79,7 +93,6 @@ const CreateRoomDialog = () => {
         start_time: null,
       },
     });
-    // Hiranuma Tomoyuki
     const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
@@ -93,12 +106,11 @@ const CreateRoomDialog = () => {
       dispatch(getRooms(token));
       handleClose();
     }
-    // Hiranuma Tomoyuki
   };
 
   return (
     <div>
-      <Button onClick={handleOpen}>
+      <Button onClick={handleOpen} className={classes.roomButton}>
         ルーム作成
       </Button>
       <Dialog
@@ -107,7 +119,6 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
@@ -175,7 +186,6 @@ const CreateRoomDialog = () => {
             </Paper>
 
           </DialogContent>
-          {/* hiranuma */}
           <DialogActions>
             <Button onClick={handleClose} variant="contained">Cancel</Button>
             <Button type="submit" variant="contained" color="secondary">
