@@ -1,3 +1,6 @@
+/* 
+*yuya miyata (youtube api)
+*/
 import React, { useEffect , useState} from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +28,7 @@ const Room = () => {
   }, []);
 
   useEffect(()=>{
-    setVideo(BASE_URL+'MSUoUUdBWRk')
+    setVideo(BASE_URL+room.youtube_id)
   },[])
 
   return (
