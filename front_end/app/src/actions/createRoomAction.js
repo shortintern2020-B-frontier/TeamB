@@ -1,4 +1,5 @@
 import axios from '../settings/axios';
+import { setRoom } from './roomAction'
 
 export const CREATE_ROOM_REQUEST = 'CREATE_ROOM_REQUEST';
 export const createRoomRequest = () => ({
@@ -6,9 +7,8 @@ export const createRoomRequest = () => ({
 });
 
 export const CREATE_ROOM_SUCCESS = 'CREATE_ROOM_SUCCESS';
-export const createRoomSuccess = (id) => ({
+export const createRoomSuccess = () => ({
   type: CREATE_ROOM_SUCCESS,
-  room_id: id,
   receivedAt: Date.now(),
 });
 
@@ -38,12 +38,17 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
  * @param {string} token - jwtのtoken
  * @param {Object} data - ルーム作成を行うのに必要なデータ
  */
-export const createRoom = (token, data) => (dispatch) => {
+export const createRoom = (token, data, history) => (dispatch) => {
   dispatch(createRoomRequest());
   return axios.post('http://localhost:5000/api/v1/rooms', data, {
     headers: getHeaders(token),
   })
-    .then((res) => dispatch(createRoomSuccess(res.data)))
+    .then((res) => {
+      console.log(res);
+      dispatch(createRoomSuccess(res.data))
+      dispatch(setRoom(res.data.data))
+      history.push(`/rooms/${res.data.data.room.id}`);
+    })
     .catch((err) => dispatch(createRoomFailure(err)));
 };
 

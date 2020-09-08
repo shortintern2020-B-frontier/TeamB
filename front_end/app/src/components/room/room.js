@@ -20,6 +20,8 @@ const Room = () => {
   useEffect(() => {
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
     // TODO: urlから取ったルームidが存在しない場合、メインページに飛ばす
+
+    
   }, []);
 
   return (
