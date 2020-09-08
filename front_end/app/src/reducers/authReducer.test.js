@@ -43,10 +43,9 @@ describe('auth reducer', () => {
   });
 
   test('should handle SIGNUP_SUCCESS', () => {
-    const accessToken = 'token';
-    const token = { access_token: 'token' };
+    const token = 'token';
     const expectedObject = {
-      token: accessToken,
+      token,
       isLoggedIn: true,
       isLoading: false,
       lastUpdated: Date.now(),
@@ -92,10 +91,9 @@ describe('auth reducer', () => {
   });
 
   test('should handle LOGIN_SUCCESS', () => {
-    const accessToken = 'token';
-    const token = { access_token: 'token' };
+    const token = 'token';
     const expectedObject = {
-      token: accessToken,
+      token,
       isLoggedIn: true,
       isLoading: false,
       lastUpdated: Date.now(),

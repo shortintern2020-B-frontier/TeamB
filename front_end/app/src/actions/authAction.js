@@ -26,7 +26,7 @@ export const loginRequest = () => ({
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const loginSuccess = (token) => ({
   type: LOGIN_SUCCESS,
-  token: token,
+  token,
   receivedAt: Date.now(),
 });
 
@@ -44,7 +44,7 @@ export const signupRequest = () => ({
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const signupSuccess = (token) => ({
   type: SIGNUP_SUCCESS,
-  token: token,
+  token,
   receivedAt: Date.now(),
 });
 
@@ -69,7 +69,7 @@ export const login = (user, history) => (dispatch) => {
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
       dispatch(loginSuccess(res.data.access_token));
-      history.push("/");
+      history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
 };
@@ -89,7 +89,7 @@ export const signup = (user, history) => (dispatch) => {
     .then((res) => {
       localStorage.setItem('jwt', res.data.access_token);
       dispatch(signupSuccess(res.data.access_token));
-      history.push("/");
+      history.push('/');
     })
     .catch((err) => dispatch(signupFailure(err)));
 };

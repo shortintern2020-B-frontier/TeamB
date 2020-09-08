@@ -10,8 +10,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { login } from '../../actions/authAction';
 import { useHistory } from 'react-router-dom';
+import { login } from '../../actions/authAction';
 
 const useStyles = makeStyles(() => ({
   textBox: {

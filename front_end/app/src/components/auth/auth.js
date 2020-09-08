@@ -27,7 +27,6 @@ const Auth = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(reload());
     console.log(auth);
