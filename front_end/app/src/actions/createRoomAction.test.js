@@ -33,14 +33,12 @@ describe('create Action', () => {
   });
 
   test('check create room action success', () => {
-    const data = 1;
 
     const expectedAction = {
       type: CREATE_ROOM_SUCCESS,
-      room_id: data,
       receivedAt: Date.now(),
     };
-    expect(createRoomSuccess(data)).toEqual(expectedAction);
+    expect(createRoomSuccess()).toEqual(expectedAction);
   });
 
   test('check create room action failed', () => {
