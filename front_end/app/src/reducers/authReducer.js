@@ -11,8 +11,6 @@ const initialState = {
   isLoading: true,
 };
 
-// TODO: 実際のapiを組み込むときに変更する
-// json_serverだと、tokenの値はaccess_tokenでアクセス出来る
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP_REQUEST:
