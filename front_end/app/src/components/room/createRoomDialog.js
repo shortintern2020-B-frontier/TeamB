@@ -72,7 +72,7 @@ const CreateRoomDialog = () => {
     const roomData = {
       id: rooms.length + 1,
       name: data.name,
-      youtube_id: data.youtube_id,
+      youtube_id: data.youtube_id.substr(32),//YuyaMiyata
       is_private: isPrivate,
       start_time: selectedDate,
     };
