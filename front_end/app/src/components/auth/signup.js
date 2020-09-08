@@ -52,7 +52,7 @@ const Signup = () => {
       user: {
         name: data.name,
         password: data.password,
-      }
+      },
     });
     if (data.name === '') {
       setMsg('ユーザー名が入力されていません');

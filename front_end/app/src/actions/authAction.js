@@ -65,7 +65,7 @@ export const signupFailure = (error) => ({
  */
 export const login = (user, history) => (dispatch) => {
   dispatch(loginRequest());
-  //return axios.post('http://localhost:8000/auth/login', user)
+  // return axios.post('http://localhost:8000/auth/login', user)
   return axios.post('http://localhost:5000/api/v1/login', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.token);
