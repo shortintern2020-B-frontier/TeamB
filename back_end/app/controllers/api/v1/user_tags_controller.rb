@@ -8,7 +8,22 @@ module Api
         class UserTagsController < ApplicationController
             include JwtAuthenticator
             jwt_authenticate
+
+            #karakawa
             before_action :set_user , only: [:show]
+            
+            #ユーザーのタグの解除
+            def destroy
+              tag_id = params[:id]
+              destroy_tag_user = TagsUser.find_by("user_id = #{@current_user.id} and tag_id = #{tag_id}")
+              if destroy_tag_user != nil
+                destroy_tag_user.destroy
+                render json: { status: 'SUCCESS', message: 'Delete tag_user', data:{tag_user: destroy_tag_user} }
+              else
+                render json: {status: 'ERROR', message: "Not found users' tag"}
+              end
+            end
+            #karakara
 
             def create
                 tag_user_info = tag_user_params
@@ -27,16 +42,18 @@ module Api
               @tags = @user.tags
               render json: { status: 'SUCCESS', data: { tags: @tags} }
             end
-
+            
+            private
             def set_user
-              @user = User.find(parms[:id])
+              @user = User.find(params[:id])
             end
-            #karakawa 
+            
             #Kyosuke Yokota 
             def tag_user_params
                 params.require(:tag_user).permit(:tag_id)
             end
             #KyosukeYokota
+
         end
     end
 end
