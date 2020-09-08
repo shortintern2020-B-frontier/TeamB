@@ -34,7 +34,7 @@ const errorSelector = (state) => state.auth.login_error;
 
 const Signin = () => {
   const classes = useStyles();
-  const [ msg, setMsg ] = useState("");
+  const [msg, setMsg] = useState('');
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -48,12 +48,12 @@ const Signin = () => {
    * @param {string} data.password - パスワード
    */
   const Submit = (data) => {
-    if( data.name === "" ) {
-      setMsg("ユーザー名が入力されていません");
-    } else if( data.password === "" ) {
-      setMsg("パスワードが入力されていません");
+    if (data.name === '') {
+      setMsg('ユーザー名が入力されていません');
+    } else if (data.password === '') {
+      setMsg('パスワードが入力されていません');
     } else {
-      setMsg("");
+      setMsg('');
       // jsonデータに変形してから投げる
       dispatch(login(JSON.stringify(data), history));
     }
@@ -65,20 +65,19 @@ const Signin = () => {
         <AccountCircle fontSize="large" />
         <h2>ログイン</h2>
         {(() => {
-          if( err !== null && err !== undefined) {
+          if (err !== null && err !== undefined) {
             return (
               <div>
                 <p> ユーザー名またはパスワードが違います </p>
                 <p>{ msg }</p>
               </div>
-            )
-          } else {
-            return (
-              <div>
-                <p>{ msg }</p>
-              </div>
-            )
+            );
           }
+          return (
+            <div>
+              <p>{ msg }</p>
+            </div>
+          );
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>

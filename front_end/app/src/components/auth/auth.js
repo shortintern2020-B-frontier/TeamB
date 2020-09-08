@@ -29,7 +29,7 @@ const Auth = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("test");
+    console.log('test');
     dispatch(reload());
     console.log(auth);
   }, [location.pathname || auth.isLoading]);

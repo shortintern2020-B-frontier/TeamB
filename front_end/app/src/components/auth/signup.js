@@ -34,7 +34,7 @@ const errorSelector = (state) => state.auth.signup_error;
 
 const Signup = () => {
   const classes = useStyles();
-  const [ msg, setMsg ] = useState("");
+  const [msg, setMsg] = useState('');
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -49,10 +49,10 @@ const Signup = () => {
    */
   const Submit = (data) => {
     // jsonデータに変形してから投げる
-    if( data.name === "" ) {
-      setMsg("ユーザー名が入力されていません");
-    } else if( data.password === "" ) {
-      setMsg("パスワードが入力されていません");
+    if (data.name === '') {
+      setMsg('ユーザー名が入力されていません');
+    } else if (data.password === '') {
+      setMsg('パスワードが入力されていません');
     } else dispatch(signup(JSON.stringify(data), history));
   };
 
@@ -62,20 +62,19 @@ const Signup = () => {
         <AccountCircle fontSize="large" />
         <h2>登録</h2>
         {(() => {
-          if( err !== null && err !== undefined) {
+          if (err !== null && err !== undefined) {
             return (
               <div>
                 <p> そのユーザー名は既に使用されています </p>
                 <p>{ msg }</p>
               </div>
-            )
-          } else {
-            return (
-              <div>
-                <p>{ msg }</p>
-              </div>
-            )
+            );
           }
+          return (
+            <div>
+              <p>{ msg }</p>
+            </div>
+          );
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>
