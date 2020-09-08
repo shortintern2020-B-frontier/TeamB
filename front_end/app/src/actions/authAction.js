@@ -36,6 +36,24 @@ export const loginFailure = (error) => ({
   error,
 });
 
+export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
+export const signupRequest = () => ({
+  type: SIGNUP_REQUEST,
+});
+
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const signupSuccess = (token) => ({
+  type: SIGNUP_SUCCESS,
+  token,
+  receivedAt: Date.now(),
+});
+
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const signupFailure = (error) => ({
+  type: SIGNUP_FAILURE,
+  error,
+});
+
 // TODO: 実際のapiを叩く箇所を実装する
 // TODO: redux-thunkに置き換える
 /**
@@ -43,24 +61,48 @@ export const loginFailure = (error) => ({
  * @param {Object} user - ログインに必要なデータが格納されている
  * @param {string} user.name - ユーザー名
  * @param {string} user.password - パスワード
+ * @param {function} history - ログイン後に遷移を管理する関数
  */
-export const login = (user) => (dispatch) => {
+export const login = (user, history) => (dispatch) => {
   dispatch(loginRequest());
-  return axios.post('http://localhost:8000/auth/login', user)
+  // return axios.post('http://localhost:8000/auth/login', user)
+  return axios.post('http://localhost:5000/api/v1/login', user)
     .then((res) => {
-      localStorage.setItem('jwt', res.data.access_token);
-      dispatch(loginSuccess(res.data));
+      localStorage.setItem('jwt', res.data.token);
+      dispatch(loginSuccess(res.data.token));
+      history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
+};
+
+// TODO: 実際のapiを叩く箇所を実装する
+// TODO: redux-thunkに置き換える
+/**
+ * 登録アクションをdispatchする
+ * @param {Object} user - ログインに必要なデータが格納されている
+ * @param {string} user.name - ユーザー名
+ * @param {string} user.password - パスワード
+ * @param {function} history - ログイン後に遷移を管理する関数
+ */
+export const signup = (user, history) => (dispatch) => {
+  dispatch(signupRequest());
+  return axios.post('http://localhost:5000/api/v1/users', user)
+    .then((res) => {
+      localStorage.setItem('jwt', res.data.token);
+      dispatch(signupSuccess(res.data.token));
+      history.push('/');
+    })
+    .catch((err) => dispatch(signupFailure(err)));
 };
 
 /**
  * 画面がリロードされた際に、localstrageからログイン情報を取得する
  * jwtの取得の可否に応じてstateを更新する
  */
-export const reload = (jwt) => (dispatch) => {
+export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
-
+  const jwt = localStorage.getItem('jwt');
+  console.log(jwt);
   if (jwt !== null) dispatch(reloadSuccess(jwt));
   else dispatch(reloadFailure('cannot load jwt token'));
 };

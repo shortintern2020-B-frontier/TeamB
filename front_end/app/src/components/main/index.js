@@ -1,26 +1,20 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from '../../settings/axios';
-import { getPosts } from '../../actions/postAction';
+import { useHistory } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { getRooms } from '../../actions/roomAction';
 
-export const mainSelector = (state) => {
-  const { length } = state.posts;
-  return state.posts[length - 1];
-};
+const mainSelector = (state) => state.rooms;
+const tokenSelector = (state) => state.auth.token;
 
-export const tokenSelector = (state) => state.auth.token;
+export const RoomList = (rooms) => {
+  const history = useHistory();
 
-export const check = () => {
-  axios.get('http://localhost:5000/api/v1/hello#show')
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err));
-};
+  const handleClick = (id) => {
+    history.push(`/rooms/${id}`);
+  };
 
-export const PostList = (posts) => {
-  useEffect(() => {
-    check();
-  }, []);
-  if (posts.isFetching) {
+  if (rooms.isFetching) {
     return (
       <p>loading</p>
     );
@@ -28,14 +22,15 @@ export const PostList = (posts) => {
   return (
     <ul>
       {
-        posts.items.map((post, index) => (
+        rooms.rooms.map((room, index) => (
           <li key={index.toString()}>
             <p>
               { index }
               番目:
               {' '}
-              { post.title }
+              { room.name }
             </p>
+            <Button onClick={() => handleClick(room.id)}>入室</Button>
           </li>
         ))
       }
@@ -44,17 +39,17 @@ export const PostList = (posts) => {
 };
 
 export const Main = () => {
-  const posts = useSelector(mainSelector);
+  const rooms = useSelector(mainSelector);
   const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts(token));
+    dispatch(getRooms(token));
   }, []);
 
   return (
     <div>
-      <PostList {...posts} />
+      <RoomList {...rooms} />
     </div>
   );
 };
