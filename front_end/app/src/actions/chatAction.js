@@ -30,6 +30,8 @@ export const connectToWebsocket = (token) => (dispatch) => {
   const ws = new WebSocket('ws://localhost:5000/cable?token='+token);
   ws.onopen = () => {
     ws.send('Ping');
+    var msg={"command":"subscribe","identifier":"{\"channel\":\"RoomChannel\"}"}
+    ws.send(JSON.stringify(msg));
   };
 
   ws.onerror = (error) => {
