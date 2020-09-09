@@ -22,14 +22,25 @@ module Api
             #karakawa
 
             def destroy #Roomを:idで指定、tag_idをparamとして受け付ける
-                room_id = params[:id]
-                tag_id = tag_id_params[:tag_id]
-                @room_tag = RoomsTag.where("tag_id = #{tag_id} and room_id = #{room_id}")
-                if @room_tag.destroy
-                    rener status:200 json: {status: 'SUCCESS'}
+                # room_id = params[:id]
+                room = Room.find_by(id: params[:id])
+                # tag_id = tag_id_param[:tag_id]
+                # render json:{room: room}
+                # 中間テーブルの削除ってことよね
+                if room.tags.delete.find_by(tag_id_param) 
+                    render status:200, json:{status: 'SUCCESS'}
                 else
-                    render status:500 json: {status: 'ERROR'}
+                    render status:500, json: {status: 'ERROR'}
                 end 
+                # tag_id = tag_id_param[:tag_id]
+                # room_tag = RoomsTag.find_by(tag_id: tag_id , room_id: room_id)
+                # render json: {room_tag: room_tag}
+                # , room_id: room_id, tag_id: tag_id}
+                # if room_tag.destroy
+                #     render status:200, json: {status: 'SUCCESS'}
+                # else
+                #     render status:500, json: {status: 'ERROR'}
+                # end 
             end
 
             
@@ -45,7 +56,7 @@ module Api
                     @tag=Tag.find(params[:id])
                 end
 
-                def tag_id_params
+                def tag_id_param
                     params.require(:room_tag).permit(:tag_id)
                 end
                 
