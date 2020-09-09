@@ -9,7 +9,8 @@ import Chat from './chat';
 import { closeWebsocket } from '../../actions/chatAction';
 import { setRoom } from '../../actions/roomAction';
 import { exitRoom } from '../../actions/roomAction';
-
+import {getRoomUsers} from '../../actions/roomAction';
+import {enterUser} from '../../actions/userAction';
 import { makeStyles } from '@material-ui/core/styles';
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -31,17 +32,42 @@ const useStyles = makeStyles(() => ({
     margin: 20,
   }
 }));
-
+const roomUsersSelector = (state) => state.roomUsers;
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
 const BASE_URL = 'https://www.youtube.com/embed/'
 
+export const RoomUsers = (roomUsers) => {
+  const dispatch = useDispatch();
+  const token = useSelector(tokenSelector);
+  const history = useHistory();
+
+  const handleClick =(index)=>{
+    dispatch(enterUser(token,history,roomUsers.roomUsers[index]))
+  }
+  if (roomUsers.isFetching) {
+    return (
+      <p>loading</p>
+    );
+  }
+  return (
+    <div>
+      "入室中のユーザ一覧"
+    { 
+      roomUsers.roomUsers.map((user, index) =>(
+        <Button onClick={() => handleClick(index)} variant="contained"  >{user.name}</Button>
+        ))
+    }
+  </div>
+  );
+}
 const Room = () => {
   const classes = useStyles();
   const room = useSelector(roomSelector);
   const token = useSelector(tokenSelector);
   const ws = useSelector(websocketSelector);
+  const roomUsers = useSelector(roomUsersSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
@@ -54,6 +80,7 @@ const Room = () => {
   };
 
   useEffect(() => {
+    dispatch(getRoomUsers(token));
     const id = Number(location.pathname.replace(/[^0-9]/g, ''));
     // TODO: urlから取ったルームidが存在しない場合、メインページに飛ばす
   }, []);
@@ -97,6 +124,7 @@ const Room = () => {
       <h4 className={classes.texts}>
         {room.start_time}
       </h4>
+      <RoomUsers {...roomUsers}/>
     </div>
   );
 };

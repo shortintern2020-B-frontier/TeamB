@@ -11,12 +11,29 @@ export const getUsersSuccess = (json) => ({
   users: json,
   receivedAt: Date.now(),
 });
-
 export const GET_USERS_FAILURE = 'GET_USERS_FAILURE';
 export const getUsersFailure = (error) => ({
   type: GET_USERS_FAILURE,
   error,
 });
+
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+export const getUserFailure = (error) => ({
+  type: GET_USER_FAILURE,
+  error,
+});
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const getUserRequest = () => ({
+  type: GET_USER_REQUEST,
+});
+
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const getUserSuccess = (json) => ({
+  type: GET_USER_SUCCESS,
+  user: json,
+  receivedAt: Date.now(),
+});
+
 
 export const ENTER_USER_REQUEST = 'ENTER_USER_REQUEST';
 export const enterUserRequest = () => ({
@@ -52,6 +69,7 @@ export const existUserFailure = (error) => ({
   error,
 })
 
+
 export const SET_USER = 'SET_USER';
 export const setUser = (user) => ({
   type: SET_USER,
@@ -60,16 +78,10 @@ export const setUser = (user) => ({
 });
 
 export const enterUser = (token, history, user) => (dispatch) => {
-  console.log('user_geting')
 
   dispatch(enterUserRequest());
-  console.log(user)
-  const id = JSON.stringify({
-    user: {
-      id: user.id
-    }
-  });
-  return axios.get('http://localhost:5000/api/v1/users', id, {
+  const id = user.id;
+  return axios.get(`http://localhost:5000/api/v1/users/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -98,18 +110,26 @@ export const exitUser = (token) => (dispatch) => {
     .catch((err) => dispatch(existUserFailure(err)));
 }
 
+
+
 export const getUsers = (token) => (dispatch) => {
   dispatch(getUsersRequest());
-  console.log('user_geting')
   return axios.get('http://localhost:5000/api/v1/users', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
-      console.log('------------')
-      console.log(res.data.data.users)
       dispatch(getUsersSuccess(res.data.data.users))
+    })
+    .catch((err) => dispatch(getUsersFailure(err)));
+};
+export const getUser = (id) => (dispatch) => {
+  dispatch(getUserRequest());
+  return axios.get(`http://localhost:5000/api/v1/users/${id}`)
+    .then((res) => {
+      console.log(res.data.data.user)
+      dispatch(getUserSuccess(res.data.data.user))
     })
     .catch((err) => dispatch(getUsersFailure(err)));
 };

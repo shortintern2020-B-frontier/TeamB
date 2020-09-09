@@ -11,6 +11,7 @@ import ChatTest from './components/room/chat';
 import Room from './components/room/room';
 import Tags from './components/tag/tags';
 import Users from './components/user/users';
+import User from './components/user/user';
 const Notfound = () => (
   <div> 404 not found</div>
 );
@@ -27,6 +28,7 @@ const Root = () => (
       <Auth>
         <Switch>
           <Route exact path="/users" render={() => <Users />} />
+          <Route exact path="/users/:id" render={() => <User />} />
           <Route exact path="/" render={() => <Main />} />
           <Route exact path="/rooms/:id" render={() => <Room />} />
           <Route exact path="/tags" render={() => <Tags />} />

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { setUser } from '../../actions/userAction';
 import { exitUser } from '../../actions/userAction';
-import {getUsers} from '../../actions/roomAction';
+import {getUser} from '../../actions/userAction';
 import { makeStyles } from '@material-ui/core/styles';
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -30,9 +30,26 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const userSelector = (state) => state.user.user;
+const userSelector = (state) => state.user;
 const tokenSelector = (state) => state.auth.token;
-
+export const UserPrint = (user) => {
+  const classes = useStyles()
+  if (user.isFetching) {
+    return (
+      <p>loading</p>
+    );
+  }
+  console.log(user.user)
+  return (
+    <div>
+      {
+        <div>
+          user_name {user.user.name }
+        </div>
+      }
+    </div>
+  );
+};
 const User = () => {
   const classes = useStyles();
   const user = useSelector(userSelector);
@@ -42,38 +59,18 @@ const User = () => {
   const history = useHistory();
 
   const handleOut = () => {
-    dispatch(exitUser(token));
     history.push('/');
   };
 
-
-
   useEffect(() => {
-    setUser(user.id)
-  }, [user])
+    const id = Number(location.pathname.replace(/[^0-9]/g, ''));
+    dispatch(getUser(id));
+  }, [])
 
 
   return (
     <div>
-      <div>
-        <Button onClick={handleOut} className={classes.botton}>フォローボタン</Button>
-        <h3 className={classes.name}>
-        {(() => {
-          if (user === undefined) {
-            console.log(user);
-            return (<p>not found</p>)
-          } else {
-              return (
-                <div>
-                  <h1>{user.name} <LockOpenIcon fontSize="large" /></h1>
-                </div>
-              )
-            
-          }
-        })()}
-      </h3>
-      </div>
-        {user.name}
+      <UserPrint {...user} />
     </div>
   );
 };

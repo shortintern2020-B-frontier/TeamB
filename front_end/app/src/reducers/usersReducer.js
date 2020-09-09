@@ -1,26 +1,26 @@
 import {
-  GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE,
+  GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE,
 } from '../actions/userAction';
 
 const initalState = {
   isFetching: false,
-  user: [],
+  users: [],
 };
 
-const user = (state = initalState, action) => {
+const users = (state = initalState, action) => {
   switch (action.type) {
-    case GET_USER_REQUEST:
+    case GET_USERS_REQUEST:
       return {
         isFetching: true,
-        user: [],
+        users: [],
       };
-    case GET_USER_SUCCESS:
+    case GET_USERS_SUCCESS:
       return {
         isFetching: false,
-        user: action.user,
+        users: action.users,
         lastUpdated: action.receivedAt,
       };
-    case GET_USER_FAILURE:
+    case GET_USERS_FAILURE:
       return {
         isFetching: false,
         error: action.error,
@@ -30,4 +30,4 @@ const user = (state = initalState, action) => {
   }
 };
 
-export default user;
+export default users;

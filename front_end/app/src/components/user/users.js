@@ -7,12 +7,13 @@ import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { getUsers, postUser } from '../../actions/userAction';
+import { getUsers} from '../../actions/userAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';  // Hiranuma
+import users from '../../reducers/usersReducer';
 
 const useStyles = makeStyles ((theme)=>({
   root:{
@@ -61,6 +62,7 @@ const useStyles = makeStyles ((theme)=>({
 const tokenSelector = (state) => state.auth.token;
 const userIDSelector = (state) => state.auth.id;
 const usersSelector = (state) => state.users;
+const errorSelector = (state) => state.users.error; // Hiranuma
 
 export const UserList = (users) => {
   const classes = useStyles()
@@ -68,23 +70,21 @@ export const UserList = (users) => {
     return (
       <p>loading</p>
     );
-  }
-  return (
-    <div>
-      {
-        users.users.map((user, index) => (
-          <Paper className={classes.user}>
-          <div key={index.toString()} >
-            <div>
-              {'# '}
-              { user.name }
+  }else{
+    return (
+      <div>
+        {
+          users.users.map((user, index) =>(
+            <div key={index.toString()}>
+              name:{user.name}
+  
             </div>
-          </div>
-          </Paper>
-        ))
-      }
-    </div>
-  );
+          ))
+        }
+      </div>
+    );
+  }
+
 };
 
 
@@ -97,38 +97,28 @@ const Users = () => {
   const location = useLocation();
   const { register, handleSubmit } = useForm();
   const [msg, setMsg] = useState('');   // Hiranuma
+  const err = useSelector(errorSelector);   // Hiranuma
 
   const [isNewUser, setIsNewUser] = useState(false);
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
     dispatch(getUsers(token));
   }, []);
 
-  const Submit = (data) => {
-    // Hiranuma
-    // TODO
-    if(data.name === ""){
-      setMsg('タグ名が入力されていません');
-    }else{
-      setMsg('');
-      dispatch(postUser(token, JSON.stringify({ user: data }), id));
-    }
-    // Hiranuma
-  };
 
   return (
     <div className>
       <h2 className={classes.main}>Add Your Favorite</h2>
-      {(() => {
-        if( true ) {
-          return (
-              <Paper elevation={0} variant="outlined" className={classes.userPanel, classes.left}>
-                <UserList {...users} />
-              </Paper>
-          )
-        }
-      })()}
-
+        <Paper className={classes.paper} elevation={5}>
+ 
+          <Grid item>
+          <p className={classes.left}>Users</p>
+          <Paper elevation={0} variant="outlined" className={classes.userPanel, classes.left}>
+            <UserList {...users} />
+          </Paper>
+          </Grid>
+        </Paper>
     </div>
   );
 };
