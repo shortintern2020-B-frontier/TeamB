@@ -79,14 +79,9 @@ export const enterRoom = (token, room) => (dispatch) => {
     .catch((err) => dispatch(getRoomsFailure(err)));
 };
 
-export const exitRoom = (token, user_id, room_id) => (dispatch) => {
+export const exitRoom = (token) => (dispatch) => {
   dispatch(existRoomRequest());
-  const id = JSON.stringify({
-    user: {
-      room_id: room_id
-    }
-  });
-  return axios.get(`http://localhost:5000/api/v1/room_users/${user_id}`, {
+  return axios.get('http://localhost:5000/api/v1/room_users/leave', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

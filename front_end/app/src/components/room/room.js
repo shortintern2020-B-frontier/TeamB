@@ -13,21 +13,19 @@ import { exitRoom } from '../../actions/roomAction';
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
-const userSelector = (state) => state.auth.id;
 const BASE_URL ='https://www.youtube.com/embed/'
 
 const Room = () => {
   const room = useSelector(roomSelector);
   const token = useSelector(tokenSelector);
   const ws = useSelector(websocketSelector);
-  const id = useSelector(userSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const [video,setVideo] = useState(`${BASE_URL}`)//yuyamiyata
 
   const handleOut = () => {
-    dispatch(exitRoom(token, id, room.id));
+    dispatch(exitRoom(token));
     dispatch(closeWebsocket(ws));
     history.push('/');
   };
@@ -39,7 +37,7 @@ const Room = () => {
 
   useEffect(()=>{
     const local_room = JSON.parse(localStorage.getItem('room'));
-    if( local_room !== null ) {
+    if( local_room !== null && room.youtube_id !== local_room.youtube_id ) {
       dispatch(setRoom(local_room));
     }
     setVideo(BASE_URL+room.youtube_id)
