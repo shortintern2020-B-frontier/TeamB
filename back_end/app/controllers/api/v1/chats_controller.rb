@@ -13,7 +13,6 @@ module Api
                 chat_info[:user_id] = @current_user.id
                 @new_chat=Chat.new(chat_info)
                 if @new_chat.save
-                    @room=Room.find(1)
                     RoomChannel.broadcast_to("room_#{chat_info[:room_id]}",@new_chat)
                     render json: { status: 'SUCCESS', data: { chat: @new_chat } }
                 else 
