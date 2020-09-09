@@ -130,6 +130,7 @@ const Tags = () => {
       {(() => {
         if( isNewUser ) {
           return (
+            // hiranuma
             <Grid container justify="center" className={classes.alert}>
               <Alert><strong>ユーザー登録完了</strong></Alert>
             </Grid>
@@ -142,6 +143,7 @@ const Tags = () => {
           {(() => {
             if (err !== null && err !== undefined) {
               return (
+                // hiranuma
                 <Grid container justify="center" className={classes.alert}>
                   <Alert severity="error"> <strong>すでに存在しています</strong></Alert>
                 </Grid>
