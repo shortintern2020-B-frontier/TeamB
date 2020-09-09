@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { getRooms, setRoom } from '../../actions/roomAction';
+import { getRooms, enterRoom, setRoom } from '../../actions/roomAction';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
@@ -10,9 +10,11 @@ const tokenSelector = (state) => state.auth.token;
 export const RoomList = (rooms) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const token = useSelector(tokenSelector);
 
   const handleClick = (index, id) => {
-    dispatch(setRoom(rooms.rooms[index]))
+    dispatch(enterRoom(token, rooms.rooms[index]))
+    dispatch(setRoom(rooms.rooms[index]));
     history.push(`/rooms/${id}`);
   };
 

@@ -15,12 +15,12 @@ module Api
             def index 
                 users = User.where(room_id: params[:room_id]).order(updated_at: :desc).select(:id,:name,:profile,:room_id,:created_at,:updated_at)
 
-                render json: { status: 'SUCCESS', message: 'Loaded posts', data: { users: users } }
+                render status: 200, json: { status: 'SUCCESS', message: 'Loaded posts', data: { users: users } }
             end
             #rikuiwasaki
             def show
                 user = User.find(params[:id]).select(:id,:name,:profile,:room_id,:created_at,:updated_at)
-                render json: { status: 'SUCCESS', message: 'Loaded posts', data: { user: @user } }
+                render status: 200, json: { status: 'SUCCESS', message: 'Loaded posts', data: { user: @user } }
             end
             # ユーザ登録
             def create
@@ -30,17 +30,17 @@ module Api
                   jwt_token = encode(@user.id)
                   response.headers['X-Authentication-Token'] = jwt_token
                   ## Hiranuma
-                  render json: { status: 'SUCCESS', data: { user: @user }, token: jwt_token }
+                  render status:201, json: { status: 'SUCCESS', data: { user: @user }, token: jwt_token }
                 else
-                  render status:409, json:{status:'ERROR',error:"can't make account"}
+                  render status:409, json:{status:'ERROR',error: @user.errors}
                 end
             end
 
             def update
-                if @user.update(user_params)
-                    render json: { status: 'SUCCESS', message: 'Updated the post', data: { user: @user } }
+                if @current_user.update_attributes(user_params)
+                    render status:200, json: { status: 'SUCCESS', message: 'Updated the post', data: { user: @user } }
                   else
-                    render json: { status: 'SUCCESS', message: 'Not updated', data: { user: @user.errors } }
+                    render status:500, json: { status: 'ERROR', message: 'Not updated', data: { error: @user.errors } }
                 end
             end
 

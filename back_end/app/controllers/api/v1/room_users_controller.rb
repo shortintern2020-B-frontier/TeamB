@@ -12,22 +12,22 @@ module Api
 			#Kyosuke Yokota
 			def index 
 				users = User.where(room_id: @current_user.room_id).order(updated_at: :desc)#rikuiwasaki
-				render json: { status: 'SUCCESS', message: 'Loaded posts', data: { users: users } }
+				render status:200, json: { status: 'SUCCESS', message: 'Loaded posts', data: { users: users } }
 			end
 			#Kyosuke Yokota
 			def create
 				if @current_user.update_attribute(:room_id, room_id_params[:room_id])
-					render json: { status: "SUCCESS", data: { user: @current_user } }
+					render status:201, json: { status: "SUCCESS", data: { user: @current_user } }
 				else
-					render json: { status: "ERROR", data: { user: @current_user } }
+					render status:500, json: { status: "ERROR", data: { error: @current_user.errors } }
 				end
 			end
 
-			def destroy
+			def leave
 				if @current_user.update_attribute(:room_id, nil)
-					render json: { status: "SUCCESS", data: { user: @current_user } }
+					render status:204, json: { status: "SUCCESS", data: {} }
 				else
-					render json: { status: "ERROR", data: { user: @current_user } }
+					render status:500, json: { status: "ERROR", data: { error: @current_user.errors } }
 				end
 			end
 			

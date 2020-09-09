@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       end
       resources :user_tags
       resources :room_tags
-      resources :room_users
+      resources :room_users do
+        collection do 
+          get :leave 
+        end
+      end
       resources :tags do
         collection do
           get :search

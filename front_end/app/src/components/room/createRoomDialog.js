@@ -53,7 +53,7 @@ const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
-const API_KEY ='AIzaSyBucvcxbtF6SgdsVqEyqumQ-VM0E7dqCGM'
+const API_KEY ='AIzaSyCkRx3OW3jIOosKQNBb8uzkVxyvlVQhbN0'
 
 const CreateRoomDialog = () => {
   const classes = useStyles();
@@ -73,7 +73,7 @@ const CreateRoomDialog = () => {
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [apiData,setApiData] = useState([]);
+  {/*yuyamiyata*/}
   const [url,setUrl] = useState('');
   const [thumnail,setThumnail] = useState('');
   const [title,setTitle] = useState('');
@@ -105,34 +105,45 @@ const CreateRoomDialog = () => {
 
   {/*yuyamiyata*/}
   const handleVideoInfo = (e) => {
-    const id = e.target.value.substr(32);
+    const id = e.target.value.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
     setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
     setThumnail(`http://img.youtube.com/vi/${id}/default.jpg`)
   };
 
   const Submit = (data) => {
+    /*yuya miyata*/
+    const url = "https://www.youtube.com/watch?v=";
+    let videoId;
+    if(!data.youtube_id.indexOf(url)){
+      videoId = data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
+    }else {
+      videoId = data.youtube_id.substr(-11);
+    }
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
     const roomData = JSON.stringify({
       room: {
         name: data.name,
-        youtube_id: data.youtube_id.substr(32),//YuyaMiyata
+        youtube_id: videoId,//YuyaMiyata
         is_private: isPrivate,
-        start_time: null,
+        start_time: selectedDate,
       },
     });
-    const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
     }else if(data.youtube_id === ""){
-      setMsg('URLが入力されていません')
-    }else if(data.youtube_id.indexOf(url)){
       setMsg('動画のURLに従っていません');
+    }
+    else if(videoId === null){
+      setMsg('URLが入力されていません')
     }else{
       setMsg('');
       dispatch(createRoom(token, roomData, history));
       dispatch(getRooms(token));
       handleClose();
     }
+    //次回ルーム作成時に表示されないように初期化YuyaMiyata
+    setThumnail('');
+    setTitle('');
   };
 
   return (
