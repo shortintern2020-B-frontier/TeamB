@@ -13,9 +13,13 @@ import { exitRoom } from '../../actions/roomAction';
 import { makeStyles } from '@material-ui/core/styles';
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles(() => ({
+  root:{
+    paddingLeft:150,
+    paddingRight:150,
+  },
   video: {
     display: 'inline-block',
     width: '70%',
@@ -23,13 +27,17 @@ const useStyles = makeStyles(() => ({
     margin: 10,
   },
   botton: {
-    marginLeft: 20,
+    marginTop: 20,
     color: 'white',
     backgroundColor: '#3636F0',
+    height:'100%',
   },
   texts: {
     margin: 20,
-  }
+  },
+  grid:{
+    justify:'flex-start',
+  },
 }));
 
 const roomSelector = (state) => state.room.room;
@@ -64,10 +72,7 @@ const Room = () => {
 
 
   return (
-    <div>
-      <div>
-        <Button onClick={handleOut} className={classes.botton}>ルーム退室</Button>
-      </div>
+    <div className={classes.root}>
       <iframe src={video}
         className={classes.video}
         frameborder="0" />
@@ -94,9 +99,18 @@ const Room = () => {
           }
         })()}
       </h3>
+      <Grid container className={classes.grid}>
+      <Grid items xs={11}>
       <h4 className={classes.texts}>
         {room.start_time}
       </h4>
+      </Grid>
+      <Grid items xs={1}>
+      <div>
+        <Button onClick={handleOut} className={classes.botton}>ルーム退室</Button>
+      </div>
+      </Grid>
+      </Grid>
     </div>
   );
 };
