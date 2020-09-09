@@ -32,15 +32,15 @@ module Api
                   ## Hiranuma
                   render status:201, json: { status: 'SUCCESS', data: { user: @user }, token: jwt_token }
                 else
-                  render status:409, json:{status:'ERROR',error:"can't make account"}
+                  render status:409, json:{status:'ERROR',error: @user.errors}
                 end
             end
 
             def update
-                if @user.update(user_params)
+                if @current_user.update_attributes(user_params)
                     render status:200, json: { status: 'SUCCESS', message: 'Updated the post', data: { user: @user } }
                   else
-                    render status:500, json: { status: 'SUCCESS', message: 'Not updated', data: { user: @user.errors } }
+                    render status:500, json: { status: 'ERROR', message: 'Not updated', data: { error: @user.errors } }
                 end
             end
 

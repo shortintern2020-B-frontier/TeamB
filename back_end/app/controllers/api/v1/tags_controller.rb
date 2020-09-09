@@ -29,7 +29,7 @@ module Api
               
               def destroy
                 @tag.destroy
-                render status:204, json: { status: 'SUCCESS', message: 'Deleted the Tag', data: { tag: @tag } }        
+                render status:204, json: { status: 'SUCCESS', message: 'Deleted the Tag' }        
               end
         
               def tag_params
