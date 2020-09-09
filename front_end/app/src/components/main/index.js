@@ -6,7 +6,7 @@ import { getRooms, enterRoom } from '../../actions/roomAction';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { useForm } from 'react-hook-form';
-import { searchRooms } from '../../actions/roomAction';
+import { searchRooms, searchUserRooms } from '../../actions/roomAction';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
@@ -63,6 +63,7 @@ export const Main = () => {
   };
 
   const Search = () => {
+    //dispatch(searchUserRooms(selectedTag.id));
     dispatch(searchRooms(selectedTag.id));
   }
 

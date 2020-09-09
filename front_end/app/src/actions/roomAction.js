@@ -142,7 +142,7 @@ export const searchRooms = (tag_id) => (dispatch, getState) => {
   console.log(tag_id);
   const store = getState();
   dispatch(searchRoomsRequest());
-  return axios.get(`http://localhost:5000/api/v1/tags/search?search=${tag_id}`, {
+  return axios.get(`http://localhost:5000/api/v1/room_tags/${tag_id}`, {
     headers: {
       Authorization: `Bearer ${store.auth.token}`,
     },
