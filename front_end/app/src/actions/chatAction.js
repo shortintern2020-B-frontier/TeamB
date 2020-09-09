@@ -7,11 +7,22 @@ export const initChat = (ws) => ({
   receivedAt: Date.now(),
 });
 
-export const POST_CHAT = 'POST_CHAT';
-export const postChat = (msg) => ({
-  type: POST_CHAT,
+export const POST_CHAT_REQUEST = 'POST_CHAT_REQUEST';
+export const postChatRequest = () => ({
+  type: POST_CHAT_REQUEST,
+});
+
+export const POST_CHAT_SUCCESS = 'POST_CHAT_SUCCESS';
+export const postChatSuccess = (msg) => ({
+  type: POST_CHAT_SUCCESS,
   msg,
   receivedAt: Date.now(),
+});
+
+export const POST_CHAT_FAILURE = 'POST_CHAT_FAILURE';
+export const postChatFailure = (error) => ({
+  type: POST_CHAT_FAILURE,
+  error,
 });
 
 export const CLOSE_CHAT = 'CLOSE_CHAT';
@@ -30,6 +41,8 @@ export const connectToWebsocket = (token) => (dispatch) => {
   const ws = new WebSocket('ws://localhost:5000/cable?token='+token);
   ws.onopen = () => {
     ws.send('Ping');
+    var msg={"command":"subscribe","identifier":"{\"channel\":\"RoomChannel\"}"}
+    ws.send(JSON.stringify(msg));
   };
 
   ws.onerror = (error) => {
@@ -38,9 +51,8 @@ export const connectToWebsocket = (token) => (dispatch) => {
 
   ws.onmessage = (e) => {
     const msg = JSON.parse(e.data);
-    console.log('Server: ' + e.data);
-    if( msg.type !== "welcome") {
-      dispatch(receiveMessage(msg.message));
+    if( msg.type !== "welcome" && msg.type !== "ping" && msg.type !== "confirm_subscription" ) {
+      dispatch(receiveMessage(msg.message.text));
     }
   };
   dispatch(initChat(ws));
@@ -51,10 +63,18 @@ export const closeWebsocket = (ws) => (dispatch) => {
   dispatch(closeChat());
 }
 
-export const sendMessage = (ws, msg) => (dispatch) => {
-  ws.send(msg);
-  const parse_msg = JSON.parse(msg);
-  dispatch(postChat(parse_msg.text));
+export const sendMessage = (msg, token, room_id) => (dispatch) => {
+  dispatch(postChatRequest());
+  return axios.post(`http://localhost:5000/api/v1/rooms/${room_id}/chats`, msg, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      console.log(res.data.data.chat.text);
+      dispatch(postChatSuccess(res.data.data.chat.text));
+    })
+    .catch((err) => dispatch(postChatFailure(err)));
 }
 
 export const receiveMessage = (msg) => (dispatch) => {
