@@ -7,22 +7,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Chat from './chat';
 import { closeWebsocket } from '../../actions/chatAction';
+import { exitRoom } from '../../actions/roomAction';
 
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
+const userSelector = (state) => state.auth.id;
 const BASE_URL ='https://www.youtube.com/embed/'
 
 const Room = () => {
   const room = useSelector(roomSelector);
   const token = useSelector(tokenSelector);
   const ws = useSelector(websocketSelector);
+  const id = useSelector(userSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const [video,setVideo] = useState(`${BASE_URL}`)//yuyamiyata
 
   const handleOut = () => {
+    dispatch(exitRoom(token, id, room.id));
     dispatch(closeWebsocket(ws));
     history.push('/');
   };
@@ -33,6 +37,8 @@ const Room = () => {
   }, []);
 
   useEffect(()=>{
+    console.log("###############")
+    console.log(room.name);
     setVideo(BASE_URL+room.youtube_id)
   },[])
 
@@ -45,7 +51,14 @@ const Room = () => {
         frameborder="10"/>
       <p>
         room name is
-        {room.name}
+      {(() => {
+        if( room === undefined ) {
+          console.log(room);
+          return (<p>not found</p>)
+        } else {
+          return room.name
+        }
+      })()}
       </p>
       <Chat />
       <Button onClick={handleOut}>退室</Button>

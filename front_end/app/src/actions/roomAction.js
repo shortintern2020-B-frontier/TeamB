@@ -18,12 +18,83 @@ export const getRoomsFailure = (error) => ({
   error,
 });
 
+export const ENTER_ROOM_REQUEST = 'ENTER_ROOM_REQUEST';
+export const enterRoomRequest = () => ({
+  type: ENTER_ROOM_REQUEST,
+});
+
+export const ENTER_ROOM_SUCCESS = 'ENTER_ROOM_SUCCESS';
+export const enterRoomSuccess = () => ({
+  type: ENTER_ROOM_SUCCESS,
+  receivedAt: Date.now(),
+});
+
+export const ENTER_ROOM_FAILURE = 'ENTER_ROOM_FAILURE';
+export const enterRoomFailure = (error) => ({
+  type: ENTER_ROOM_FAILURE,
+  error,
+})
+
+export const EXIST_ROOM_REQUEST = 'EXIST_ROOM_REQUEST';
+export const existRoomRequest = () => ({
+  type: EXIST_ROOM_REQUEST,
+});
+
+export const EXIST_ROOM_SUCCESS = 'EXIST_ROOM_SUCCESS';
+export const existRoomSuccess = () => ({
+  type: EXIST_ROOM_SUCCESS,
+  receivedAt: Date.now(),
+});
+
+export const EXIST_ROOM_FAILURE = 'EXIST_ROOM_FAILURE';
+export const existRoomFailure = (error) => ({
+  type: EXIST_ROOM_FAILURE,
+  error,
+})
+
 export const SET_ROOM = 'SET_ROOM';
 export const setRoom = (room) => ({
   type: SET_ROOM,
   room: room,
   receivedAt: Date.now(),
 });
+
+export const enterRoom = (token, room) => (dispatch) => {
+  dispatch(enterRoomRequest());
+  const id = JSON.stringify({
+    user: {
+      room_id: room.id
+    }
+  });
+  return axios.post('http://localhost:5000/api/v1/room_users', id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(enterRoomSuccess());
+    })
+    .catch((err) => dispatch(getRoomsFailure(err)));
+};
+
+export const exitRoom = (token, user_id, room_id) => (dispatch) => {
+  dispatch(existRoomRequest());
+  console.log("test");
+  const id = JSON.stringify({
+    user: {
+      room_id: room_id
+    }
+  });
+  return axios.get(`http://localhost:5000/api/v1/room_users/${user_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(existRoomSuccess());
+    })
+    .catch((err) => dispatch(existRoomFailure(err)));
+}
 
 export const getRooms = (token) => (dispatch) => {
   dispatch(getRoomsRequest());
