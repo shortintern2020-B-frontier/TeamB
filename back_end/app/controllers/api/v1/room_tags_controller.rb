@@ -23,12 +23,12 @@ module Api
             end
 
             #karakawa
-            before_action :set_room,only: [:show]
+            before_action :set_room, only: [:show]
 
             def show
                 tag_id = @tag.id
                 rooms = Room.joins(:tags).where("tag_id = #{tag_id}")
-                render json: { status: 'SUCCESS',data: {rooms: rooms } }
+                render status:200, json: { status: 'SUCCESS', data: {rooms: rooms } }
             end
             
             private

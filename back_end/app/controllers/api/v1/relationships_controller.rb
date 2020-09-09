@@ -16,20 +16,24 @@ module Api
       end
 
       def create
-        @following = @current_user.follow(@user)
-        if @following.save
-          render status:201, json: { status: 'SUCCESS' }
-        else
-          render status:500, json: { status: @following.errors }
+        if @user == nil 
+          render status:500, json { status: 'ERROR', data { error: "not exist" } }
+        else 
+          @following = @current_user.follow(@user)
+          if @following.save
+            render status:201, json: { status: 'SUCCESS' }
+          else
+            render status:500, json: { status: 'ERROR', data: { error: @following.errors } }
+          end
         end
       end
 
       def destroy
         @following = @current_user.unfollow(@user)
         if @following.destroy
-          render json: { status: 'SUCCESS' }
+          render status:204, json: { status: 'SUCCESS' }
         else
-          render status: 500, json: { status: @following.errors }
+          render status:500, json: { status: 'ERROR', data: { error: @following.errors } }
         end
       end
 
