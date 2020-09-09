@@ -2,7 +2,7 @@
  * Author: Hiranuma
  */
 
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -17,6 +17,7 @@ import Switch from '@material-ui/core/Switch';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
+import TheatersIcon from '@material-ui/icons/Theaters';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,8 +44,10 @@ const useStyles = makeStyles(() => ({
   },
 
   roomButton: {
-    color: 'white',
-    backgroundColor: "gray",
+    height: 50,
+    width: 130,
+    color: '#800000',
+    backgroundColor: "white",
   }
 }));
 
@@ -53,7 +56,7 @@ const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
-const API_KEY ='AIzaSyCkRx3OW3jIOosKQNBb8uzkVxyvlVQhbN0'
+const API_KEY = 'AIzaSyCkRx3OW3jIOosKQNBb8uzkVxyvlVQhbN0'
 
 const CreateRoomDialog = () => {
   const classes = useStyles();
@@ -69,22 +72,22 @@ const CreateRoomDialog = () => {
 
   // 動画ルームを非公開にするかどうか
   const [isPrivate, setIsPrivate] = useState(true);
-  const [ msg, setMsg ] = useState("");
+  const [msg, setMsg] = useState("");
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  {/*yuyamiyata*/}
-  const [url,setUrl] = useState('');
-  const [thumnail,setThumnail] = useState('');
-  const [title,setTitle] = useState('');
+  {/*yuyamiyata*/ }
+  const [url, setUrl] = useState('');
+  const [thumnail, setThumnail] = useState('');
+  const [title, setTitle] = useState('');
 
-  {/*yuyamiyata*/}
+  {/*yuyamiyata*/ }
   useEffect(() => {
     axios.get(url)
-    .then(res => res.data.items[0].snippet)
-    .catch(() => console.log('YouTubeAPI Error'))
-    .then(res1 => setTitle(res1.title))
-    .then(res2 => setUrl(res2.thumbnails.default.url))
+      .then(res => res.data.items[0].snippet)
+      .catch(() => console.log('YouTubeAPI Error'))
+      .then(res1 => setTitle(res1.title))
+      .then(res2 => setUrl(res2.thumbnails.default.url))
   }, [url]);
 
   const handleOpen = () => {
@@ -103,7 +106,7 @@ const CreateRoomDialog = () => {
     setSelectedDate(date);
   };
 
-  {/*yuyamiyata*/}
+  {/*yuyamiyata*/ }
   const handleVideoInfo = (e) => {
     const id = e.target.value.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
     setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
@@ -114,9 +117,9 @@ const CreateRoomDialog = () => {
     /*yuya miyata*/
     const url = "https://www.youtube.com/watch?v=";
     let videoId;
-    if(!data.youtube_id.indexOf(url)){
+    if (!data.youtube_id.indexOf(url)) {
       videoId = data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
-    }else {
+    } else {
       videoId = data.youtube_id.substr(-11);
     }
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
@@ -128,14 +131,14 @@ const CreateRoomDialog = () => {
         start_time: selectedDate,
       },
     });
-    if(data.name === ""){
+    if (data.name === "") {
       setMsg('ルーム名が入力されていません');
-    }else if(data.youtube_id === ""){
+    } else if (data.youtube_id === "") {
       setMsg('動画のURLに従っていません');
     }
-    else if(videoId === null){
+    else if (videoId === null) {
       setMsg('URLが入力されていません')
-    }else{
+    } else {
       setMsg('');
       dispatch(createRoom(token, roomData, history));
       dispatch(getRooms(token));
@@ -149,7 +152,7 @@ const CreateRoomDialog = () => {
   return (
     <div>
       <Button onClick={handleOpen} className={classes.roomButton}>
-        ルーム作成
+        ルーム作成<TheatersIcon fontSize="large" />
       </Button>
       <Dialog
         open={createRoomProps.is_opened}
@@ -157,7 +160,7 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        <DialogTitle>Create Room</DialogTitle>
+        <DialogTitle><strong>Create Room</strong></DialogTitle>
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
             return (
@@ -167,7 +170,7 @@ const CreateRoomDialog = () => {
               </div>
             );
           }
-          else if (msg !== ""){
+          else if (msg !== "") {
             return (
               <div>
                 <Alert severity="error"> {msg}<strong></strong> </Alert>
@@ -177,10 +180,12 @@ const CreateRoomDialog = () => {
           // karakawa
         })()}
         {/*yuyamiyata*/}
-        <div>
+        {/* karakawa */}
+        <div align="center" style={{fontFamily:"Arial,sans-serif,Roboto", marginLeft:"30pt", marginRight:"30pt"}}>
           <img src={thumnail}/>
           <p>{title}</p>
         </div>
+        {/* karakawa */}
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
@@ -190,6 +195,7 @@ const CreateRoomDialog = () => {
                 inputRef={register}
               />
             </div>
+            <p> {/*TextFiledの間隔を取るため */} </p>
             <div>
               <TextField onChange={handleVideoInfo}
                 name="youtube_id"
@@ -197,7 +203,7 @@ const CreateRoomDialog = () => {
                 inputRef={register}
               />
             </div>
-            <div>
+            {/* <div>
               <Grid container>
                 <Grid item xs={1}>
                   <p>Key</p>
@@ -214,7 +220,8 @@ const CreateRoomDialog = () => {
                   </p>
                 </Grid>
               </Grid>
-            </div>
+            </div> */}
+            <p> {/*TextFiledの間隔を取るため */} </p>
             <div>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
@@ -225,11 +232,11 @@ const CreateRoomDialog = () => {
               </MuiPickersUtilsProvider>
             </div>
 
-            <Paper variant="outlined" elevation={3} className={classes.tagCard}>
+            {/* <Paper variant="outlined" elevation={3} className={classes.tagCard}>
               <li>Tag1</li>
               <li>Tag2</li>
               <li>Tag3</li>
-            </Paper>
+            </Paper> */}
 
           </DialogContent>
           <DialogActions>
