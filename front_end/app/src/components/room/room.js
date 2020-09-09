@@ -59,10 +59,6 @@ const Room = () => {
   }, []);
 
   useEffect(() => {
-    const local_room = JSON.parse(localStorage.getItem('room'));
-    if (local_room !== null && room.youtube_id !== local_room.youtube_id) {
-      dispatch(setRoom(local_room));
-    }
     setVideo(BASE_URL + room.youtube_id)
   }, [room])
 
