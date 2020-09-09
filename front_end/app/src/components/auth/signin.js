@@ -74,6 +74,7 @@ const Signin = () => {
         {(() => {
           if (err !== null && err !== undefined) {
             return (
+              //karkawa
               <div>
                 <Alert severity="error"> <strong> ユーザー名またはパスワードが違います</strong> </Alert>
               </div>
@@ -85,6 +86,7 @@ const Signin = () => {
               </div>
             );
           }
+          //karkawa
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>

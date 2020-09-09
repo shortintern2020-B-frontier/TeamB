@@ -4,17 +4,16 @@ module Api
             include JwtAuthenticator 
             jwt_authenticate except: :index
             #rikuiwasaki
-            before_action :set_room,only: [:update,:show]
+            before_action :set_room,only: [:update, :show]
             def index
-                rooms = Room.all.order(updated_at: :desc).select(:id,:name,:admin_id,:is_private,:start_time,:created_at,:updated_at)
-                render json: { status: 'SUCCESS',data: {
-                    rooms: rooms } }
+                rooms = Room.all.order(updated_at: :desc).select(:id, :name, :youtube_id, :password, :admin_id, :is_private, :start_time, :created_at, :updated_at)
+                render json: { status: 'SUCCESS',data: { rooms: rooms } }
             end
             def create
-                room_info=room_params
-                room_info[:admin_id]= @current_user.id
-                room=Room.new(room_info)
-                if room.save  && @current_user.update_attribute(:room_id, room.id)
+                room_info = room_params
+                room_info[:admin_id] = @current_user.id
+                room = Room.new(room_info)
+                if room.save && @current_user.update_attribute(:room_id, room.id)
                     render json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
                 else 
                     render json: { status: 'ERROR', data: { error: "error" } }
@@ -25,25 +24,25 @@ module Api
                     if @room.update(room_params)
                         render json: { status: 'SUCCESS', data: { room: @room } }
                     else
-                        render json: { status: 'ERROR', data: { error: @room.erros}}
+                        render json: { status: 'ERROR', data: { error: @room.errors } }
                     end
                 else
-                    render json: { status: 'ERROR', data: { error: "invalid user"}}
+                    render json: { status: 'ERROR', data: { error: "invalid user" } }
                 end
             end
             
             #karakwa
             def show
-                render json: {status: 'SUCCESS', data: {room: @room}}
+                render json: {status: 'SUCCESS', data: { room: @room } }
             end
             #karakawa
 
             private
                 def set_room
-                    @room=Room.find(params[:id])
+                    @room = Room.find(params[:id])
                 end
                 def room_params
-                    params.require(:room).permit(:name,:youtube_id,:is_private,:start_time,:password)
+                    params.require(:room).permit(:name, :youtube_id, :is_private, :start_time, :password)
                 end
         #rikuiwasaki
         end

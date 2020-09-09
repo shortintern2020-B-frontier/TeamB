@@ -12,6 +12,7 @@ import { getTags, postTag, getUserTags } from '../../actions/tagAction';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Alert from '@material-ui/lab/Alert';  // Hiranuma
 
 const useStyles = makeStyles ((theme)=>({
   root:{
@@ -50,6 +51,7 @@ const useStyles = makeStyles ((theme)=>({
 const tokenSelector = (state) => state.auth.token;
 const userIDSelector = (state) => state.auth.id;
 const tagsSelector = (state) => state.userTags;
+const errorSelector = (state) => state.tags.error; // Hiranuma
 
 export const TagList = (tags) => {
   const classes = useStyles()
@@ -76,6 +78,7 @@ export const TagList = (tags) => {
   );
 };
 
+
 const Tags = () => {
   const classes = useStyles()
   const token = useSelector(tokenSelector);
@@ -84,6 +87,8 @@ const Tags = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { register, handleSubmit } = useForm();
+  const [msg, setMsg] = useState('');   // Hiranuma
+  const err = useSelector(errorSelector);   // Hiranuma
 
   const [isNewUser, setIsNewUser] = useState(false);
 
@@ -97,7 +102,14 @@ const Tags = () => {
   }, []);
 
   const Submit = (data) => {
-    dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+    // Hiranuma
+    // TODO
+    if(data.name === ""){
+      setMsg('タグ名が入力されていません');
+    }else{
+      dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+    }
+    // Hiranuma
   };
 
   return (
@@ -112,8 +124,26 @@ const Tags = () => {
           )
         }
       })()}
+      
       <Grid container className={classes.root}>
         <Paper className={classes.paper} elevation={5}>
+          {/*  Hiranuma */}
+          {(() => {
+            if (err !== null && err !== undefined) {
+              return (
+                <div>
+                  <Alert severity="error"> <strong> { err }</strong> </Alert>
+                </div>
+              );
+            }else if(msg !== ""){
+              return (
+                <div>
+                  <Alert severity="error"> <strong> { msg } </strong> </Alert>
+                </div>
+              );
+            }
+          })()}
+          {/* Hiranuma */}
           <Grid item>
           <form onSubmit={handleSubmit(Submit)}>
             <div className={classes.panel}>
