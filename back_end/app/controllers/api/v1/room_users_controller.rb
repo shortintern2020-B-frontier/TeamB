@@ -23,7 +23,7 @@ module Api
 				end
 			end
 
-			def destroy
+			def leave
 				if @current_user.update_attribute(:room_id, nil)
 					render status:204, json: { status: "SUCCESS", data: {} }
 				else
