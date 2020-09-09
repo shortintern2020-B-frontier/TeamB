@@ -12,10 +12,12 @@ const styles = makeStyles({
     'word-wrap': 'break-word',
   },
   ul:{
+    'list-style-type':'none',
     paddingLeft:3,
   },
   chat:{
     'list-style':'none',
+    'line-height':1,
   }
 });
 
