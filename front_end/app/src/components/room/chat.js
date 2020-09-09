@@ -36,6 +36,10 @@ const useStyles = makeStyles(() =>({
   submitPanel:{
     padding:3,
     flex:1,
+  },
+  sendIcon:{
+    marginLeft:5,
+    fontSize:'large',
   }
 })); 
 
@@ -80,8 +84,8 @@ const Chat = () => {
         </Grid> 
         <Grid container className={classes.submitPanel}>
             <Button type="submit" className={classes.botton}>
-              <SendIcon/>
               送信
+              <SendIcon className={classes.sendIcon}/>
               </Button>
         </Grid>          
       </form>
