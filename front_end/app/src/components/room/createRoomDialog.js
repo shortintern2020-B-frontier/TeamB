@@ -85,10 +85,10 @@ const CreateRoomDialog = () => {
     const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
-    }else if(data.youtube_id.indexOf(url)){
-      setMsg('動画のURLに従っていません');
     }else if(data.youtube_id === ""){
       setMsg('URLが入力されていません')
+    }else if(data.youtube_id.indexOf(url)){
+      setMsg('動画のURLに従っていません');
     }else{
       setMsg('');
       dispatch(createRoom(token, roomData, history));
