@@ -18,9 +18,9 @@ module Api
               destroy_tag_user = TagsUser.find_by("user_id = #{@current_user.id} and tag_id = #{tag_id}")
               if destroy_tag_user != nil
                 destroy_tag_user.destroy
-                render json: { status: 'SUCCESS', message: 'Delete tag_user', data:{tag_user: destroy_tag_user} }
+                render status:204, json: { status: 'SUCCESS', message: 'Delete tag_user', data:{tag_user: destroy_tag_user} }
               else
-                render json: {status: 'ERROR', message: "Not found users' tag"}
+                render status:500, json: {status: 'ERROR', message: "Not found users' tag"}
               end
             end
             #karakara
@@ -30,9 +30,9 @@ module Api
                 tag_user_info[:user_id] = @current_user.id
                 tag_user = TagsUser.new(tag_user_info)
                 if tag_user.save
-                    render json: { status: 'SUCCESS', data: { tag_user: tag_user } }
+                    render status:201, json: { status: 'SUCCESS', data: { tag_user: tag_user } }
                 else
-                    render json: { status: 'ERROR', data: { error: tag_user.errors } }
+                    render status:500, json: { status: 'ERROR', data: { error: tag_user.errors } }
                 end
             end
             
@@ -40,7 +40,7 @@ module Api
             #userの持つtagを表示
             def show
               @tags = @user.tags
-              render json: { status: 'SUCCESS', data: { tags: @tags} }
+              render status:200, json: { status: 'SUCCESS', data: { tags: @tags} }
             end
             
             private
