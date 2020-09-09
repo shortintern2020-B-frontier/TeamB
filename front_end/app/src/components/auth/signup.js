@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { signup } from '../../actions/authAction';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(() => ({
   textBox: {
@@ -58,6 +59,8 @@ const Signup = () => {
       setMsg('ユーザー名が入力されていません');
     } else if (data.password === '') {
       setMsg('パスワードが入力されていません');
+    } else if (data.password !== data.anotherPassword) {
+      setMsg('パスワードが一致していません');
     } else dispatch(signup(user, history));
   };
 
@@ -69,20 +72,23 @@ const Signup = () => {
         {(() => {
           if (err !== null && err !== undefined) {
             return (
+              //karakawa
               <div>
-                <p> そのユーザー名は既に使用されています </p>
-                <p>{ msg }</p>
+                <Alert severity="error"> <strong>そのユーザー名は既に使用されています </strong> </Alert>
+              </div>
+            );
+          }else if (msg !==""){
+            return (
+              <div>
+                <Alert severity="error"> <strong>{msg} </strong> </Alert>
               </div>
             );
           }
-          return (
-            <div>
-              <p>{ msg }</p>
-            </div>
-          );
+          //karakawa
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>
+          <div>
           <TextField
             className={classes.textBox}
             name="name"
@@ -90,16 +96,32 @@ const Signup = () => {
             inputRef={register}
             variant="filled"
           />
+          </div>
+          <div>
           <TextField
             className={classes.textBox}
             name="password"
             label="パスワード"
+            type="password"
             inputRef={register}
             variant="filled"
           />
+          </div>
+          <div>
+          <TextField
+            className={classes.textBox}
+            name="anotherPassword"
+            label="パスワード(確認)"
+            type="password"
+            inputRef={register}
+            variant="filled"
+          />
+          </div>
+          <div>
           <Button className={classes.button} type="submit">
             登録
           </Button>
+          </div>
         </form>
       </Paper>
     </div>

@@ -1,7 +1,7 @@
 import room from './roomReducer';
 
 import {
-  GET_ROOM_REQUEST, GET_ROOM_SUCCESS, GET_ROOM_FAILURE,
+  SET_ROOM
 } from '../actions/roomAction';
 
 import {

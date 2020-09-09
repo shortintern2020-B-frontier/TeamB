@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { reload } from '../../actions/authAction';
+import { roomReload } from '../../actions/roomAction';
 
 /**
  * stateからログインしているかどうかを抽出している
@@ -29,9 +30,8 @@ const Auth = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('test');
     dispatch(reload());
-    console.log(auth);
+    dispatch(roomReload());
   }, [location.pathname || auth.isLoading]);
 
   if (!auth.isLoading && !auth.isLoggedIn) {

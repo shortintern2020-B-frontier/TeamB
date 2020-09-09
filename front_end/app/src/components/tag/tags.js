@@ -1,20 +1,26 @@
 /*
 * YuyaMiyata
 */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { getTags, postTag } from '../../actions/tagAction';
+import { getTags, postTag, getUserTags } from '../../actions/tagAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Alert from '@material-ui/lab/Alert';  // Hiranuma
 
 const useStyles = makeStyles ((theme)=>({
   root:{
     flexGrow: 1,
+    textAlign: "center",
+  },
+  main: {
+    textAlign: "center",
   },
   paper:{
     margin:'auto',
@@ -44,10 +50,18 @@ const useStyles = makeStyles ((theme)=>({
     backgroundColor: '#3636F0',
     marinLeft:20,
   },
+  left: {
+    textAlign: "start",
+  },
+  alert: {
+    margin: 8,
+  }
 }));
 
 const tokenSelector = (state) => state.auth.token;
-const tagsSelector = (state) => state.tags;
+const userIDSelector = (state) => state.auth.id;
+const tagsSelector = (state) => state.userTags;
+const errorSelector = (state) => state.tags.error; // Hiranuma
 
 export const TagList = (tags) => {
   const classes = useStyles()
@@ -74,45 +88,90 @@ export const TagList = (tags) => {
   );
 };
 
+
 const Tags = () => {
   const classes = useStyles()
   const token = useSelector(tokenSelector);
+  const id = useSelector(userIDSelector);
   const tags = useSelector(tagsSelector);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { register, handleSubmit } = useForm();
+  const [msg, setMsg] = useState('');   // Hiranuma
+  const err = useSelector(errorSelector);   // Hiranuma
+
+  const [isNewUser, setIsNewUser] = useState(false);
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if( params.get("new") !== null ) {
+      setIsNewUser(true);
+    };
     dispatch(getTags(token));
+    dispatch(getUserTags(token, id));
   }, []);
 
   const Submit = (data) => {
-    data.id = tags.tags.length + 1; // eslint-disable-line no-param-reassign
-    dispatch(postTag(token, data));
-    dispatch(getTags(token));
+    // Hiranuma
+    // TODO
+    if(data.name === ""){
+      setMsg('タグ名が入力されていません');
+    }else{
+      setMsg('');
+      dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+    }
+    // Hiranuma
   };
 
   return (
-    <div>
-      <h2>タグの管理</h2>
+    <div className>
+      <h2 className={classes.main}>Add Your Favorite</h2>
+      {(() => {
+        if( isNewUser ) {
+          return (
+            <Grid container justify="center" className={classes.alert}>
+              <Alert><strong>ユーザー登録完了</strong></Alert>
+            </Grid>
+          )
+        }
+      })()}
       <Grid container className={classes.root}>
         <Paper className={classes.paper} elevation={5}>
+          {/*  Hiranuma */}
+          {(() => {
+            if (err !== null && err !== undefined) {
+              return (
+                <Grid container justify="center" className={classes.alert}>
+                  <Alert severity="error"> <strong>すでに存在しています</strong></Alert>
+                </Grid>
+              );
+            }else if(msg !== ""){
+              return (
+                <Grid container justify="center" className={classes.alert}>
+                  <Alert severity="error"  className={classes.alert}> <strong> { msg } </strong> </Alert>
+                </Grid>
+              );
+            }
+          })()}
+          {/* Hiranuma */}
           <Grid item>
           <form onSubmit={handleSubmit(Submit)}>
             <div className={classes.panel}>
               <TextField
                 name="name"
-                label="タグ名"
+                label="Input"
                 inputRef={register}
                 variant="filled"
               />
             </div>
             <div className={classes.panel}>
               <Button type="submit" className={classes.button}>
-                登録
+                追加
               </Button>
             </div>
           </form>
-          <Paper elevation={0} variant="outlined" className={classes.tagPanel}>
+          <p className={classes.left}>Tags</p>
+          <Paper elevation={0} variant="outlined" className={classes.tagPanel, classes.left}>
             <TagList {...tags} />
           </Paper>
           </Grid>

@@ -8,10 +8,20 @@ Rails.application.routes.draw do
       end
       resources :user_tags
       resources :room_tags
-      resources :room_users
-      resources :tags
+      resources :room_users do
+        collection do 
+          get :leave 
+        end
+      end
+      resources :tags do
+        collection do
+          get :search
+        end
+      end
       resources :hello
       resources :relationships, only: [:create, :destroy, :index]
+      resources :user_room_tags, only:[:show]
+      # get "tags/search_tag" => "tags#search_tag"
       post "login" => "sessions#create"
       delete "logout" => "sessions#destroy"
       

@@ -1,44 +1,47 @@
 module Api
     module V1
         class ChatsController < ApplicationController            #rikuiwasaki
-            jwt_authenticate except: :index
+            jwt_authenticate
 
             def index
-                chats = Chat.where(room_id: params[:room_id]).order(updated_at: :desc)
-                render json: { status: 'SUCCESS',data: {
-                    chats: chats } }
+                if chats = Chat.where(room_id: @current_user.room_id).order(updated_at: :desc)
+                    render status:200, json: { status: 'SUCCESS',data: { chats: chats } }
+                else
+                    render status:500, json: { status: 'ERROR', data:{ error: "can't get Info"}}
+                end
             end
+
             def create
-                chat_info=chat_params
+                chat_info = chat_params
                 chat_info[:user_id] = @current_user.id
-                @new_chat=Chat.new(chat_info)
+                chat_info[:room_id] = @current_user.room_id                
+                @new_chat = Chat.new(chat_info)
                 if @new_chat.save
-                    @room=Room.find(1)
-                    RoomChannel.broadcast_to("room_#{chat_info[:room_id]}",@new_chat)
-                    render json: { status: 'SUCCESS', data: { chat: @new_chat } }
+                    chat_info[:name]=@current_user.name
+                    RoomChannel.broadcast_to("room_#{chat_info[:room_id]}", chat_info)
+                    render status:201, json: { status: 'SUCCESS', data: { chat: chat_info } }
                 else 
-                    render json: { status: 'ERROR', data: { error: errors }}
+                    render status:500, json: { status: 'ERROR', data: { error: "please send message" } }
                 end
             end
             def update
                 chat = Chat.find(params[:id])
                 if chat.user_id == @current_user.id
-                    if updated_chat=Chat.update(chat_params)
-                        render json: { status: 'SUCCESS', data: {chat: updated_chat}}
+                    if updated_chat = Chat.update(chat_params)
+                        render status:200, json: { status: 'SUCCESS', data: { chat: updated_chat } }
                     else
-                        render json: { status: 'ERROR', data: { errors: updated_chat.errors}}
+                        render status:500, json: { status: 'ERROR', data: { error: "can't get Info" } }
                     end
                 else
-                    render json: {status: 'ERROR', data:{erros: "invalid user"}}
+                    render status:401, json: {status: 'ERROR', data: {error: "invalid user"}}
                 end
-            
             end
             private
                 def set_chat
-                    @chat=Chat.find(params[:id])
+                    @chat = Chat.find(params[:id])
                 end
                 def chat_params
-                    params.require(:chat).permit(:text,:room_id)
+                    params.require(:chat).permit(:text)
                 end
         #rikuiwasaki
         end

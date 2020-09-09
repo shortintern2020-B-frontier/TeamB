@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+/**
+ * Author: Hiranuma
+ */
+
+import React, { useState,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +23,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getRooms } from '../../actions/roomAction';
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 
+import Alert from '@material-ui/lab/Alert';
+
+import axios from 'axios';
+
 const useStyles = makeStyles(() => ({
   tagCard: {
     margin: 10,
@@ -27,6 +36,16 @@ const useStyles = makeStyles(() => ({
   switchPosition: {
     'text-align': 'center',
   },
+
+  button: {
+    color: 'white',
+    backgroundColor: '',
+  },
+
+  roomButton: {
+    color: 'white',
+    backgroundColor: "gray",
+  }
 }));
 
 const createRoomSelector = (state) => state.createRoom;
@@ -34,10 +53,13 @@ const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
+const API_KEY ='AIzaSyCkRx3OW3jIOosKQNBb8uzkVxyvlVQhbN0'
+
 const CreateRoomDialog = () => {
   const classes = useStyles();
   const createRoomProps = useSelector(createRoomSelector);
   const token = useSelector(tokenSelector);
+  const history = useHistory();
 
   // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
   const rooms = useSelector(roomSelector);
@@ -47,9 +69,23 @@ const CreateRoomDialog = () => {
 
   // 動画ルームを非公開にするかどうか
   const [isPrivate, setIsPrivate] = useState(true);
-
+  const [ msg, setMsg ] = useState("");
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  {/*yuyamiyata*/}
+  const [url,setUrl] = useState('');
+  const [thumnail,setThumnail] = useState('');
+  const [title,setTitle] = useState('');
+
+  {/*yuyamiyata*/}
+  useEffect(() => {
+    axios.get(url)
+    .then(res => res.data.items[0].snippet)
+    .catch(() => console.log('YouTubeAPI Error'))
+    .then(res1 => setTitle(res1.title))
+    .then(res2 => setUrl(res2.thumbnails.default.url))
+  }, [url]);
 
   const handleOpen = () => {
     dispatch(openRoomDialog());
@@ -67,24 +103,52 @@ const CreateRoomDialog = () => {
     setSelectedDate(date);
   };
 
-  const Submit = (data) => {
-    // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
-    const roomData = {
-      id: rooms.length + 1,
-      name: data.name,
-      youtube_id: data.youtube_id.substr(32),//YuyaMiyata
-      is_private: isPrivate,
-      start_time: selectedDate,
-    };
+  {/*yuyamiyata*/}
+  const handleVideoInfo = (e) => {
+    const id = e.target.value.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
+    setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
+    setThumnail(`http://img.youtube.com/vi/${id}/default.jpg`)
+  };
 
-    dispatch(createRoom(token, roomData));
-    dispatch(getRooms(token));
-    handleClose();
+  const Submit = (data) => {
+    /*yuya miyata*/
+    const url = "https://www.youtube.com/watch?v=";
+    let videoId;
+    if(!data.youtube_id.indexOf(url)){
+      videoId = data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
+    }else {
+      videoId = data.youtube_id.substr(-11);
+    }
+    // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
+    const roomData = JSON.stringify({
+      room: {
+        name: data.name,
+        youtube_id: videoId,//YuyaMiyata
+        is_private: isPrivate,
+        start_time: selectedDate,
+      },
+    });
+    if(data.name === ""){
+      setMsg('ルーム名が入力されていません');
+    }else if(data.youtube_id === ""){
+      setMsg('動画のURLに従っていません');
+    }
+    else if(videoId === null){
+      setMsg('URLが入力されていません')
+    }else{
+      setMsg('');
+      dispatch(createRoom(token, roomData, history));
+      dispatch(getRooms(token));
+      handleClose();
+    }
+    //次回ルーム作成時に表示されないように初期化YuyaMiyata
+    setThumnail('');
+    setTitle('');
   };
 
   return (
     <div>
-      <Button onClick={handleOpen}>
+      <Button onClick={handleOpen} className={classes.roomButton}>
         ルーム作成
       </Button>
       <Dialog
@@ -93,8 +157,30 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
+        {(() => {
+          if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
+            return (
+              // karakawa
+              <div>
+                <Alert severity="error"> ルームはすでに存在しています<strong></strong> </Alert>
+              </div>
+            );
+          }
+          else if (msg !== ""){
+            return (
+              <div>
+                <Alert severity="error"> {msg}<strong></strong> </Alert>
+              </div>
+            );
+          }
+          // karakawa
+        })()}
+        {/*yuyamiyata*/}
+        <div>
+          <img src={thumnail}/>
+          <p>{title}</p>
+        </div>
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
@@ -105,7 +191,7 @@ const CreateRoomDialog = () => {
               />
             </div>
             <div>
-              <TextField
+              <TextField onChange={handleVideoInfo}
                 name="youtube_id"
                 label="youtube url"
                 inputRef={register}
@@ -146,7 +232,6 @@ const CreateRoomDialog = () => {
             </Paper>
 
           </DialogContent>
-          {/* hiranuma */}
           <DialogActions>
             <Button onClick={handleClose} variant="contained">Cancel</Button>
             <Button type="submit" variant="contained" color="secondary">

@@ -6,9 +6,10 @@ export const reloadRequest = () => ({
 });
 
 export const RELOAD_SUCCESS = 'RELOAD_SUCCESS';
-export const reloadSuccess = (token) => ({
+export const reloadSuccess = (token, id) => ({
   type: RELOAD_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
@@ -24,9 +25,10 @@ export const loginRequest = () => ({
 });
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const loginSuccess = (token) => ({
+export const loginSuccess = (token, id) => ({
   type: LOGIN_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
@@ -42,9 +44,10 @@ export const signupRequest = () => ({
 });
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const signupSuccess = (token) => ({
+export const signupSuccess = (token, id) => ({
   type: SIGNUP_SUCCESS,
   token,
+  id,
   receivedAt: Date.now(),
 });
 
@@ -52,6 +55,11 @@ export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const signupFailure = (error) => ({
   type: SIGNUP_FAILURE,
   error,
+});
+// Hiranuma
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const logout = () => ({
+  type: LOGOUT_REQUEST,
 });
 
 // TODO: 実際のapiを叩く箇所を実装する
@@ -70,7 +78,8 @@ export const login = (user, history) => (dispatch) => {
     .then((res) => {
       console.log(process.env)
       localStorage.setItem('jwt', res.data.token);
-      dispatch(loginSuccess(res.data.token));
+      localStorage.setItem('id', res.data.data.id);
+      dispatch(loginSuccess(res.data.token, res.data.data.id));
       history.push('/');
     })
     .catch((err) => dispatch(loginFailure(err)));
@@ -90,10 +99,13 @@ export const signup = (user, history) => (dispatch) => {
   return axios.post('http://localhost:5000/api/v1/users', user)
     .then((res) => {
       localStorage.setItem('jwt', res.data.token);
-      dispatch(signupSuccess(res.data.token));
-      history.push('/');
+      localStorage.setItem('id', res.data.data.user.id);
+      console.log(res.data);
+      dispatch(signupSuccess(res.data.token, res.data.data.user.id));
     })
-    .catch((err) => dispatch(signupFailure(err)));
+    .catch((err) => dispatch(signupFailure(err)))
+    .then(() => history.push('/tags?new=true'))
+    .catch((err) => dispatch(signupFailure(err)))
 };
 
 /**
@@ -103,7 +115,7 @@ export const signup = (user, history) => (dispatch) => {
 export const reload = () => (dispatch) => {
   dispatch(reloadRequest());
   const jwt = localStorage.getItem('jwt');
-  console.log(jwt);
-  if (jwt !== null) dispatch(reloadSuccess(jwt));
+  const id = localStorage.getItem('id');
+  if (jwt !== null && id !== null) dispatch(reloadSuccess(jwt, id));
   else dispatch(reloadFailure('cannot load jwt token'));
 };
