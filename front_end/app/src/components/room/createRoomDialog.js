@@ -157,7 +157,7 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        <DialogTitle>Create Room</DialogTitle>
+        <DialogTitle><strong>Create Room</strong></DialogTitle>
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
             return (
@@ -177,10 +177,12 @@ const CreateRoomDialog = () => {
           // karakawa
         })()}
         {/*yuyamiyata*/}
-        <div>
+        {/* karakawa */}
+        <div align="center" style={{fontFamily:"Arial,sans-serif,Roboto", marginLeft:"30pt", marginRight:"30pt"}}>
           <img src={thumnail}/>
           <p>{title}</p>
         </div>
+        {/* karakawa */}
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
@@ -190,6 +192,7 @@ const CreateRoomDialog = () => {
                 inputRef={register}
               />
             </div>
+            <p> {/*TextFiledの間隔を取るため */} </p>
             <div>
               <TextField onChange={handleVideoInfo}
                 name="youtube_id"
@@ -197,7 +200,7 @@ const CreateRoomDialog = () => {
                 inputRef={register}
               />
             </div>
-            <div>
+            {/* <div>
               <Grid container>
                 <Grid item xs={1}>
                   <p>Key</p>
@@ -214,7 +217,8 @@ const CreateRoomDialog = () => {
                   </p>
                 </Grid>
               </Grid>
-            </div>
+            </div> */}
+            <p> {/*TextFiledの間隔を取るため */} </p>
             <div>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
@@ -225,11 +229,11 @@ const CreateRoomDialog = () => {
               </MuiPickersUtilsProvider>
             </div>
 
-            <Paper variant="outlined" elevation={3} className={classes.tagCard}>
+            {/* <Paper variant="outlined" elevation={3} className={classes.tagCard}>
               <li>Tag1</li>
               <li>Tag2</li>
               <li>Tag3</li>
-            </Paper>
+            </Paper> */}
 
           </DialogContent>
           <DialogActions>
