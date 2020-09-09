@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const styles = makeStyles({
   List: {
-    height: 450,
+    height: 400,
     'word-wrap': 'break-word',
   },
 });
