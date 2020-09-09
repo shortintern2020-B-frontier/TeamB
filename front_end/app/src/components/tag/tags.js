@@ -17,6 +17,10 @@ import Alert from '@material-ui/lab/Alert';  // Hiranuma
 const useStyles = makeStyles ((theme)=>({
   root:{
     flexGrow: 1,
+    textAlign: "center",
+  },
+  main: {
+    textAlign: "center",
   },
   paper:{
     margin:'auto',
@@ -46,6 +50,12 @@ const useStyles = makeStyles ((theme)=>({
     backgroundColor: '#3636F0',
     marinLeft:20,
   },
+  left: {
+    textAlign: "start",
+  },
+  alert: {
+    margin: 8,
+  }
 }));
 
 const tokenSelector = (state) => state.auth.token;
@@ -107,39 +117,39 @@ const Tags = () => {
     if(data.name === ""){
       setMsg('タグ名が入力されていません');
     }else{
+      setMsg('');
       dispatch(postTag(token, JSON.stringify({ tag: data }), id));
     }
     // Hiranuma
   };
 
   return (
-    <div>
-      <h2>タグの管理</h2>
+    <div className>
+      <h2 className={classes.main}>Add Your Favorite</h2>
       {(() => {
         if( isNewUser ) {
           return (
-            <div>
-              <p>ユーザー登録していただきありがとうございます</p>
-            </div>
+            <Grid container justify="center" className={classes.alert}>
+              <Alert><strong>ユーザー登録完了</strong></Alert>
+            </Grid>
           )
         }
       })()}
-      
       <Grid container className={classes.root}>
         <Paper className={classes.paper} elevation={5}>
           {/*  Hiranuma */}
           {(() => {
             if (err !== null && err !== undefined) {
               return (
-                <div>
-                  <Alert severity="error"> <strong> { err }</strong> </Alert>
-                </div>
+                <Grid container justify="center" className={classes.alert}>
+                  <Alert severity="error"> <strong>すでに存在しています</strong></Alert>
+                </Grid>
               );
             }else if(msg !== ""){
               return (
-                <div>
-                  <Alert severity="error"> <strong> { msg } </strong> </Alert>
-                </div>
+                <Grid container justify="center" className={classes.alert}>
+                  <Alert severity="error"  className={classes.alert}> <strong> { msg } </strong> </Alert>
+                </Grid>
               );
             }
           })()}
@@ -149,18 +159,19 @@ const Tags = () => {
             <div className={classes.panel}>
               <TextField
                 name="name"
-                label="タグ名"
+                label="Input"
                 inputRef={register}
                 variant="filled"
               />
             </div>
             <div className={classes.panel}>
               <Button type="submit" className={classes.button}>
-                登録
+                追加
               </Button>
             </div>
           </form>
-          <Paper elevation={0} variant="outlined" className={classes.tagPanel}>
+          <p className={classes.left}>Tags</p>
+          <Paper elevation={0} variant="outlined" className={classes.tagPanel, classes.left}>
             <TagList {...tags} />
           </Paper>
           </Grid>
