@@ -40,19 +40,14 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
  */
 export const createRoom = (token, data, history) => (dispatch) => {
   dispatch(createRoomRequest());
-  let id;
   return axios.post('http://localhost:5000/api/v1/rooms', data, {
     headers: getHeaders(token),
   })
     .then((res) => {
       dispatch(createRoomSuccess())
-      dispatch(enterRoom(token, res.data.data.room))
-      dispatch(setRoom(res.data.data.room))
-      id = res.data.data.room.id;
-      console.log(id);
+      dispatch(enterRoom(token, history, res.data.data.room))
     })
     .catch((err) => dispatch(createRoomFailure(err)))
-    .then(() => history.push(`/rooms/${id}`));
 };
 
 /**

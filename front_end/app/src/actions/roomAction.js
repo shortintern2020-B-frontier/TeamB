@@ -79,6 +79,7 @@ export const searchRoomsFailure = (error) => ({
 
 export const enterRoom = (token, history, room) => (dispatch) => {
   dispatch(enterRoomRequest());
+  console.log(room);
   const id = JSON.stringify({
     user: {
       room_id: room.id
