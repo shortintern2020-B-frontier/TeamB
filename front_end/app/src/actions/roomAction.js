@@ -147,6 +147,19 @@ export const searchRooms = (tag_id) => (dispatch, getState) => {
     },
   })
     .then((res) => {
-      dispatch(searchRoomsSuccess(res.data.data.tags))
+      dispatch(searchRoomsSuccess(res.data.data))
+    }).catch((err) => searchRoomsFailure(err));
+};
+
+export const searchUserRooms = () => (dispatch, getState) => {
+  const store = getState();
+  dispatch(searchRoomsRequest());
+  return axios.get(`http://localhost:5000/api/v1/user_room_tags/${store.auth.id}`, {
+    headers: {
+      Authorization: `Bearer ${store.auth.token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(searchRoomsSuccess(res.data.data))
     }).catch((err) => searchRoomsFailure(err));
 };

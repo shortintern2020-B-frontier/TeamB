@@ -119,8 +119,6 @@ export const postTag = (token, tag, id) => (dispatch) => {
       tmp = res.data.data.tag;
     })
     .catch((err) => dispatch(postTagFailure(err)))
-    .then(() => dispatch(postUserTag(token, id, tmp)))
-    .catch((err) => dispatch(postUserTagFailure(err)));
 };
 
 export const postUserTag = (token, id, tag) => (dispatch) => {
