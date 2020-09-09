@@ -45,6 +45,7 @@ const useStyles = makeStyles ((theme)=>({
     padding:3,
     textAlign: 'center',
   },
+  // Hiranuma
   button: {
     color: 'white',
     backgroundColor: '#3636F0',
@@ -56,6 +57,7 @@ const useStyles = makeStyles ((theme)=>({
   alert: {
     margin: 8,
   }
+  // Hiranuma
 }));
 
 const tokenSelector = (state) => state.auth.token;
@@ -113,7 +115,6 @@ const Tags = () => {
 
   const Submit = (data) => {
     // Hiranuma
-    // TODO
     if(data.name === ""){
       setMsg('タグ名が入力されていません');
     }else{
