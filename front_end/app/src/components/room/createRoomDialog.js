@@ -19,6 +19,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getRooms } from '../../actions/roomAction';
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 
+import Alert from '@material-ui/lab/Alert';
+
 const useStyles = makeStyles(() => ({
   tagCard: {
     margin: 10,
@@ -112,17 +114,20 @@ const CreateRoomDialog = () => {
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
             return (
+              // karakawa
               <div>
-                <p> ルームはすでに存在しています </p>
-                <p>{ msg }</p>
+                <Alert severity="error"> ルームはすでに存在しています<strong></strong> </Alert>
               </div>
             );
           }
-          return (
-            <div>
-              <p>{ msg }</p>
-            </div>
-          );
+          else if (msg !== ""){
+            return (
+              <div>
+                <Alert severity="error"> {msg}<strong></strong> </Alert>
+              </div>
+            );
+          }
+          // karakawa
         })()}
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>

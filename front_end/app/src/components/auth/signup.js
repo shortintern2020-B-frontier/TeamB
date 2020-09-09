@@ -70,16 +70,19 @@ const Signup = () => {
         {(() => {
           if (err !== null && err !== undefined) {
             return (
+              //karakawa
               <div>
                 <Alert severity="error"> <strong>そのユーザー名は既に使用されています </strong> </Alert>
               </div>
             );
+          }else if (msg !==""){
+            return (
+              <div>
+                <Alert severity="error"> <strong>{msg} </strong> </Alert>
+              </div>
+            );
           }
-          return (
-            <div>
-              <p>{ msg }</p>
-            </div>
-          );
+          //karakawa
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>
