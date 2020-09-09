@@ -8,20 +8,23 @@ import TextField from '@material-ui/core/TextField';
 import { ChatList } from './chatList';
 
 const tokenSelector = (state) => state.auth.token;
-const websocketSelector = (state) => state.chat.ws;
+const roomIdSelector = (state) => state.room.room.id;
 
 const Chat = () => {
   const token = useSelector(tokenSelector);
-  const ws = useSelector(websocketSelector);
+  const id = useSelector(roomIdSelector);
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   let connection;
 
   const sendChat = (data) => {
     const msg = JSON.stringify({
-      text: data.msg,
+      chat: {
+        text: data.msg,
+      },
     });
-    dispatch(sendMessage(ws, msg));
+    console.log(msg);
+    dispatch(sendMessage(msg, token, id));
     reset();
   }
 
