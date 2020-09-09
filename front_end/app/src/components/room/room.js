@@ -107,7 +107,7 @@ const Room = () => {
       </Grid>
       <Grid items xs={2}>
       <div>
-        <Button onClick={handleOut} className={classes.botton}><ExitIcon/>ルーム退室</Button>
+        <Button onClick={handleOut} className={classes.botton}>ルーム退室 <ExitIcon/></Button>
       </div>
       </Grid>
       </Grid>
