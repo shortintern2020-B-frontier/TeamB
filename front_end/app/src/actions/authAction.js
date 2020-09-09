@@ -56,6 +56,11 @@ export const signupFailure = (error) => ({
   type: SIGNUP_FAILURE,
   error,
 });
+// Hiranuma
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const logout = () => ({
+  type: LOGOUT_REQUEST,
+});
 
 // TODO: 実際のapiを叩く箇所を実装する
 // TODO: redux-thunkに置き換える
