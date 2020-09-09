@@ -11,6 +11,12 @@ const styles = makeStyles({
     height: 450,
     'word-wrap': 'break-word',
   },
+  ul:{
+    paddingLeft:3,
+  },
+  chat:{
+    'list-style':'none',
+  }
 });
 
 const chatSelector = (state) => state.chat.msgs;
@@ -27,14 +33,11 @@ export const ChatList = () => {
   return (
     <div className={classes.List}>
       <Scrollbars onUpdate={updateScrollbar} ref={scrollbars}>
-        <ul>
+        <ul className={classes.ul}>
           {
             msgs.map((msg, index) => (
-              <li key={index.toString()}>
+              <li key={index.toString()} className={classes.chat}>
                 <p>
-                  { index }
-                  番目:
-                  {' '}
                   { msg }
                 </p>
               </li>
