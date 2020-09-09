@@ -4,14 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
-import { getRooms, enterRoom, setRoom } from '../../actions/roomAction';
+import { getRooms, enterRoom } from '../../actions/roomAction';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import { getRooms, enterRoom } from '../../actions/roomAction';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
