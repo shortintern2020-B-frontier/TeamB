@@ -88,11 +88,14 @@ export const getTags = (token) => (dispatch) => {
 };
 
 // TODO: ログインしているユーザーに紐付いたタグを取得する部分を実装する
-export const getUserTags = (token, id) => (dispatch) => {
+export const getUserTags = (token, id) => (dispatch, getState) => {
+  const store = getState();
+  const user_id = id === null ? store.auth.id : id;
+  const user_token = token === null ? store.auth.token : token;
   dispatch(getUserTagsRequest());
-  return axios.get(`http://localhost:5000/api/v1/user_tags/${id}`, {
+  return axios.get(`http://localhost:5000/api/v1/user_tags/${user_id}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${user_token}`,
     },
   })
     .then((res) => {
