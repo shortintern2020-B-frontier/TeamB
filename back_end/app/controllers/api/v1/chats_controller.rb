@@ -25,7 +25,7 @@ module Api
                 chat = Chat.find(params[:id])
                 if chat.user_id == @current_user.id
                     if updated_chat=Chat.update(chat_params)
-                        render status:201 json: { status: 'SUCCESS', data: {chat: updated_chat}}
+                        render status:200 json: { status: 'SUCCESS', data: {chat: updated_chat}}
                     else
                         render status:500 json: { status: 'ERROR', data: { errors: "情報を取得できませんでした。"}}
                     end

@@ -12,15 +12,15 @@ module Api
 
       def index
         @followings = @current_user.followings
-        render json: { status: "SUCCESS", data: { users: @followings }}
+        render status:200, json: { status: "SUCCESS", data: { users: @followings }}
       end
 
       def create
         @following = @current_user.follow(@user)
         if @following.save
-          render json: { status: 'SUCCESS' }
+          render status:201, json: { status: 'SUCCESS' }
         else
-          render json: { status: 'ERROR' }
+          render status:500, json: { status: @following.errors }
         end
       end
 
@@ -29,7 +29,7 @@ module Api
         if @following.destroy
           render json: { status: 'SUCCESS' }
         else
-          render json: { status: 'ERROR' }
+          render status: 500, json: { status: @following.errors }
         end
       end
 

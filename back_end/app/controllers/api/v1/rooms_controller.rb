@@ -15,9 +15,9 @@ module Api
                 room_info[:admin_id]= @current_user.id
                 room=Room.new(room_info)
                 if room.save  && @current_user.update_attribute(:room_id, room.id)
-                    render json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
+                    render status:201, json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
                 else 
-                    render json: { status: 'ERROR', data: { error: "error" } }
+                    render status:500, json: { status: 'ERROR', data: { error: "error" } }
                 end
             end
             def update
@@ -25,10 +25,10 @@ module Api
                     if @room.update(room_params)
                         render json: { status: 'SUCCESS', data: { room: @room } }
                     else
-                        render json: { status: 'ERROR', data: { error: @room.erros}}
+                        render status:500, json: { status: 'ERROR', data: { error: @room.erros}}
                     end
                 else
-                    render json: { status: 'ERROR', data: { error: "invalid user"}}
+                    render status:401, json: { status: 'ERROR', data: { error: "invalid user"}}
                 end
             end
             
