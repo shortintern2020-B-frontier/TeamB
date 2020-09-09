@@ -1,3 +1,6 @@
+/* 
+*yuya miyata (designed)
+*/
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Scrollbars } from "react-custom-scrollbars";
@@ -5,7 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const styles = makeStyles({
   List: {
-    height: "200px",
+    height: 450,
+    'word-wrap': 'break-word',
   },
 });
 

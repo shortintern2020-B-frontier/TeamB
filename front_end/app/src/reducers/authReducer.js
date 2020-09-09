@@ -2,6 +2,7 @@ import {
   RELOAD_REQUEST, RELOAD_SUCCESS, RELOAD_FAILURE,
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
+  LOGOUT_REQUEST, // Hiranuma
 } from '../actions/authAction';
 
 const initialState = {
@@ -82,6 +83,9 @@ const auth = (state = initialState, action) => {
         isLoading: false,
         error: action.error,
       };
+      //Hiranuma
+    case LOGOUT_REQUEST:
+      return initialState
     default:
       return state;
   }
