@@ -23,6 +23,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getRooms } from '../../actions/roomAction';
 import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/createRoomAction';
 
+import Alert from '@material-ui/lab/Alert';
+
 import axios from 'axios';
 
 const useStyles = makeStyles(() => ({
@@ -121,10 +123,10 @@ const CreateRoomDialog = () => {
     const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
-    }else if(data.youtube_id.indexOf(url)){
-      setMsg('動画のURLに従っていません');
     }else if(data.youtube_id === ""){
       setMsg('URLが入力されていません')
+    }else if(data.youtube_id.indexOf(url)){
+      setMsg('動画のURLに従っていません');
     }else{
       setMsg('');
       dispatch(createRoom(token, roomData, history));
@@ -148,17 +150,20 @@ const CreateRoomDialog = () => {
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
             return (
+              // karakawa
               <div>
-                <p> ルームはすでに存在しています </p>
-                <p>{ msg }</p>
+                <Alert severity="error"> ルームはすでに存在しています<strong></strong> </Alert>
               </div>
             );
           }
-          return (
-            <div>
-              <p>{ msg }</p>
-            </div>
-          );
+          else if (msg !== ""){
+            return (
+              <div>
+                <Alert severity="error"> {msg}<strong></strong> </Alert>
+              </div>
+            );
+          }
+          // karakawa
         })()}
         {/*yuyamiyata*/}
         <div>
