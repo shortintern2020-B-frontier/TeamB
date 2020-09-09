@@ -17,7 +17,7 @@ const searchedRooms = (state = initalState, action) => {
     case SEARCH_ROOMS_SUCCESS:
       return {
         isFetching: false,
-        rooms: action.rooms,
+        rooms: action.rooms.room,
         lastUpdated: action.receivedAt,
       };
     case SEARCH_ROOMS_FAILURE:

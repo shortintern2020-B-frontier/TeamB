@@ -14,7 +14,7 @@ import Box from '@material-ui/core/Box';
 import { useForm } from 'react-hook-form';
 import { searchRooms, searchUserRooms } from '../../actions/roomAction';
 
-const mainSelector = (state) => state.rooms;
+const mainSelector = (state) => state.searchedRoom;
 const tokenSelector = (state) => state.auth.token;
 const tagSelector = (state) => state.userTags.tags;
 
@@ -103,6 +103,7 @@ export const Main = () => {
   const [selectedTag, setSelectedTag] = useState(null);
 
   useEffect(() => {
+    dispatch(searchUserRooms());
     dispatch(getRooms(token));
   }, []);
 
