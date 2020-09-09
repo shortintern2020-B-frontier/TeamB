@@ -12,12 +12,12 @@ module Api
 
       def index
         @followings = @current_user.followings
-        render status:200, json: { status: "SUCCESS", data: { users: @followings }}
+        render status:200, json: { status: "SUCCESS", data: { users: @followings } }
       end
 
       def create
         if @user == nil 
-          render status:500, json { status: 'ERROR', data { error: "not exist" } }
+          render status:500, json: { status: 'ERROR', data: { error: "INPUT NAME AND PASSWORD" } }
         else 
           @following = @current_user.follow(@user)
           if @following.save

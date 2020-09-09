@@ -110,6 +110,6 @@ yarn-debug.log*
 !/storage/.keep
 
 # End of https://www.toptal.com/developers/gitignore/api/rails,macos
-
+.env
 #mysql
 mysql-data/*

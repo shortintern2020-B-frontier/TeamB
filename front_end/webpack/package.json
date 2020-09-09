@@ -47,7 +47,6 @@
     "fetch-mock": "^9.10.7",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.4.2",
-    "json-server-auth": "^2.0.2",
     "react-actioncable-provider": "^2.0.0",
     "react-custom-scrollbars": "^4.2.1",
     "webpack": "^4.44.1",

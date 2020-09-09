@@ -38,7 +38,7 @@ export const receiveChat = (msg) => ({
 })
 
 export const connectToWebsocket = (token) => (dispatch) => {
-  const ws = new WebSocket('ws://localhost:5000/cable?token='+token);
+  const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET+'/cable?token='+token);
   ws.onopen = () => {
     ws.send('Ping');
     var msg={"command":"subscribe","identifier":"{\"channel\":\"RoomChannel\"}"}
@@ -67,7 +67,7 @@ export const closeWebsocket = (ws) => (dispatch) => {
 
 export const sendMessage = (msg, token, room_id) => (dispatch) => {
   dispatch(postChatRequest());
-  return axios.post(`http://localhost:5000/api/v1/rooms/${room_id}/chats`, msg, {
+  return axios.post(`/api/v1/rooms/${room_id}/chats`, msg, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

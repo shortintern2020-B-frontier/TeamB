@@ -76,7 +76,7 @@ export const postUserTagFailure = (error) => ({
 
 export const getTags = (token) => (dispatch) => {
   dispatch(getTagsRequest());
-  return axios.get('http://localhost:5000/api/v1/tags', {
+  return axios.get('/api/v1/tags', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -90,7 +90,7 @@ export const getTags = (token) => (dispatch) => {
 // TODO: ログインしているユーザーに紐付いたタグを取得する部分を実装する
 export const getUserTags = (token, id) => (dispatch) => {
   dispatch(getUserTagsRequest());
-  return axios.get(`http://localhost:5000/api/v1/user_tags/${id}`, {
+  return axios.get(`/api/v1/user_tags/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -106,7 +106,7 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 export const postTag = (token, tag, id) => (dispatch) => {
   dispatch(postTagRequest());
   let tmp;
-  return axios.post('http://localhost:5000/api/v1/tags', tag, {
+  return axios.post('/api/v1/tags', tag, {
     headers: getHeaders(token),
   })
     .then((res) => {
@@ -128,7 +128,7 @@ export const postUserTag = (token, id, tag) => (dispatch) => {
     }
   });
   console.log(send_tag);
-  return axios.post('http://localhost:5000/api/v1/user_tags', send_tag, {
+  return axios.post('/api/v1/user_tags', send_tag, {
     headers: getHeaders(token),
   })
     .then((res) => {
