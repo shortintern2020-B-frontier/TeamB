@@ -145,7 +145,6 @@ export const searchRooms = (tag_id) => (dispatch, getState) => {
     headers: {
       Authorization: `Bearer ${store.auth.token}`,
     },
-
   })
     .then((res) => {
       dispatch(searchRoomsSuccess(res.data.data.tags))
