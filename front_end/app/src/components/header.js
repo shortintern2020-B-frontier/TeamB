@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import CreateRoomDialog from './room/createRoomDialog';
 import Link from '@material-ui/core/Link';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { logout } from '../actions/authAction';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     'background-color': '#F03636',
   },
-  button: {
+  link: {
     color: 'white',
     backgroundColor: '#F03636',
     cursor: "pointer",
@@ -53,6 +55,7 @@ const Header = () => {
   const history = useHistory();
   const classes = useStyles();
   const auth = useSelector(AuthSelector);
+  const dispatch = useDispatch();
 
   const moveSignup = () => {
     history.push('/signup');
@@ -74,6 +77,13 @@ const Header = () => {
     history.push('/toppage');
   }
 
+  const logoutDone = () => {
+    // Todo: localstrageと状態の破棄
+    localStorage.clear();
+    dispatch(logout());
+    moveTop();
+  }
+
   if (auth.isLoggedIn) {
     return (
       <header className={classes.root}>
@@ -85,8 +95,9 @@ const Header = () => {
               </Link>
             </Typography>
             <CreateRoomDialog />
-            <Link onClick={moveTags} className={classes.button}>Tags</Link>
-            <Link onClick={moveRooms} className={classes.button}>Rooms</Link>
+            <Link onClick={moveTags} className={classes.link}>Tags</Link>
+            <Link onClick={moveRooms} className={classes.link}>Rooms</Link>
+            <Link onClick={logoutDone}  className={classes.link}>Logout</Link>
           </Toolbar>
         </AppBar>
       </header>
@@ -101,8 +112,8 @@ const Header = () => {
                 TheaTalk
               </Link>
             </Typography>
-          <Link onClick={moveSignup} className={classes.button}>SignUp</Link>
-          <Link onClick={moveLogin} className={classes.button}>Login</Link>
+          <Link onClick={moveSignup} className={classes.link}>SignUp</Link>
+          <Link onClick={moveLogin} className={classes.link}>Login</Link>
         </Toolbar>
       </AppBar>
     </header>
