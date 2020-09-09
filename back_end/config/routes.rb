@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :room_tags
       resources :room_users do
         collection do 
-          put :leave 
+          get :leave 
         end
       end
       resources :tags do
