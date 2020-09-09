@@ -13,6 +13,7 @@ import { exitRoom } from '../../actions/roomAction';
 import { makeStyles } from '@material-ui/core/styles';
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ExitIcon from '@material-ui/icons/TransitEnterexit';
 import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +31,6 @@ const useStyles = makeStyles(() => ({
     marginTop: 20,
     color: 'white',
     backgroundColor: '#3636F0',
-    height:'100%',
   },
   texts: {
     margin: 20,
@@ -100,14 +100,14 @@ const Room = () => {
         })()}
       </h3>
       <Grid container className={classes.grid}>
-      <Grid items xs={11}>
+      <Grid items xs={10}>
       <h4 className={classes.texts}>
         {room.start_time}
       </h4>
       </Grid>
-      <Grid items xs={1}>
+      <Grid items xs={2}>
       <div>
-        <Button onClick={handleOut} className={classes.botton}>ルーム退室</Button>
+        <Button onClick={handleOut} className={classes.botton}><ExitIcon/>ルーム退室</Button>
       </div>
       </Grid>
       </Grid>
