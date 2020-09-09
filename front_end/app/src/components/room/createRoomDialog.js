@@ -71,7 +71,7 @@ const CreateRoomDialog = () => {
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [apiData,setApiData] = useState([]);
+  {/*yuyamiyata*/}
   const [url,setUrl] = useState('');
   const [thumnail,setThumnail] = useState('');
   const [title,setTitle] = useState('');
@@ -109,21 +109,29 @@ const CreateRoomDialog = () => {
   };
 
   const Submit = (data) => {
+    /*yuya miyata*/
+    const url = "https://www.youtube.com/watch?v=";
+    let videoId;
+    if(!data.youtube_id.indexOf(url)){
+      videoId = data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
+    }else {
+      videoId = data.youtube_id.substr(-11);
+    }
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
     const roomData = JSON.stringify({
       room: {
         name: data.name,
-        youtube_id: data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1],//YuyaMiyata
+        youtube_id: videoId,//YuyaMiyata
         is_private: isPrivate,
         start_time: null,
       },
     });
-    const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
-    }else if(data.youtube_id.indexOf(url)){
+    }else if(videoId === null){
       setMsg('動画のURLに従っていません');
-    }else if(data.youtube_id === ""){
+    }
+    else if(data.youtube_id === ""){
       setMsg('URLが入力されていません')
     }else{
       setMsg('');
@@ -131,6 +139,9 @@ const CreateRoomDialog = () => {
       dispatch(getRooms(token));
       handleClose();
     }
+    //次回ルーム作成時に表示されないように初期化YuyaMiyata
+    setThumnail('');
+    setTitle('');
   };
 
   return (
