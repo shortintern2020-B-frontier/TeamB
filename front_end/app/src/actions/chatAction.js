@@ -51,9 +51,8 @@ export const connectToWebsocket = (token) => (dispatch) => {
 
   ws.onmessage = (e) => {
     const msg = JSON.parse(e.data);
-    console.log('Server: ' + e.data);
     if( msg.type !== "welcome") {
-      dispatch(receiveMessage(msg.message));
+      dispatch(receiveMessage(msg.message.text));
     }
   };
   dispatch(initChat(ws));
