@@ -19,7 +19,7 @@ module Api
             end
             #rikuiwasaki
             def show
-              user = User.select(:id,:name,:profile,:room_id,:created_at,:updated_at).find_by(id: params[:id])
+              user = User.find(params[:id]).select(:id,:name,:profile,:room_id,:created_at,:updated_at)
               render status: 200, json: { status: 'SUCCESS', message: 'Loaded posts', data: { user: @user } }
             end
             # ユーザ登録
