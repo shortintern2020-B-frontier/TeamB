@@ -51,7 +51,7 @@ export const connectToWebsocket = (token) => (dispatch) => {
 
   ws.onmessage = (e) => {
     const msg = JSON.parse(e.data);
-    if( msg.type !== "welcome") {
+    if( msg.type !== "welcome" && msg.type !== "ping" && msg.type !== "confirm_subscription" ) {
       dispatch(receiveMessage(msg.message.text));
     }
   };

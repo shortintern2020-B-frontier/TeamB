@@ -27,7 +27,7 @@ const chat = (state = initialState, action) => {
     case POST_CHAT_SUCCESS:
       return {
         ws: state.ws,
-        msgs: [...state.msgs, action.msg],
+        msgs: state.msgs,
         lastUpdated: action.receivedAt,
         isLoading: true,
       };
