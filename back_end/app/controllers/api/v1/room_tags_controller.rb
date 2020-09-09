@@ -26,8 +26,8 @@ module Api
                 room = Room.find_by(id: params[:id])
                 # tag_id = tag_id_param[:tag_id]
                 # render json:{room: room}
-                # 中間テーブルの削除ってことよね
-                if room.tags.delete.find_by(tag_id_param) 
+                # これテーブル全削除？の場合かな？ kyosukeに任せる！
+                if room.tags.where(tag_id_param).delete
                     render status:200, json:{status: 'SUCCESS'}
                 else
                     render status:500, json: {status: 'ERROR'}
