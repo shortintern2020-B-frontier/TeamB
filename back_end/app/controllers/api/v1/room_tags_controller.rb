@@ -8,6 +8,7 @@ module Api
         class RoomTagsController < ApplicationController
             include JwtAuthenticator
             jwt_authenticate
+            before_action :set_tag,only: [:show]
 
             def create
                 room_tag = RoomsTag.new(room_tag_params)
@@ -18,13 +19,21 @@ module Api
                 end
             end
 
-            def room_tag_params
-                params.require(:room_tag).permit(:tag_id, :room_id)
+            #karakawa
+
+            def destroy #Roomを:idで指定、tag_idをparamとして受け付ける
+                room_id = params[:id]
+                tag_id = tag_id_params[:tag_id]
+                @room_tag = RoomsTag.where("tag_id = #{tag_id} and room_id = #{room_id}")
+                if @room_tag.destroy
+                    rener status:200 json: {status: 'SUCCESS'}
+                else
+                    render status:500 json: {status: 'ERROR'}
+                end 
             end
 
-            #karakawa
-            before_action :set_room,only: [:show]
-
+            
+            #指定されたTag_idを持つroomを返す
             def show
                 tag_id = @tag.id
                 rooms = Room.joins(:tags).where("tag_id = #{tag_id}")
@@ -32,11 +41,18 @@ module Api
             end
             
             private
-                def set_room
+                def set_tag
                     @tag=Tag.find(params[:id])
                 end
-            #karakawa
 
+                def tag_id_params
+                    params.require(:room_tag).permit(:tag_id)
+                end
+                
+                def room_tag_params
+                    params.require(:room_tag).permit(:tag_id, :room_id)
+                end
+            #karakawa
         end
     end
 end
