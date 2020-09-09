@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { signup } from '../../actions/authAction';
 import Alert from '@material-ui/lab/Alert';
 
@@ -67,7 +67,7 @@ const Signup = () => {
   return (
     <div>
       <Paper className={classes.formLayout}>
-        <AccountCircle fontSize="large" />
+        <AccountCircleIcon fontSize="large" />
         <h2>登録</h2>
         {(() => {
           if (err !== null && err !== undefined) {
