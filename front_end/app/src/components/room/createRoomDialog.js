@@ -103,7 +103,7 @@ const CreateRoomDialog = () => {
 
   {/*yuyamiyata*/}
   const handleVideoInfo = (e) => {
-    const id = e.target.value.substr(32);
+    const id = e.target.value.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
     setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
     setThumnail(`http://img.youtube.com/vi/${id}/default.jpg`)
   };
@@ -113,7 +113,7 @@ const CreateRoomDialog = () => {
     const roomData = JSON.stringify({
       room: {
         name: data.name,
-        youtube_id: data.youtube_id.substr(32),//YuyaMiyata
+        youtube_id: data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1],//YuyaMiyata
         is_private: isPrivate,
         start_time: null,
       },
