@@ -59,9 +59,10 @@ export const RoomList = (rooms) => {
     // Hiranuma
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
+        {/* Roomsを表示するかどうかによってコメントを外す */}
+        {/* <Typography variant="h4" gutterBottom>
             Rooms
-        </Typography>
+        </Typography> */}
       <div className={classes.root}>
           {
             rooms.rooms.map((room, index) => (
