@@ -1,5 +1,5 @@
 import axios from '../settings/axios';
-import { setRoom } from './roomAction'
+import { enterRoom, setRoom } from './roomAction'
 
 export const CREATE_ROOM_REQUEST = 'CREATE_ROOM_REQUEST';
 export const createRoomRequest = () => ({
@@ -40,16 +40,19 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
  */
 export const createRoom = (token, data, history) => (dispatch) => {
   dispatch(createRoomRequest());
-  console.log(data);
+  let id;
   return axios.post('http://localhost:5000/api/v1/rooms', data, {
     headers: getHeaders(token),
   })
     .then((res) => {
       dispatch(createRoomSuccess())
+      dispatch(enterRoom(token, res.data.data.room))
       dispatch(setRoom(res.data.data.room))
-      history.push(`/rooms/${res.data.data.room.id}`);
+      id = res.data.data.room.id;
+      console.log(id);
     })
-    .catch((err) => dispatch(createRoomFailure(err)));
+    .catch((err) => dispatch(createRoomFailure(err)))
+    .then(() => history.push(`/rooms/${id}`));
 };
 
 /**

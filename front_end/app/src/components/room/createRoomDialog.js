@@ -53,7 +53,7 @@ const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
 
-const API_KEY ='AIzaSyBucvcxbtF6SgdsVqEyqumQ-VM0E7dqCGM'
+const API_KEY ='AIzaSyCkRx3OW3jIOosKQNBb8uzkVxyvlVQhbN0'
 
 const CreateRoomDialog = () => {
   const classes = useStyles();
