@@ -65,7 +65,7 @@ export const Main = () => {
   };
 
   const Search = () => {
-    dispatch(searchRooms(selectedTag));
+    dispatch(searchRooms(selectedTag.id));
   }
 
   return (

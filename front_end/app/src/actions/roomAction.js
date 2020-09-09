@@ -136,13 +136,16 @@ export const roomReload = () => (dispatch) => {
  * 特定のタグを持つルームを検索する
  */
 export const searchRooms = (tag_id) => (dispatch, getState) => {
+  console.log(tag_id);
   const store = getState();
   dispatch(searchRoomsRequest());
   return axios.get(`http://localhost:5000/api/v1/tags/search?search=${tag_id}`, {
-    headers: getHeaders(store.auth.token),
+    headers: {
+      Authorization: `Bearer ${store.auth.token}`,
+    },
+
   })
     .then((res) => {
-      console.log(res.data.tags);
-      dispatch(searchRoomsSuccess(res.data.tags))
+      dispatch(searchRoomsSuccess(res.data.data.tags))
     }).catch((err) => searchRoomsFailure(err));
 };
