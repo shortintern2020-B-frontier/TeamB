@@ -6,23 +6,24 @@ import {
 
 const initialState = {
   token: null,
+  id: null,
   isLoggedIn: false,
   isLoading: true,
 };
 
-// TODO: 実際のapiを組み込むときに変更する
-// json_serverだと、tokenの値はaccess_tokenでアクセス出来る
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP_REQUEST:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: true,
       };
     case SIGNUP_SUCCESS:
       return {
         token: action.token,
+        id: action.id,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,
@@ -30,6 +31,7 @@ const auth = (state = initialState, action) => {
     case SIGNUP_FAILURE:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: false,
         signup_error: action.error,
@@ -37,12 +39,14 @@ const auth = (state = initialState, action) => {
     case LOGIN_REQUEST:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: true,
       };
     case LOGIN_SUCCESS:
       return {
         token: action.token,
+        id: action.id,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,
@@ -50,6 +54,7 @@ const auth = (state = initialState, action) => {
     case LOGIN_FAILURE:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: false,
         login_error: action.error,
@@ -57,12 +62,14 @@ const auth = (state = initialState, action) => {
     case RELOAD_REQUEST:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: true,
       };
     case RELOAD_SUCCESS:
       return {
         token: action.token,
+        id: action.id,
         isLoggedIn: true,
         isLoading: false,
         lastUpdated: action.receivedAt,
@@ -70,6 +77,7 @@ const auth = (state = initialState, action) => {
     case RELOAD_FAILURE:
       return {
         token: null,
+        id: null,
         isLoggedIn: false,
         isLoading: false,
         error: action.error,

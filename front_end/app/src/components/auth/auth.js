@@ -30,7 +30,6 @@ const Auth = (props) => {
 
   useEffect(() => {
     dispatch(reload());
-    console.log(auth);
   }, [location.pathname || auth.isLoading]);
 
   if (!auth.isLoading && !auth.isLoggedIn) {

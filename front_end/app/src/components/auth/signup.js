@@ -59,6 +59,8 @@ const Signup = () => {
       setMsg('ユーザー名が入力されていません');
     } else if (data.password === '') {
       setMsg('パスワードが入力されていません');
+    } else if (data.password !== data.anotherPassword) {
+      setMsg('パスワードが一致していません');
     } else dispatch(signup(user, history));
   };
 
@@ -97,6 +99,15 @@ const Signup = () => {
             className={classes.textBox}
             name="password"
             label="パスワード"
+            type="password"
+            inputRef={register}
+            variant="filled"
+          />
+          <TextField
+            className={classes.textBox}
+            name="anotherPassword"
+            label="パスワード(確認)"
+            type="password"
             inputRef={register}
             variant="filled"
           />

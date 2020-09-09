@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+/**
+ * Author: Hiranuma
+ */
+
+import React, { useState,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -21,6 +25,8 @@ import { openRoomDialog, closeRoomDialog, createRoom } from '../../actions/creat
 
 import Alert from '@material-ui/lab/Alert';
 
+import axios from 'axios';
+
 const useStyles = makeStyles(() => ({
   tagCard: {
     margin: 10,
@@ -30,12 +36,24 @@ const useStyles = makeStyles(() => ({
   switchPosition: {
     'text-align': 'center',
   },
+
+  button: {
+    color: 'white',
+    backgroundColor: '',
+  },
+
+  roomButton: {
+    color: 'white',
+    backgroundColor: "gray",
+  }
 }));
 
 const createRoomSelector = (state) => state.createRoom;
 const tokenSelector = (state) => state.auth.token;
 // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
 const roomSelector = (state) => state.rooms;
+
+const API_KEY ='AIzaSyBucvcxbtF6SgdsVqEyqumQ-VM0E7dqCGM'
 
 const CreateRoomDialog = () => {
   const classes = useStyles();
@@ -55,6 +73,20 @@ const CreateRoomDialog = () => {
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [apiData,setApiData] = useState([]);
+  const [url,setUrl] = useState('');
+  const [thumnail,setThumnail] = useState('');
+  const [title,setTitle] = useState('');
+
+  {/*yuyamiyata*/}
+  useEffect(() => {
+    axios.get(url)
+    .then(res => res.data.items[0].snippet)
+    .catch(() => console.log('YouTubeAPI Error'))
+    .then(res1 => setTitle(res1.title))
+    .then(res2 => setUrl(res2.thumbnails.default.url))
+  }, [url]);
+
   const handleOpen = () => {
     dispatch(openRoomDialog());
   };
@@ -71,6 +103,13 @@ const CreateRoomDialog = () => {
     setSelectedDate(date);
   };
 
+  {/*yuyamiyata*/}
+  const handleVideoInfo = (e) => {
+    const id = e.target.value.substr(32);
+    setUrl(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&part=snippet&fields=items(snippet(title,thumbnails.default))`);
+    setThumnail(`http://img.youtube.com/vi/${id}/default.jpg`)
+  };
+
   const Submit = (data) => {
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
     const roomData = JSON.stringify({
@@ -81,7 +120,6 @@ const CreateRoomDialog = () => {
         start_time: null,
       },
     });
-    // Hiranuma Tomoyuki
     const url = "https://www.youtube.com/watch?v=";
     if(data.name === ""){
       setMsg('ルーム名が入力されていません');
@@ -95,12 +133,11 @@ const CreateRoomDialog = () => {
       dispatch(getRooms(token));
       handleClose();
     }
-    // Hiranuma Tomoyuki
   };
 
   return (
     <div>
-      <Button onClick={handleOpen}>
+      <Button onClick={handleOpen} className={classes.roomButton}>
         ルーム作成
       </Button>
       <Dialog
@@ -109,7 +146,6 @@ const CreateRoomDialog = () => {
         maxWidth="xs"
         onClose={handleClose}
       >
-        {/* hiranuma */}
         <DialogTitle>Create Room</DialogTitle>
         {(() => {
           if (createRoomProps.err !== null && createRoomProps.err !== undefined) {
@@ -129,6 +165,11 @@ const CreateRoomDialog = () => {
           }
           // karakawa
         })()}
+        {/*yuyamiyata*/}
+        <div>
+          <img src={thumnail}/>
+          <p>{title}</p>
+        </div>
         <form onSubmit={handleSubmit(Submit)}>
           <DialogContent>
             <div>
@@ -139,7 +180,7 @@ const CreateRoomDialog = () => {
               />
             </div>
             <div>
-              <TextField
+              <TextField onChange={handleVideoInfo}
                 name="youtube_id"
                 label="youtube url"
                 inputRef={register}
@@ -180,7 +221,6 @@ const CreateRoomDialog = () => {
             </Paper>
 
           </DialogContent>
-          {/* hiranuma */}
           <DialogActions>
             <Button onClick={handleClose} variant="contained">Cancel</Button>
             <Button type="submit" variant="contained" color="secondary">

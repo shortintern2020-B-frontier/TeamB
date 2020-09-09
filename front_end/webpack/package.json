@@ -49,6 +49,7 @@
     "jest": "^26.4.2",
     "json-server-auth": "^2.0.2",
     "react-actioncable-provider": "^2.0.0",
+    "react-custom-scrollbars": "^4.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
