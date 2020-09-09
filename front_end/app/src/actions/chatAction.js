@@ -54,7 +54,7 @@ export const connectToWebsocket = (token) => (dispatch) => {
     if( msg.type !== "welcome" && msg.type !== "ping" && msg.type !== "confirm_subscription" ) {
       console.log(msg.message)
       let chat_info=msg.message;
-      dispatch(receiveMessage(chat_info.name+":"+chat_info.text));
+      dispatch(receiveMessage(chat_info.name+" "+chat_info.text));
     }
   };
   dispatch(initChat(ws));
