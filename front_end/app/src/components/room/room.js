@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Chat from './chat';
 import { closeWebsocket } from '../../actions/chatAction';
+import { setRoom } from '../../actions/roomAction';
 
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
@@ -33,6 +34,12 @@ const Room = () => {
   }, []);
 
   useEffect(()=>{
+    const localId = localStorage.getItem('room');
+    if( localId !== null && localId !== undefined ) {
+      console.log('##################')
+      console.log(localId);
+      dispatch(setRoom(localId));
+    }
     setVideo(BASE_URL+room.youtube_id)
   },[])
 

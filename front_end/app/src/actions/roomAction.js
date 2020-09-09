@@ -18,12 +18,18 @@ export const getRoomsFailure = (error) => ({
   error,
 });
 
-export const SET_ROOM = 'SET_ROOM';
-export const setRoom = (room) => ({
-  type: SET_ROOM,
+export const SET_ROOM_FUNC = 'SET_ROOM_FUNC';
+export const setRoomFunc = (room) => ({
+  type: SET_ROOM_FUNC,
   room: room,
   receivedAt: Date.now(),
 });
+
+export const setRoom = (room) => (dispatch) => {
+  //console.log(room);
+  localStorage.setItem('room', room);
+  dispatch(setRoomFunc(room));
+}
 
 export const getRooms = (token) => (dispatch) => {
   dispatch(getRoomsRequest());
@@ -33,6 +39,7 @@ export const getRooms = (token) => (dispatch) => {
     },
   })
     .then((res) => {
+      console.log(res.data.data);
       dispatch(getRoomsSuccess(res.data.data))
     })
     .catch((err) => dispatch(getRoomsFailure(err)));

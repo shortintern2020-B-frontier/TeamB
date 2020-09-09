@@ -1,5 +1,5 @@
 import {
-  SET_ROOM,
+  SET_ROOM_FUNC,
 } from '../actions/roomAction';
 
 const initalState = {
@@ -9,7 +9,7 @@ const initalState = {
 
 const room = (state = initalState, action) => {
   switch (action.type) {
-    case SET_ROOM:
+    case SET_ROOM_FUNC:
       return {
         isFetching: false,
         room: action.room,

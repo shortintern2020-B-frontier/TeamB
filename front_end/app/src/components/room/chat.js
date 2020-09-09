@@ -26,7 +26,7 @@ const Chat = () => {
   }
 
   useEffect(() => {
-    dispatch(connectToWebsocket(token));
+    // dispatch(connectToWebsocket(token));
   }, []);
 
   return (

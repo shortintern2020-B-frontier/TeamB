@@ -115,7 +115,7 @@ const CreateRoomDialog = () => {
         name: data.name,
         youtube_id: data.youtube_id.substr(32),//YuyaMiyata
         is_private: isPrivate,
-        start_time: null,
+        start_time: selectedDate,
       },
     });
     const url = "https://www.youtube.com/watch?v=";
