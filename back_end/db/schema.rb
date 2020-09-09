@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200908021549) do
+ActiveRecord::Schema.define(version: 20200909050035) do
 
   create_table "chats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20200908021549) do
     t.string "youtube_id"
   end
 
-  create_table "rooms_tags", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "rooms_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "room_id"
     t.bigint "tag_id"
     t.datetime "created_at", null: false
