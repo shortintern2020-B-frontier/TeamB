@@ -6,33 +6,39 @@ import Button from '@material-ui/core/Button';
 
 import { getRooms, enterRoom } from '../../actions/roomAction';
 import GridList from '@material-ui/core/GridList';
+import Grid from '@material-ui/core/Grid';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: "100%",
-    height: 'auto',
+    padding: 0,
+    margin: 0,
+    // textAlign: "center",
+    // display: 'flex',
+    // flexWrap: 'wrap',
+    // justifyContent: 'space-evenly',
+    // overflow: 'hidden',
+    // backgroundColor: theme.palette.background.paper,
   },
   image: {
-    margin: 50,
-    // width: "30%",
+    width: 350,
+    height: 200,
+    margin: 30,
   },
   enterRoom: {
     color: "white",
     "background-color": "#F03636"
   },
+  box: {
+    height: 300,
+    width: 400,
+  }
 }));
 
 export const RoomList = (rooms) => {
@@ -53,24 +59,27 @@ export const RoomList = (rooms) => {
     // Hiranuma
     return (
       <div className={classes.root}>
-        <GridList cellHeight={180} className={classes.gridList}>
-          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-            <ListSubheader component="div">Rooms</ListSubheader>
-          </GridListTile>
+        <Typography variant="h4" gutterBottom>
+            Rooms
+        </Typography>
           {
             rooms.rooms.map((room, index) => (
-              <GridListTile className={classes.image} key={index.toString()}>
-                <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
-                <GridListTileBar
-                  title={room.name}
-                  actionIcon={
-                    <Button onClick={() => handleClick(index)} variant="contained" className={classes.enterRoom} >入室</Button>
-                  }
-                />
-              </GridListTile>
+              <Box display="inline" flexWrap="wrap" justifyContent="center" boxShadow={3}>
+                <div className={classes.box}>
+                  <GridListTile className={classes.image} key={index.toString()}>
+                    <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
+                    <GridListTileBar
+                      title={room.name}
+                      subtitle={room.start_time}
+                      actionIcon={
+                        <Button onClick={() => handleClick(index)} variant="contained" className={classes.enterRoom} >入室</Button>
+                      }
+                    />
+                  </GridListTile>
+                </div>
+              </Box> 
             )
           )}
-        </GridList>
       </div>
     // Hiranuma
     );
