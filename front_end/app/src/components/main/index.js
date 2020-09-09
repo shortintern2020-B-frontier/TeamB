@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+
 import { getRooms, enterRoom, setRoom } from '../../actions/roomAction';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -10,6 +11,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import { getRooms, enterRoom } from '../../actions/roomAction';
 
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
@@ -42,10 +44,8 @@ export const RoomList = (rooms) => {
   const token = useSelector(tokenSelector);
   const classes = useStyles();
 
-  const handleClick = (index, id) => {
-    dispatch(enterRoom(token, rooms.rooms[index]))
-    dispatch(setRoom(rooms.rooms[index]));
-    history.push(`/rooms/${id}`);
+  const handleClick = (index) => {
+    dispatch(enterRoom(token, history, rooms.rooms[index]))
   };
 
   if (rooms.isFetching) {
@@ -62,15 +62,14 @@ export const RoomList = (rooms) => {
           </GridListTile>
           {
             rooms.rooms.map((room, index) => (
-              <GridListTile className={classes.image}>
+              <GridListTile className={classes.image} key={index.toString()}>
                 <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
                 <GridListTileBar
                   title={room.name}
                   actionIcon={
-                    <Button onClick={() => handleClick(index, room.id)} variant="contained" className={classes.enterRoom} >入室</Button>
+                    <Button onClick={() => handleClick(index)} variant="contained" className={classes.enterRoom} >入室</Button>
                   }
                 />
-                <Button onClick={() => handleClick(index, room.id)} variant="contained" >入室</Button>
               </GridListTile>
             )
           )}
