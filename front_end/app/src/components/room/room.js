@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Chat from './chat';
 import { closeWebsocket } from '../../actions/chatAction';
+import { setRoom } from '../../actions/roomAction';
+import { exitRoom } from '../../actions/roomAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
@@ -44,6 +46,7 @@ const Room = () => {
   const [video,setVideo] = useState(`${BASE_URL}`)//yuyamiyata
 
   const handleOut = () => {
+    dispatch(exitRoom(token));
     dispatch(closeWebsocket(ws));
     history.push('/');
   };
@@ -54,8 +57,12 @@ const Room = () => {
   }, []);
 
   useEffect(()=>{
+    const local_room = JSON.parse(localStorage.getItem('room'));
+    if( local_room !== null && room.youtube_id !== local_room.youtube_id ) {
+      dispatch(setRoom(local_room));
+    }
     setVideo(BASE_URL+room.youtube_id)
-  },[])
+  },[room])
 
   return (
     <div>
@@ -66,9 +73,20 @@ const Room = () => {
         className={classes.video}
         frameborder="0"/>
       <Chat className={classes.chat}/>
-      <h1 className={classes.texts}>
-        {room.name}
-      </h1>
+      <h3 className={classes.texts}>
+        {(() => {
+          if( room === undefined ) {
+            console.log(room);
+            return (<p>not found</p>)
+          } else {
+            return (
+              <div>
+                <h1>{room.name}</h1>
+              </div>
+            )
+          }
+        })()}
+      </h3>
       <h4 className={classes.texts}>
         {room.start_time}
       </h4>

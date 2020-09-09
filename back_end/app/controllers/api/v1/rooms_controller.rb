@@ -4,36 +4,38 @@ module Api
             include JwtAuthenticator 
             jwt_authenticate except: :index
             #rikuiwasaki
-            before_action :set_room,only: [:update, :show]
+            before_action :set_room, only: [:update, :show]
             def index
-                rooms = Room.all.order(updated_at: :desc).select(:id, :name, :youtube_id, :password, :admin_id, :is_private, :start_time, :created_at, :updated_at)
-                render json: { status: 'SUCCESS',data: { rooms: rooms } }
+                rooms = Room.all.order(updated_at: :desc).select(:id, :name, :admin_id, :youtube_id, :password, :is_private,:start_time, :created_at, :updated_at)
+                render status:200, json: { status: 'SUCCESS', data: { rooms: rooms } }
             end
+
             def create
                 room_info = room_params
                 room_info[:admin_id] = @current_user.id
                 room = Room.new(room_info)
                 if room.save && @current_user.update_attribute(:room_id, room.id)
-                    render json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
+                    render status:201, json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
                 else 
-                    render json: { status: 'ERROR', data: { error: "error" } }
+                    render status:500, json: { status: 'ERROR', data: { error: "save error" } }
                 end
             end
+            
             def update
                 if @current_user.id == @room.admin_id
                     if @room.update(room_params)
-                        render json: { status: 'SUCCESS', data: { room: @room } }
+                        render status:200, json: { status: 'SUCCESS', data: { room: @room } }
                     else
-                        render json: { status: 'ERROR', data: { error: @room.errors } }
+                        render status:500, json: { status: 'ERROR', data: { error: @room.erros } }
                     end
                 else
-                    render json: { status: 'ERROR', data: { error: "invalid user" } }
+                    render status:401, json: { status: 'ERROR', data: { error: "invalid user" } }
                 end
             end
             
             #karakwa
             def show
-                render json: {status: 'SUCCESS', data: { room: @room } }
+                render status:200, json: {status: 'SUCCESS', data: {room: @room}}
             end
             #karakawa
 

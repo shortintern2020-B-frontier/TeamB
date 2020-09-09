@@ -12,9 +12,9 @@ module Api
             def create
                 room_tag = RoomsTag.new(room_tag_params)
                 if room_tag.save
-                    render json: { status: 'SUCCESS', data: { room_tag: room_tag } }
+                    render status:201, json: { status: 'SUCCESS', data: { room_tag: room_tag } }
                 else
-                    render json: { status: 'ERROR', data: { error: room_tag.errors } }
+                    render status:500, json: { status: 'ERROR', data: { error: room_tag.errors } }
                 end
             end
 
@@ -23,12 +23,12 @@ module Api
             end
 
             #karakawa
-            before_action :set_room,only: [:show]
+            before_action :set_room, only: [:show]
 
             def show
                 tag_id = @tag.id
                 rooms = Room.joins(:tags).where("tag_id = #{tag_id}")
-                render json: { status: 'SUCCESS',data: {rooms: rooms } }
+                render status:200, json: { status: 'SUCCESS', data: {rooms: rooms } }
             end
             
             private
