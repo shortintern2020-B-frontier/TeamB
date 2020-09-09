@@ -10,8 +10,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import CreateRoomDialog from './room/createRoomDialog';
+import Link from '@material-ui/core/Link';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +31,19 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: 'white',
-    backgroundColor: '',
+    backgroundColor: '#F03636',
+    cursor: "pointer",
+    "font-family": "Helvetica Neue",
+    "text-decoration": "none",
+    "padding": 7,
+  },
+  theaTalk: {
+    color: 'white',
+    backgroundColor: '#F03636',
+    "font-size": 30,
+    "font-family": "sans-serif",
+    cursor: "pointer",
+    "text-decoration": "none",
   }
 }));
 
@@ -56,17 +70,23 @@ const Header = () => {
     history.push('/tags');
   };
 
+  const moveTop = () => {
+    history.push('/toppage');
+  }
+
   if (auth.isLoggedIn) {
     return (
       <header className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              TheaTalk
+              <Link onClick={moveRooms} className={classes.theaTalk}>
+                TheaTalk
+              </Link>
             </Typography>
             <CreateRoomDialog />
-            <Button onClick={moveTags} className={classes.button}>Tags</Button>
-            <Button onClick={moveRooms} className={classes.button}>Rooms</Button>
+            <Link onClick={moveTags} className={classes.button}>Tags</Link>
+            <Link onClick={moveRooms} className={classes.button}>Rooms</Link>
           </Toolbar>
         </AppBar>
       </header>
@@ -76,11 +96,13 @@ const Header = () => {
     <header className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            TheaTalk
-          </Typography>
-          <Button onClick={moveSignup} className={classes.button}>Sign Up</Button>
-          <Button onClick={moveLogin} className={classes.button}>Login</Button>
+        <Typography variant="h6" className={classes.title}>
+              <Link onClick={moveTop} className={classes.theaTalk}>
+                TheaTalk
+              </Link>
+            </Typography>
+          <Link onClick={moveSignup} className={classes.button}>SignUp</Link>
+          <Link onClick={moveLogin} className={classes.button}>Login</Link>
         </Toolbar>
       </AppBar>
     </header>

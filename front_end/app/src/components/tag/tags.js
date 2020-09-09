@@ -1,12 +1,13 @@
 /*
 * YuyaMiyata
 */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { getTags, postTag } from '../../actions/tagAction';
+import { getTags, postTag, getUserTags } from '../../actions/tagAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -47,7 +48,8 @@ const useStyles = makeStyles ((theme)=>({
 }));
 
 const tokenSelector = (state) => state.auth.token;
-const tagsSelector = (state) => state.tags;
+const userIDSelector = (state) => state.auth.id;
+const tagsSelector = (state) => state.userTags;
 
 export const TagList = (tags) => {
   const classes = useStyles()
@@ -77,23 +79,39 @@ export const TagList = (tags) => {
 const Tags = () => {
   const classes = useStyles()
   const token = useSelector(tokenSelector);
+  const id = useSelector(userIDSelector);
   const tags = useSelector(tagsSelector);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { register, handleSubmit } = useForm();
 
+  const [isNewUser, setIsNewUser] = useState(false);
+
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if( params.get("new") !== null ) {
+      setIsNewUser(true);
+    };
     dispatch(getTags(token));
+    dispatch(getUserTags(token, id));
   }, []);
 
   const Submit = (data) => {
-    data.id = tags.tags.length + 1; // eslint-disable-line no-param-reassign
-    dispatch(postTag(token, data));
-    dispatch(getTags(token));
+    dispatch(postTag(token, JSON.stringify({ tag: data }), id));
   };
 
   return (
     <div>
       <h2>タグの管理</h2>
+      {(() => {
+        if( isNewUser ) {
+          return (
+            <div>
+              <p>ユーザー登録していただきありがとうございます</p>
+            </div>
+          )
+        }
+      })()}
       <Grid container className={classes.root}>
         <Paper className={classes.paper} elevation={5}>
           <Grid item>

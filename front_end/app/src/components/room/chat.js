@@ -1,35 +1,47 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { ActioncableProvider} from 'react-actioncable-provider';
-import Room from './room';
-import { useHistory } from 'react-router-dom';
+import { connectToWebsocket, closeWebsocket, sendMessage } from '../../actions/chatAction';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { ChatList } from './chatList';
 
 const tokenSelector = (state) => state.auth.token;
+const websocketSelector = (state) => state.chat.ws;
 
-const ChatTest = () => {
+const Chat = () => {
+  const token = useSelector(tokenSelector);
+  const ws = useSelector(websocketSelector);
+  const { register, handleSubmit, reset } = useForm();
+  const dispatch = useDispatch();
   let connection;
-  const token ='eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2MDAxNDAxMzd9.2DDXNKp-yH0e74m9Jtg-GAFzL786WDjucHdArIWLnnU';// useSelector(tokenSelector);
-  console.log(token)
+
+  const sendChat = (data) => {
+    const msg = JSON.stringify({
+      text: data.msg,
+    });
+    dispatch(sendMessage(ws, msg));
+    reset();
+  }
+
   useEffect(() => {
-    connection = new WebSocket('ws://localhost:5000/cable?token='+token)
-    console.log(connection)
-    connection.onopen = function(){
-      connection.send('Ping');
-    }
-      // Log errors
-    connection.onerror = function (error) {
-      console.log('WebSocket Error ' + error);
-    };
-  
-    // Log messages from the server
-    connection.onmessage = function (e) {
-      console.log('Server: ' + e.data);
-    };
+    dispatch(connectToWebsocket(token));
   }, []);
 
   return (
     <div>
+      <p>chat</p>
+      <ChatList />
+      <form onSubmit={handleSubmit(sendChat)}>
+        <TextField
+          name="msg"
+          label="チャット内容"
+          inputRef={register}
+        />
+        <Button type="submit">送信</Button>
+      </form>
     </div>
   );
 };
-export default ChatTest;
+export default Chat;
