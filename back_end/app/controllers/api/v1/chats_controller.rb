@@ -17,8 +17,9 @@ module Api
                 chat_info[:room_id] = @current_user.room_id                
                 @new_chat = Chat.new(chat_info)
                 if @new_chat.save
-                    RoomChannel.broadcast_to("room_#{chat_info[:room_id]}", @new_chat)
-                    render status:201, json: { status: 'SUCCESS', data: { chat: @new_chat } }
+                    chat_info[:name]=@current_user.name
+                    RoomChannel.broadcast_to("room_#{chat_info[:room_id]}", chat_info)
+                    render status:201, json: { status: 'SUCCESS', data: { chat: chat_info } }
                 else 
                     render status:500, json: { status: 'ERROR', data: { error: "please send message" } }
                 end
