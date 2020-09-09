@@ -88,6 +88,7 @@ const Signup = () => {
         })()}
 
         <form onSubmit={handleSubmit(Submit)}>
+          <div>
           <TextField
             className={classes.textBox}
             name="name"
@@ -95,6 +96,8 @@ const Signup = () => {
             inputRef={register}
             variant="filled"
           />
+          </div>
+          <div>
           <TextField
             className={classes.textBox}
             name="password"
@@ -103,6 +106,8 @@ const Signup = () => {
             inputRef={register}
             variant="filled"
           />
+          </div>
+          <div>
           <TextField
             className={classes.textBox}
             name="anotherPassword"
@@ -111,9 +116,12 @@ const Signup = () => {
             inputRef={register}
             variant="filled"
           />
+          </div>
+          <div>
           <Button className={classes.button} type="submit">
             登録
           </Button>
+          </div>
         </form>
       </Paper>
     </div>
