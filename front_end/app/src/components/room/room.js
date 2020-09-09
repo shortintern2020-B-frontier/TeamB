@@ -8,12 +8,33 @@ import Button from '@material-ui/core/Button';
 import Chat from './chat';
 import { closeWebsocket } from '../../actions/chatAction';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper'
+
+const useStyles = makeStyles(() =>({
+    video:{
+      display: 'inline-block',
+      width:'70%',
+      height:500,
+      margin:10,
+    },
+    botton:{
+      marginLeft:20,
+      color: 'white',
+      backgroundColor: '#3636F0',
+    },
+    texts:{
+      margin:20,
+    }
+})); 
+
 const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
 const BASE_URL ='https://www.youtube.com/embed/'
 
 const Room = () => {
+  const classes = useStyles();
   const room = useSelector(roomSelector);
   const token = useSelector(tokenSelector);
   const ws = useSelector(websocketSelector);
@@ -38,17 +59,19 @@ const Room = () => {
 
   return (
     <div>
-      <p>room page</p>
+      <div>
+      <Button onClick={handleOut} className={classes.botton}>ルーム退室</Button>
+      </div>
       <iframe src={video}
-        width = '480'
-        height = '270'
-        frameborder="10"/>
-      <p>
-        room name is
+        className={classes.video}
+        frameborder="0"/>
+      <Chat className={classes.chat}/>
+      <h1 className={classes.texts}>
         {room.name}
-      </p>
-      <Chat />
-      <Button onClick={handleOut}>退室</Button>
+      </h1>
+      <h4 className={classes.texts}>
+        {room.start_time}
+      </h4>
     </div>
   );
 };
