@@ -12,6 +12,8 @@ import { ChatList } from './chatList';
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(() =>({
   panel:{
@@ -23,12 +25,17 @@ const useStyles = makeStyles(() =>({
   botton:{
     marginTop:10,
     backgroundColor: '#f3f3f3',
+    width: 70,
+    flex:1,
   },
   paper:{
-    padding:5,
+    padding:10,
+    paddingRight:20,
+    'box-sizing':'border-box',
   },
   submitPanel:{
-    paddingLeft:100,
+    padding:3,
+    flex:1,
   }
 })); 
 
@@ -61,17 +68,23 @@ const Chat = () => {
   return (
     <div className={classes.panel}>
       <Paper className={classes.paper}>
-      <ChatList/>
-        <div >
-          <form onSubmit={handleSubmit(sendChat)} className={classes.submitPanel}>
+        <ChatList/>
+      <form onSubmit={handleSubmit(sendChat)}>
+        <Grid container>
             <TextField
               name="msg"
               label="チャット内容"
               inputRef={register}
+              fullWidth
             />
-            <Button type="submit" className={classes.botton}>送信</Button>
-          </form>
-        </div>
+        </Grid> 
+        <Grid container className={classes.submitPanel}>
+            <Button type="submit" className={classes.botton}>
+              <SendIcon/>
+              送信
+              </Button>
+        </Grid>          
+      </form>
       </Paper>
     </div>
   );
