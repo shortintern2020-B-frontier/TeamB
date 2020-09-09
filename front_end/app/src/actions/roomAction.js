@@ -59,7 +59,7 @@ export const setRoom = (room) => ({
   receivedAt: Date.now(),
 });
 
-export const enterRoom = (token, room) => (dispatch) => {
+export const enterRoom = (token, history, room) => (dispatch) => {
   dispatch(enterRoomRequest());
   const id = JSON.stringify({
     user: {
@@ -74,9 +74,11 @@ export const enterRoom = (token, room) => (dispatch) => {
     .then((res) => {
       dispatch(enterRoomSuccess());
       localStorage.setItem('room', JSON.stringify(room));
-      console.log(room.name);
+      dispatch(setRoom(room))
     })
-    .catch((err) => dispatch(getRoomsFailure(err)));
+    .catch((err) => dispatch(getRoomsFailure(err)))
+    .then(() => history.push(`/rooms/${room.id}`))
+    .catch((err) => dispatch(getRoomsFailure(err)))
 };
 
 export const exitRoom = (token) => (dispatch) => {
@@ -100,7 +102,6 @@ export const getRooms = (token) => (dispatch) => {
     },
   })
     .then((res) => {
-      console.log(res.data.data);
       dispatch(getRoomsSuccess(res.data.data))
     })
     .catch((err) => dispatch(getRoomsFailure(err)));
@@ -110,6 +111,7 @@ export const getRooms = (token) => (dispatch) => {
  * 画面がリロードされた際に、localstrageからルーム情報を取得する
  */
 export const roomReload = () => (dispatch) => {
+  dispatch(enterRoomRequest());
   const room = JSON.parse(localStorage.getItem('room'));
-  if (room !== null) dispatch(setRoom(room));
+  dispatch(setRoom(room))
 };
