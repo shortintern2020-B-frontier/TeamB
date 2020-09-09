@@ -52,7 +52,9 @@ export const connectToWebsocket = (token) => (dispatch) => {
   ws.onmessage = (e) => {
     const msg = JSON.parse(e.data);
     if( msg.type !== "welcome" && msg.type !== "ping" && msg.type !== "confirm_subscription" ) {
-      dispatch(receiveMessage(msg.message.text));
+      console.log(msg.message)
+      let chat_info=msg.message;
+      dispatch(receiveMessage(chat_info.name+":"+chat_info.text));
     }
   };
   dispatch(initChat(ws));
@@ -71,7 +73,6 @@ export const sendMessage = (msg, token, room_id) => (dispatch) => {
     },
   })
     .then((res) => {
-      console.log(res.data.data.chat.text);
       dispatch(postChatSuccess(res.data.data.chat.text));
     })
     .catch((err) => dispatch(postChatFailure(err)));
