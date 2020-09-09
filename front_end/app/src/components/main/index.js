@@ -5,8 +5,6 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 import { getRooms, enterRoom } from '../../actions/roomAction';
-import GridList from '@material-ui/core/GridList';
-import Grid from '@material-ui/core/Grid';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Typography from '@material-ui/core/Typography';
@@ -15,16 +13,14 @@ import Box from '@material-ui/core/Box';
 const mainSelector = (state) => state.rooms;
 const tokenSelector = (state) => state.auth.token;
 
+// Hiranuma
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 0,
     margin: 0,
-    // textAlign: "center",
-    // display: 'flex',
-    // flexWrap: 'wrap',
-    // justifyContent: 'space-evenly',
-    // overflow: 'hidden',
-    // backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
   },
   image: {
     width: 350,
@@ -32,14 +28,18 @@ const useStyles = makeStyles((theme) => ({
     margin: 30,
   },
   enterRoom: {
+    padding: 2,
     color: "white",
-    "background-color": "#F03636"
+    "background-color": "#F03636",
+    margin: 5,
   },
   box: {
     height: 300,
     width: 400,
+    cols: 3,
   }
 }));
+// Hiranuma
 
 export const RoomList = (rooms) => {
   const history = useHistory();
@@ -58,15 +58,16 @@ export const RoomList = (rooms) => {
   } else {
     // Hiranuma
     return (
-      <div className={classes.root}>
+      <div>
         <Typography variant="h4" gutterBottom>
             Rooms
         </Typography>
+      <div className={classes.root}>
           {
             rooms.rooms.map((room, index) => (
-              <Box display="inline" flexWrap="wrap" justifyContent="center" boxShadow={3}>
+              <Box display="inline" flexWrap="wrap" justifyContent="center" flexWrap="wrap" >
                 <div className={classes.box}>
-                  <GridListTile className={classes.image} key={index.toString()}>
+                  <GridListTile className={classes.image} key={index.toString()} component="div">
                     <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
                     <GridListTileBar
                       title={room.name}
@@ -80,6 +81,7 @@ export const RoomList = (rooms) => {
               </Box> 
             )
           )}
+      </div>
       </div>
     // Hiranuma
     );
