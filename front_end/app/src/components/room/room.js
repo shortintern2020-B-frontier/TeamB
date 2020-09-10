@@ -44,6 +44,7 @@ const roomSelector = (state) => state.room.room;
 const tokenSelector = (state) => state.auth.token;
 const websocketSelector = (state) => state.chat.ws;
 const BASE_URL = 'https://www.youtube.com/embed/'
+const BASE_OPTION = '?autoplay=1&mute=1&start='
 
 const Room = () => {
   const classes = useStyles();
@@ -54,6 +55,7 @@ const Room = () => {
   const location = useLocation();
   const history = useHistory();
   const [video, setVideo] = useState(`${BASE_URL}`)//yuyamiyata
+  const [isStarted, setIsStarted] = useState(false);
 
   const handleOut = () => {
     dispatch(exitRoom(token));
@@ -67,7 +69,29 @@ const Room = () => {
   }, []);
 
   useEffect(() => {
-    setVideo(BASE_URL + room.youtube_id)
+    let start = 0;
+    if( room.start_time !== undefined ) {
+      const start_time = room.start_time.split(/-+|T+|:+|\.+/);
+      const start_year = start_time[0];
+      const start_month = start_time[1];
+      const start_day = start_time[2];
+      const start_hour = start_time[3];
+      const start_minite = start_time[4];
+
+      const now_time = new Date();
+      const now_year = now_time.getFullYear();
+      const now_month = now_time.getMonth()+1;
+      const now_day = now_time.getDate();
+      const now_hour = now_time.getHours();
+      const now_minite = now_time.getMinutes();
+      const now_seconds = now_time.getSeconds();
+      if( start_year <= now_year && start_month <= now_month) {
+        start = ((now_hour - start_hour)*60 + now_minite - start_minite)*60 + now_seconds;
+        console.log(start);
+      }
+    }
+    setVideo(BASE_URL + room.youtube_id + BASE_OPTION + start.toString());
+    console.log(BASE_OPTION + toString(start));
   }, [room])
 
 
@@ -104,16 +128,18 @@ const Room = () => {
       <h4 className={classes.texts}>
         Show Time :
         {(() => {
-          const time = room.start_time.split(/-+|T+|:+|\.+/);
-          const year = time[0];
-          const month = time[1];
-          const day = time[2];
-          const hour = time[3];
-          const minite = time[4];
-          const date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
-          return(
-              " " + date
-          )
+          if( room.start_time !== undefined ) {
+            const time = room.start_time.split(/-+|T+|:+|\.+/);
+            const year = time[0];
+            const month = time[1];
+            const day = time[2];
+            const hour = time[3];
+            const minite = time[4];
+            const date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
+            return(
+                " " + date
+            )
+          }
         })()}
       </h4>
       </Grid>
