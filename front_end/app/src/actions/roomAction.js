@@ -51,6 +51,24 @@ export const existRoomFailure = (error) => ({
   type: EXIST_ROOM_FAILURE,
   error,
 })
+export const GET_ROOM_USERS_REQUEST = 'GET_ROOM_USERS_REQUEST';
+export const getRoomUsersRequest = () => ({
+  type: GET_ROOM_USERS_REQUEST,
+});
+
+export const GET_ROOM_USERS_SUCCESS = 'GET_ROOM_USERS_SUCCESS';
+export const getRoomUsersSuccess = (json) => ({
+  type: GET_ROOM_USERS_SUCCESS,
+  roomUsers: json,
+  receivedAt: Date.now(),
+});
+
+export const GET_ROOM_USERS_FAILURE = 'GET_ROOM_USERS_FAILURE';
+export const getRoomUsersFailure = (error) => ({
+  type: GET_ROOM_USERS_FAILURE,
+  error,
+})
+
 
 export const SET_ROOM = 'SET_ROOM';
 export const setRoom = (room) => ({
@@ -77,6 +95,18 @@ export const searchRoomsFailure = (error) => ({
   error,
 });
 
+export const getRoomUsers = (token) => (dispatch) => {
+  dispatch(getRoomUsersRequest());
+  return axios.get(`http://localhost:5000/api/v1/room_users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(getRoomUsersSuccess(res.data.data.users))
+    })
+    .catch((err) => dispatch(getRoomUsersFailure(err)));
+};
 export const enterRoom = (token, history, room) => (dispatch) => {
   dispatch(enterRoomRequest());
   console.log(room);
