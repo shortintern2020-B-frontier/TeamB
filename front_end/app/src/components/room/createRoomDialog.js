@@ -71,7 +71,7 @@ const CreateRoomDialog = () => {
   const { register, handleSubmit, reset } = useForm();
 
   // 動画ルームを非公開にするかどうか
-  const [isPrivate, setIsPrivate] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
   const [msg, setMsg] = useState("");
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());

@@ -38,7 +38,7 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
  * @param {string} token - jwtのtoken
  * @param {Object} data - ルーム作成を行うのに必要なデータ
  */
-export const createRoom = (token, data, history) => (dispatch) => {
+export const createRoom = (token, data, history, handleClose) => (dispatch) => {
   dispatch(createRoomRequest());
   return axios.post('http://localhost:5000/api/v1/rooms', data, {
     headers: getHeaders(token),
@@ -46,6 +46,7 @@ export const createRoom = (token, data, history) => (dispatch) => {
     .then((res) => {
       dispatch(createRoomSuccess())
       dispatch(enterRoom(token, history, res.data.data.room))
+      handleClose();
     })
     .catch((err) => dispatch(createRoomFailure(err)))
 };
