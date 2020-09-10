@@ -68,7 +68,7 @@ const CreateRoomDialog = () => {
   const rooms = useSelector(roomSelector);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   // 動画ルームを非公開にするかどうか
   const [isPrivate, setIsPrivate] = useState(true);
@@ -136,11 +136,14 @@ const CreateRoomDialog = () => {
     });
     if (data.name === "") {
       setMsg('ルーム名が入力されていません');
+      reset();
     } else if (videoId === "") {
       setMsg('動画のURLに従っていません');
+      reset();
     }
     else if (videoId === null) {
-      setMsg('URLが入力されていません')
+      setMsg('URLが入力されていません');
+      reset();
     } else {
       setMsg('');
       dispatch(createRoom(token, roomData, history));
