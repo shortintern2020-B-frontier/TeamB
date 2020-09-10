@@ -12,6 +12,7 @@ RUN yarn init -y
 RUN yarn install
 
 ENV CHOKIDAR_USEPOLLING=true
+ADD ./.env /app/.env
 
 CMD ["./node_modules/.bin/webpack-dev-server", "--hot --watch-content-base"]
 
