@@ -1,7 +1,7 @@
-/* 
+/*
 *yuya miyata (designed)
 */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { ActioncableProvider} from 'react-actioncable-provider';
@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import SendIcon from '@material-ui/icons/Send';
+import Alert from '@material-ui/lab/Alert'; 
 
 const useStyles = makeStyles(() =>({
   panel:{
@@ -51,17 +52,23 @@ const Chat = () => {
   const token = useSelector(tokenSelector);
   const id = useSelector(roomIdSelector);
   const { register, handleSubmit, reset } = useForm();
+  const [err, setErr] = useState('');
   const dispatch = useDispatch();
   let connection;
 
   const sendChat = (data) => {
-    const msg = JSON.stringify({
-      chat: {
-        text: data.msg,
-      },
-    });
-    console.log(msg);
-    dispatch(sendMessage(msg, token, id));
+    if( data.msg === "" ) {
+      console.log("test")
+      setErr('チャット内容が空です');
+    } else {
+      setErr('');
+      const msg = JSON.stringify({
+        chat: {
+          text: data.msg,
+        },
+      });
+      dispatch(sendMessage(msg, token, id));
+    }
     reset();
   }
 
@@ -81,13 +88,23 @@ const Chat = () => {
               inputRef={register}
               fullWidth
             />
-        </Grid> 
+        </Grid>
+        {(() => {
+          if(err !== ""){
+            return (
+              <div>
+                <Alert severity="error"> <strong> { err } </strong> </Alert>
+              </div>
+            );
+          }
+          //karkawa
+        })()}
         <Grid container className={classes.submitPanel}>
             <Button type="submit" className={classes.botton}>
               送信
               <SendIcon className={classes.sendIcon}/>
               </Button>
-        </Grid>          
+        </Grid>
       </form>
       </Paper>
     </div>

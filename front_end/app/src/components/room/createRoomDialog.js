@@ -68,10 +68,10 @@ const CreateRoomDialog = () => {
   const rooms = useSelector(roomSelector);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   // 動画ルームを非公開にするかどうか
-  const [isPrivate, setIsPrivate] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
   const [msg, setMsg] = useState("");
   // 開始時間
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -116,11 +116,14 @@ const CreateRoomDialog = () => {
   const Submit = (data) => {
     /*yuya miyata*/
     const url = "https://www.youtube.com/watch?v=";
+    const another_url = "https://youtu.be/"
     let videoId;
     if (!data.youtube_id.indexOf(url)) {
       videoId = data.youtube_id.match(/[\/?=]([a-zA-Z0-9_\-]{11})[&\?]?/)[1];
-    } else {
+    } else if(!data.youtube_id.indexOf(another_url)) {
       videoId = data.youtube_id.substr(-11);
+    } else {
+      videoId = "";
     }
     // TODO: 実際のAPIを叩く時にidの情報は不要なので削除
     const roomData = JSON.stringify({
@@ -133,11 +136,14 @@ const CreateRoomDialog = () => {
     });
     if (data.name === "") {
       setMsg('ルーム名が入力されていません');
-    } else if (data.youtube_id === "") {
+      reset();
+    } else if (videoId === "") {
       setMsg('動画のURLに従っていません');
+      reset();
     }
     else if (videoId === null) {
-      setMsg('URLが入力されていません')
+      setMsg('URLが入力されていません');
+      reset();
     } else {
       setMsg('');
       dispatch(createRoom(token, roomData, history));
