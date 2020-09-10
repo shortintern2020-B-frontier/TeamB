@@ -120,7 +120,8 @@ const Tags = () => {
       setMsg('タグ名が入力されていません');
     }else{
       setMsg('');
-      if( totalTags.indexOf(data.name) ) {
+      const matched = totalTags.filter((tag) => tag.name === data.name);
+      if( matched.length === 0 ) {
         dispatch(postTag(token, JSON.stringify({ tag: data }), id));
       } else {
         dispatch(postUserTag(token, id, totalTags.filter((tag) => tag.name === data.name)[0]));
