@@ -101,9 +101,8 @@ export const signup = (user, history) => (dispatch) => {
       localStorage.setItem('id', res.data.data.user.id);
       console.log(res.data);
       dispatch(signupSuccess(res.data.token, res.data.data.user.id));
+      history.push('/tags?new=true')
     })
-    .catch((err) => dispatch(signupFailure(err)))
-    .then(() => history.push('/tags?new=true'))
     .catch((err) => dispatch(signupFailure(err)))
 };
 

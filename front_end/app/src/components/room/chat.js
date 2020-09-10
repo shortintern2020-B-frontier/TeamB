@@ -1,4 +1,4 @@
-/* 
+/*
 *yuya miyata (designed)
 */
 import React, { useEffect } from 'react';
@@ -81,13 +81,13 @@ const Chat = () => {
               inputRef={register}
               fullWidth
             />
-        </Grid> 
+        </Grid>
         <Grid container className={classes.submitPanel}>
             <Button type="submit" className={classes.botton}>
               送信
               <SendIcon className={classes.sendIcon}/>
               </Button>
-        </Grid>          
+        </Grid>
       </form>
       </Paper>
     </div>
