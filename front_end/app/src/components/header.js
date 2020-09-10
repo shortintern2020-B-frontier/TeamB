@@ -11,6 +11,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CreateRoomDialog from './room/createRoomDialog';
+import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { logout } from '../actions/authAction';
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     "font-family": "Helvetica Neue",
     "text-decoration": "none",
     "padding": 7,
+    textAligin:"left",
   },
   theaTalk: {
     color: 'white',
@@ -50,7 +52,16 @@ const useStyles = makeStyles((theme) => ({
     "font-family": "sans-serif",
     cursor: "pointer",
     "text-decoration": "none",
+  },
+  logo:{
+    width:"200px",
+    height:"auto",
+    cursor: "pointer",
+  },
+  grow:{
+    flexGrow:1,
   }
+  
 }));
 
 export const AuthSelector = (state) => state.auth;
@@ -93,11 +104,8 @@ const Header = () => {
       <header className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              <Link onClick={moveRooms} className={classes.theaTalk}>
-                TheaTalk
-              </Link>
-            </Typography>
+            <img src={`${window.location.origin}/images/logo.gif`} className={classes.logo} onClick={moveRooms}/>
+            <div className={classes.grow}/>
             <CreateRoomDialog />
             <Link onClick={moveTags} className={classes.link}>Tags<LoyaltyIcon fontSize="large" /></Link>
             <Link onClick={moveRooms} className={classes.link}>Rooms<RoomIcon fontSize="large" /></Link>
@@ -111,11 +119,8 @@ const Header = () => {
     <header className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <Link onClick={moveTop} className={classes.theaTalk}>
-              TheaTalk
-              </Link>
-          </Typography>
+          <img src={`${window.location.origin}/images/logo.gif`} className={classes.logo} onClick={moveRooms}/>
+          <div className={classes.grow}/>
           <Link onClick={moveSignup} className={classes.link}>SignUp</Link>
           <Link onClick={moveLogin} className={classes.link}>Login</Link>
         </Toolbar>
