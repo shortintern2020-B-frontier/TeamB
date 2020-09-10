@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { getRooms, enterRoom } from '../../actions/roomAction';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 5,
   },
   box: {
-    height: 300,
+    height: 230,
     width: 400,
     cols: 3,
   },
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   formWidth: {
     minWidth: 300,
     "min-width": 300,
+    "margin-bottom": 40,
   },
   form: {
     margin: theme.spacing(1),
@@ -59,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     'margin-left': '300',
+  },
+  searchButton: {
+    "backgroundColor": "#1e90ff",
+  },
+  eachCard: {
+    'margin-bottom': 20,
   }
 }));
 // Hiranuma
@@ -81,15 +89,11 @@ export const RoomList = (rooms) => {
     // Hiranuma
     return (
       <div>
-        {/* Roomsを表示するかどうかによってコメントを外す */}
-        {/* <Typography variant="h4" gutterBottom>
-            Rooms
-        </Typography> */}
-
       <div className={classes.root}>
           {
             rooms.rooms.map((room, index) => (
-              <Box display="inline" flexWrap="wrap" justifyContent="center" flexWrap="wrap" >
+              <Card variant="outlined" className={classes.eachCard}>
+              <Box display="inline" flexWrap="wrap" justifyContent="center" >
                 <div className={classes.box}>
                   <GridListTile className={classes.image} key={index.toString()} component="div">
                     <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
@@ -103,6 +107,7 @@ export const RoomList = (rooms) => {
                   </GridListTile>
                 </div>
               </Box>
+              </Card>
             )
           )}
       </div>
@@ -158,7 +163,7 @@ export const Main = () => {
               return result;
             })()}
           </Select>
-          <Button type="submit">検索</Button>
+          <Button type="submit" variant="contained" color="primary" className={classes.searchButton}>検索<SearchIcon color="white" /></Button>
         </FormControl>
       </form>
       </div>
