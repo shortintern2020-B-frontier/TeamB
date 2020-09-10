@@ -5,8 +5,9 @@ module Api
             jwt_authenticate except: :index
             #rikuiwasaki
             before_action :set_room, only: [:update, :show]
+
             def index
-                rooms = Room.all.order(updated_at: :desc).select(:id, :name, :admin_id, :youtube_id, :password, :is_private,:start_time, :created_at, :updated_at)
+                rooms = Room.all.order(created_at: :desc).select(:id, :name, :admin_id, :youtube_id, :password, :is_private,:start_time, :created_at, :updated_at)
                 render status:200, json: { status: 'SUCCESS', data: { rooms: rooms } }
             end
 
@@ -18,6 +19,7 @@ module Api
                     # save したら、 RoomsTagsと紐付けを行う
                     @tag = @current_user.tags
                     tag_array = []
+
                     @tag.each do |t|
                         room_tag = RoomsTag.new(room_id: room.id, tag_id: t.id)
                         room_tag.save
@@ -43,17 +45,18 @@ module Api
             
             #karakwa
             def show
-                render status:200, json: {status: 'SUCCESS', data: {room: @room}}
+                render status:200, json: { status: 'SUCCESS', data: { room: @room } }
             end
             #karakawa
 
             private
-                def set_room
-                    @room = Room.find(params[:id])
-                end
-                def room_params
-                    params.require(:room).permit(:name, :youtube_id, :is_private, :start_time, :password)
-                end
+            def set_room
+                @room = Room.find(params[:id])
+            end
+
+            def room_params
+                params.require(:room).permit(:name, :youtube_id, :is_private, :start_time, :password)
+            end
         #rikuiwasaki
         end
     end
