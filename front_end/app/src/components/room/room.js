@@ -87,11 +87,11 @@ const Room = () => {
       const now_seconds = now_time.getSeconds();
       if( start_year <= now_year && start_month <= now_month) {
         start = ((now_hour - start_hour)*60 + now_minite - start_minite)*60 + now_seconds;
-        console.log(start);
+        start = start > 0 ? start : 0;
       }
     }
     setVideo(BASE_URL + room.youtube_id + BASE_OPTION + start.toString());
-    console.log(BASE_OPTION + toString(start));
+    console.log(BASE_OPTION + start.toString());
   }, [room])
 
 

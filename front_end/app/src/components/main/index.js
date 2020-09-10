@@ -100,16 +100,34 @@ export const RoomList = (rooms) => {
                     <GridListTileBar
                       title={room.name}
                       subtitle={(() => {
-                        const time = room.start_time.split(/-+|T+|:+|\.+/);
-                        const year = time[0];
-                        const month = time[1];
-                        const day = time[2];
-                        const hour = time[3];
-                        const minite = time[4];
-                        const date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
-                        return(
+                        if( room.start_time !== undefined ) {
+                          const time = room.start_time.split(/-+|T+|:+|\.+/);
+                          const year = time[0];
+                          const month = time[1];
+                          const day = time[2];
+                          const hour = time[3];
+                          const minite = time[4];
+                          const now_time = new Date();
+                          const now_year = now_time.getFullYear();
+                          const now_month = now_time.getMonth()+1;
+                          const now_day = now_time.getDate();
+                          const now_hour = now_time.getHours();
+                          const now_minite = now_time.getMinutes();
+                          const now_seconds = now_time.getSeconds();
+                          let date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
+                          if( year >= now_year && month >= now_month && day >= now_day && hour > now_hour) {
+                            let minite_ = Number((hour - now_hour)*60) + Number(minite - now_minite);
+                            console.log(minite_);
+                            if( minite_ > 60 ) {
+                              date = "Starting in " + ( Math.round(minite_/60)).toString() + " hour " + (minite_%60).toString() + " minute";
+                            } else {
+                              date = "Starting in " + (minite_%60).toString() + " minute";
+                            }
+                          }
+                          return(
                             date
-                        )
+                          )
+                        }
                       })()}
                       actionIcon={
                         <Button onClick={() => handleClick(index)} variant="contained" className={classes.enterRoom} >入室</Button>
