@@ -120,10 +120,11 @@ const Tags = () => {
       setMsg('タグ名が入力されていません');
     }else{
       setMsg('');
-      if( !totalTags.indexOf(data.name) ) {
+      if( totalTags.indexOf(data.name) ) {
         dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+      } else {
+        dispatch(postUserTag(token, id, totalTags.filter((tag) => tag.name === data.name)[0]));
       }
-      dispatch(postUserTag(token, id, totalTags.filter((tag) => tag.name === data.name)[0]));
     }
     // Hiranuma
   };

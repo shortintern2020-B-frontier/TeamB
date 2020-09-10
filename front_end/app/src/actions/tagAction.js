@@ -108,21 +108,21 @@ const getHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 
 export const postTag = (token, tag, id) => (dispatch) => {
   dispatch(postTagRequest());
-  let tmp;
   return axios.post('http://localhost:5000/api/v1/tags', tag, {
     headers: getHeaders(token),
   })
     .then((res) => {
-      console.log(res);
+      console.log(res.data.data.tag);
       dispatch(postTagSuccess(res.data));
+      dispatch(postUserTag(token, id, res.data.data.tag))
       dispatch(getTags(token));
-      tmp = res.data.data.tag;
     })
     .catch((err) => dispatch(postTagFailure(err)))
 };
 
 export const postUserTag = (token, id, tag) => (dispatch) => {
   dispatch(postUserTagRequest());
+  console.log(tag);
   const send_tag = JSON.stringify({
     tag_user: {
       tag_id: tag.id
