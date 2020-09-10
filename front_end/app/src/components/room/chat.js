@@ -1,7 +1,7 @@
-/* 
+/*
 *yuya miyata (designed)
 */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { ActioncableProvider} from 'react-actioncable-provider';
@@ -12,6 +12,9 @@ import { ChatList } from './chatList';
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import SendIcon from '@material-ui/icons/Send';
+import Alert from '@material-ui/lab/Alert'; 
 
 const useStyles = makeStyles(() =>({
   panel:{
@@ -23,12 +26,21 @@ const useStyles = makeStyles(() =>({
   botton:{
     marginTop:10,
     backgroundColor: '#f3f3f3',
+    width: 70,
+    flex:1,
   },
   paper:{
-    padding:5,
+    padding:10,
+    paddingRight:20,
+    'box-sizing':'border-box',
   },
   submitPanel:{
-    paddingLeft:100,
+    padding:3,
+    flex:1,
+  },
+  sendIcon:{
+    marginLeft:5,
+    fontSize:'large',
   }
 })); 
 
@@ -40,17 +52,23 @@ const Chat = () => {
   const token = useSelector(tokenSelector);
   const id = useSelector(roomIdSelector);
   const { register, handleSubmit, reset } = useForm();
+  const [err, setErr] = useState('');
   const dispatch = useDispatch();
   let connection;
 
   const sendChat = (data) => {
-    const msg = JSON.stringify({
-      chat: {
-        text: data.msg,
-      },
-    });
-    console.log(msg);
-    dispatch(sendMessage(msg, token, id));
+    if( data.msg === "" ) {
+      console.log("test")
+      setErr('チャット内容が空です');
+    } else {
+      setErr('');
+      const msg = JSON.stringify({
+        chat: {
+          text: data.msg,
+        },
+      });
+      dispatch(sendMessage(msg, token, id));
+    }
     reset();
   }
 
@@ -61,17 +79,33 @@ const Chat = () => {
   return (
     <div className={classes.panel}>
       <Paper className={classes.paper}>
-      <ChatList/>
-        <div >
-          <form onSubmit={handleSubmit(sendChat)} className={classes.submitPanel}>
+        <ChatList/>
+      <form onSubmit={handleSubmit(sendChat)}>
+        <Grid container>
             <TextField
               name="msg"
               label="チャット内容"
               inputRef={register}
+              fullWidth
             />
-            <Button type="submit" className={classes.botton}>送信</Button>
-          </form>
-        </div>
+        </Grid>
+        {(() => {
+          if(err !== ""){
+            return (
+              <div>
+                <Alert severity="error"> <strong> { err } </strong> </Alert>
+              </div>
+            );
+          }
+          //karkawa
+        })()}
+        <Grid container className={classes.submitPanel}>
+            <Button type="submit" className={classes.botton}>
+              送信
+              <SendIcon className={classes.sendIcon}/>
+              </Button>
+        </Grid>
+      </form>
       </Paper>
     </div>
   );

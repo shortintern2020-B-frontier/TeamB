@@ -15,6 +15,10 @@ import Link from '@material-ui/core/Link';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { logout } from '../actions/authAction';
 
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import RoomIcon from '@material-ui/icons/Room';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,9 +99,9 @@ const Header = () => {
               </Link>
             </Typography>
             <CreateRoomDialog />
-            <Link onClick={moveTags} className={classes.link}>Tags</Link>
-            <Link onClick={moveRooms} className={classes.link}>Rooms</Link>
-            <Link onClick={logoutDone}  className={classes.link}>Logout</Link>
+            <Link onClick={moveTags} className={classes.link}>Tags<LoyaltyIcon fontSize="large" /></Link>
+            <Link onClick={moveRooms} className={classes.link}>Rooms<RoomIcon fontSize="large" /></Link>
+            <Link onClick={logoutDone} className={classes.link}>Logout<ExitToAppIcon fontSize="large" /></Link>
           </Toolbar>
         </AppBar>
       </header>
@@ -107,11 +111,11 @@ const Header = () => {
     <header className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-              <Link onClick={moveTop} className={classes.theaTalk}>
-                TheaTalk
+          <Typography variant="h6" className={classes.title}>
+            <Link onClick={moveTop} className={classes.theaTalk}>
+              TheaTalk
               </Link>
-            </Typography>
+          </Typography>
           <Link onClick={moveSignup} className={classes.link}>SignUp</Link>
           <Link onClick={moveLogin} className={classes.link}>Login</Link>
         </Toolbar>

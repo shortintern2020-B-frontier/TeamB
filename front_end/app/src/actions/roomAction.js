@@ -59,8 +59,27 @@ export const setRoom = (room) => ({
   receivedAt: Date.now(),
 });
 
+export const SEARCH_ROOMS_REQUEST = 'SEARCH_ROOMS_REQUEST';
+export const searchRoomsRequest = () => ({
+  type: SEARCH_ROOMS_REQUEST,
+});
+
+export const SEARCH_ROOMS_SUCCESS = 'SEARCH_ROOMS_SUCCESS';
+export const searchRoomsSuccess = (rooms) => ({
+  type: SEARCH_ROOMS_SUCCESS,
+  rooms: rooms,
+  receivedAt: Date.now(),
+});
+
+export const SEARCH_ROOMS_FAILURE = 'SEARCH_ROOMS_FAILURE';
+export const searchRoomsFailure = (error) => ({
+  type: SEARCH_ROOMS_FAILURE,
+  error,
+});
+
 export const enterRoom = (token, history, room) => (dispatch) => {
   dispatch(enterRoomRequest());
+  console.log(room);
   const id = JSON.stringify({
     user: {
       room_id: room.id
@@ -114,4 +133,37 @@ export const roomReload = () => (dispatch) => {
   dispatch(enterRoomRequest());
   const room = JSON.parse(localStorage.getItem('room'));
   dispatch(setRoom(room))
+};
+
+/**
+ * 特定のタグを持つルームを検索する
+ */
+export const searchRooms = (tag_id) => (dispatch, getState) => {
+  console.log(tag_id);
+  const store = getState();
+  dispatch(searchRoomsRequest());
+  return axios.get(`http://localhost:5000/api/v1/room_tags/${tag_id}`, {
+    headers: {
+      Authorization: `Bearer ${store.auth.token}`,
+    },
+  })
+    .then((res) => {
+      const tmp = {
+        room: res.data.data.rooms
+      };
+      dispatch(searchRoomsSuccess(tmp))
+    }).catch((err) => searchRoomsFailure(err));
+};
+
+export const searchUserRooms = () => (dispatch, getState) => {
+  const store = getState();
+  dispatch(searchRoomsRequest());
+  return axios.get(`/api/v1/user_room_tags/${store.auth.id}`, {
+    headers: {
+      Authorization: `Bearer ${store.auth.token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(searchRoomsSuccess(res.data.data))
+    }).catch((err) => searchRoomsFailure(err));
 };

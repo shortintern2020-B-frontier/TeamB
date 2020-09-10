@@ -8,9 +8,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const styles = makeStyles({
   List: {
-    height: 450,
+    height: 400,
     'word-wrap': 'break-word',
   },
+  ul:{
+    paddingLeft:3,
+  },
+  chat:{
+    'list-style':'none',
+    'line-height':1,
+  }
 });
 
 const chatSelector = (state) => state.chat.msgs;
@@ -27,14 +34,11 @@ export const ChatList = () => {
   return (
     <div className={classes.List}>
       <Scrollbars onUpdate={updateScrollbar} ref={scrollbars}>
-        <ul>
+        <ul className={classes.ul}>
           {
             msgs.map((msg, index) => (
-              <li key={index.toString()}>
+              <li key={index.toString()} className={classes.chat}>
                 <p>
-                  { index }
-                  番目:
-                  {' '}
                   { msg }
                 </p>
               </li>

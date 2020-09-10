@@ -6,6 +6,7 @@ import createRoom from './createRoomReducer';
 import tags from './tagReducer';
 import userTags from './userTagReducer';
 import chat from './chatReducer';
+import searchedRoom from './searchedRoomsReducer';
 
 const rootReducer = combineReducers({
   rooms,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   tags,
   userTags,
   chat,
+  searchedRoom,
 });
 
 export default rootReducer;

@@ -46,13 +46,9 @@ export const createRoom = (token, data, history) => (dispatch) => {
   })
     .then((res) => {
       dispatch(createRoomSuccess())
-      dispatch(enterRoom(token, res.data.data.room))
-      dispatch(setRoom(res.data.data.room))
-      id = res.data.data.room.id;
-      console.log(id);
+      dispatch(enterRoom(token, history, res.data.data.room))
     })
     .catch((err) => dispatch(createRoomFailure(err)))
-    .then(() => history.push(`/rooms/${id}`));
 };
 
 /**
