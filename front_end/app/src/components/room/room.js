@@ -102,7 +102,19 @@ const Room = () => {
       <Grid container className={classes.grid}>
       <Grid items xs={10}>
       <h4 className={classes.texts}>
-        {room.start_time}
+        Show Time :
+        {(() => {
+          const time = room.start_time.split(/-+|T+|:+|\.+/);
+          const year = time[0];
+          const month = time[1];
+          const day = time[2];
+          const hour = time[3];
+          const minite = time[4];
+          const date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
+          return(
+              " " + date
+          )
+        })()}
       </h4>
       </Grid>
       <Grid items xs={2}>

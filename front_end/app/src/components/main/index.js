@@ -99,7 +99,18 @@ export const RoomList = (rooms) => {
                     <img src={`http://img.youtube.com/vi/${room.youtube_id}/mqdefault.jpg`} alt={room.name} />
                     <GridListTileBar
                       title={room.name}
-                      subtitle={room.start_time}
+                      subtitle={(() => {
+                        const time = room.start_time.split(/-+|T+|:+|\.+/);
+                        const year = time[0];
+                        const month = time[1];
+                        const day = time[2];
+                        const hour = time[3];
+                        const minite = time[4];
+                        const date = year + "-" + month + "-" + day + " " + hour + ":" + minite;
+                        return(
+                            date
+                        )
+                      })()}
                       actionIcon={
                         <Button onClick={() => handleClick(index)} variant="contained" className={classes.enterRoom} >入室</Button>
                       }
