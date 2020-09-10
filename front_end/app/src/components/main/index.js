@@ -11,6 +11,9 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import { useForm } from 'react-hook-form';
 import { searchRooms, searchUserRooms } from '../../actions/roomAction';
 
@@ -42,6 +45,20 @@ const useStyles = makeStyles((theme) => ({
     height: 300,
     width: 400,
     cols: 3,
+  },
+  formRoot: {
+    "margin-left": "42%",
+  },
+  formWidth: {
+    minWidth: 300,
+    "min-width": 300,
+  },
+  form: {
+    margin: theme.spacing(1),
+    minWidth: 300,
+  },
+  search: {
+    'margin-left': '300',
   }
 }));
 // Hiranuma
@@ -68,6 +85,7 @@ export const RoomList = (rooms) => {
         {/* <Typography variant="h4" gutterBottom>
             Rooms
         </Typography> */}
+
       <div className={classes.root}>
           {
             rooms.rooms.map((room, index) => (
@@ -84,7 +102,7 @@ export const RoomList = (rooms) => {
                     />
                   </GridListTile>
                 </div>
-              </Box> 
+              </Box>
             )
           )}
       </div>
@@ -101,6 +119,7 @@ export const Main = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [selectedTag, setSelectedTag] = useState(null);
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(searchUserRooms());
@@ -118,26 +137,32 @@ export const Main = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(Search)}>
-        <Select
-          labelId="関連タグ"
-          value={selectedTag}
-          onChange={handleChange}
-        >
-          {(() => {
-            const result = [];
-            tags.map((tag) => {
-              result.push(
-                <p value={tag}>{tag.name}</p>
-              )
-            });
-            return result;
-          })()}
-        </Select>
-        <Button type="submit">検索</Button>
+      <div className={classes.formRoot}>
+      <form onSubmit={handleSubmit(Search)} className={classes.form}>
+        <FormControl className={classes.formWidth}>
+          <InputLabel id="search">Search rooms</InputLabel>
+          <Select
+            id="search"
+            labelId="関連タグ"
+            value={selectedTag}
+            onChange={handleChange}
+            className={classes.search}
+          >
+            {(() => {
+              const result = [];
+              tags.map((tag) => {
+                result.push(
+                  <MenuItem value={tag}>{tag.name}</MenuItem>
+                )
+              });
+              return result;
+            })()}
+          </Select>
+          <Button type="submit">検索</Button>
+        </FormControl>
       </form>
+      </div>
       <div>
-
       </div>
       <RoomList {...rooms} />
     </div>
