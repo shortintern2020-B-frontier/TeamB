@@ -98,7 +98,7 @@ const Tags = () => {
   const totalTags = useSelector(totalTagsSelector);
   const dispatch = useDispatch();
   const location = useLocation();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [msg, setMsg] = useState('');   // Hiranuma
   const err = useSelector(errorSelector);   // Hiranuma
 
@@ -127,6 +127,7 @@ const Tags = () => {
         dispatch(postUserTag(token, id, totalTags.filter((tag) => tag.name === data.name)[0]));
       }
     }
+    reset();
     // Hiranuma
   };
 
