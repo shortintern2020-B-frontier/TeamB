@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { getTags, postTag, getUserTags } from '../../actions/tagAction';
+import { getTags, postTag, postUserTag, getUserTags } from '../../actions/tagAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -61,6 +61,7 @@ const useStyles = makeStyles ((theme)=>({
 const tokenSelector = (state) => state.auth.token;
 const userIDSelector = (state) => state.auth.id;
 const tagsSelector = (state) => state.userTags;
+const totalTagsSelector = (state) => state.tags.tags;
 const errorSelector = (state) => state.tags.error; // Hiranuma
 
 export const TagList = (tags) => {
@@ -94,9 +95,10 @@ const Tags = () => {
   const token = useSelector(tokenSelector);
   const id = useSelector(userIDSelector);
   const tags = useSelector(tagsSelector);
+  const totalTags = useSelector(totalTagsSelector);
   const dispatch = useDispatch();
   const location = useLocation();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [msg, setMsg] = useState('');   // Hiranuma
   const err = useSelector(errorSelector);   // Hiranuma
 
@@ -118,8 +120,14 @@ const Tags = () => {
       setMsg('タグ名が入力されていません');
     }else{
       setMsg('');
-      dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+      const matched = totalTags.filter((tag) => tag.name === data.name);
+      if( matched.length === 0 ) {
+        dispatch(postTag(token, JSON.stringify({ tag: data }), id));
+      } else {
+        dispatch(postUserTag(token, id, totalTags.filter((tag) => tag.name === data.name)[0]));
+      }
     }
+    reset();
     // Hiranuma
   };
 

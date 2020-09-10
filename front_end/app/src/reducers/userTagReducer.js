@@ -23,6 +23,7 @@ const userTags = (state = initalState, action) => {
     case GET_USER_TAGS_FAILURE:
       return {
         isFetching: false,
+        tags: action.tags !== undefined ? action.tags : [],
         error: action.error,
       };
     default:

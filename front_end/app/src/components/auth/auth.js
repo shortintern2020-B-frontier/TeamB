@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { reload } from '../../actions/authAction';
 import { roomReload } from '../../actions/roomAction';
+import { getUserTags } from '../../actions/tagAction'
 
 /**
  * stateからログインしているかどうかを抽出している
@@ -30,8 +31,11 @@ const Auth = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(reload());
-    dispatch(roomReload());
+    dispatch(reload())
+    if( !location.pathname.indexOf('/room/')) {
+      dispatch(roomReload());
+    }
+    dispatch(getUserTags(auth.token, auth.id));
   }, [location.pathname || auth.isLoading]);
 
   if (!auth.isLoading && !auth.isLoggedIn) {
