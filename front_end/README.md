@@ -19,3 +19,6 @@
 `docker-compose exec json_server bash` でコンテナにアクセスします。
 
 `cat db.json` でdbの中身を確認することが出来ます。
+
+## 製作者について
+基本的に名前がついていないところは Ryuto Hattoriが書きました
