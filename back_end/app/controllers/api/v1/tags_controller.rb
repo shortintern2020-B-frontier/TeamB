@@ -1,8 +1,4 @@
-'''
-  author: Kyosuke Yokota
-  Date: 20200904
-'''
-
+#Kyosuke Yokota
 module Api
     module V1
         class TagsController < ApplicationController
@@ -48,4 +44,5 @@ module Api
         end
     end
 end
+#Kyosuke Yokota
 
