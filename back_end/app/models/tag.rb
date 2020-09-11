@@ -4,7 +4,7 @@
 '''
 
 class Tag < ApplicationRecord
-    # modelの関係性については確認したいので一旦コメント
-    # has_many :user_tag, :room_tag
-    validates :name, presence: true
+    has_and_belongs_to_many :users
+    has_and_belongs_to_many :rooms
+    validates :name, presence: true, uniqueness: true 
 end

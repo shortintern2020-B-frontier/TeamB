@@ -10,7 +10,7 @@ module JwtAuthenticator
   module ClassMethods
     def jwt_authenticate(**options)
       class_eval do
-        prepend_before_action :jwt_authenticate!, options
+        prepend_before_action :jwt_authenticate, options
       end
     end
   end
@@ -24,7 +24,7 @@ module JwtAuthenticator
 
     encoded_token = request.headers['Authorization'].split('Bearer ').last
     payload = decode(encoded_token)
-    @current_user = User.find_by(id: payload[:user_id])
+    @current_user = User.find_by(id: payload["user_id"])
     if @current_user.nil?
       raise UnableAuthorizationError.new('認証できません')
     end
@@ -32,7 +32,7 @@ module JwtAuthenticator
   end
 
   def encode(user_id)
-    expire_in = 1.hour.from_now.to_i
+    expire_in = 1.week.from_now.to_i
     preload = { user_id: user_id, exp: expire_in }
     JWT.encode(preload, SECRET_KEY, 'HS256')
   end

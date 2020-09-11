@@ -20,6 +20,7 @@ services:
     depends_on:
       - mysql
     tty: true
+    stdin_open: true
     networks: 
       - default
       - shared-network

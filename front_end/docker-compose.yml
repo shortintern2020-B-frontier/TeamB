@@ -17,7 +17,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./app/json_server/data.json:/app/json_server/data.json
+      - ./app/json_server:/app/json_server
 networks:
   shared-network:
     external: true
