@@ -1,3 +1,7 @@
+'''
+  Author: Hiranuma Tomoyuki
+'''
+
 class CreateRoomTags < ActiveRecord::Migration[5.1]
   def change
     create_table :room_tags do |t|
