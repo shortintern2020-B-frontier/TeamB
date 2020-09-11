@@ -1,3 +1,7 @@
+'''
+  Author: Yokota Kyosuke
+'''
+
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace 'api' do
@@ -22,8 +26,8 @@ Rails.application.routes.draw do
       resources :relationships, only: [:create, :destroy, :index]
       resources :user_room_tags, only:[:show]
       # get "tags/search_tag" => "tags#search_tag"
-      post "login" => "sessions#create"
-      delete "logout" => "sessions#destroy"
+      post "login" => "sessions#create"  # Hiranuma
+      delete "logout" => "sessions#destroy"  # Hiranuma
       
     end
   end
