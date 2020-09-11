@@ -1,8 +1,4 @@
-'''
-  author: Kyosuke Yokota
-  Date: 20200904
-'''
-
+#Kyosuke Yokota 
 
 module Api
     module V1
@@ -55,3 +51,4 @@ module Api
     end
 end
 
+# Kyosuke Yokota

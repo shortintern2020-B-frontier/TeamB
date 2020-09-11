@@ -17,6 +17,7 @@ module Api
                 room = Room.new(room_info)
                 if room.save && @current_user.update_attribute(:room_id, room.id)
                     # save したら、 RoomsTagsと紐付けを行う
+                    # Kyosuke Yokota
                     @tag = @current_user.tags
                     tag_array = []
 
@@ -24,7 +25,8 @@ module Api
                         room_tag = RoomsTag.new(room_id: room.id, tag_id: t.id)
                         room_tag.save
                     end
-
+                    # Kyosuke Yokota
+                    
                     render status:201, json: { status: 'SUCCESS', data: { room: room, user: @current_user } }
                 else 
                     render status:500, json: { status: 'ERROR', data: { error: "save error" } }

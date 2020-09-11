@@ -1,8 +1,4 @@
-'''
-  author: Kyosuke Yokota
-  Date: 20200907
-'''
-
+# Kyosuke Yokota
 module Api
     module V1
         class UserRoomTagsController < ApplicationController
@@ -32,3 +28,4 @@ module Api
     end
 end
 
+# Kyosuke Yokota
